@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>English ⇄ Azərbaycan Learning Hub</title>
+<style>
+/* =========================================================
+   THEME VARIABLES — change colours here if you want
+   ========================================================= */
+:root {
+  --bg-0: #0b0f1a;
+  --bg-1: #111726;
+  --bg-2: #161e30;
+  --bg-3: #1c2540;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.16);
+  --text: #e6ecff;
+  --text-dim: #97a3c2;
+  --text-muted: #6b7796;
+  --accent: #7c9cff;
+  --accent-2: #b08aff;
+  --accent-3: #6ee7c7;
+  --warn: #ffb86b;
+  --danger: #ff7a8a;
+  --success: #5dd5a8;
+  --shadow: 0 10px 40px rgba(0,0,0,0.35);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(124,156,255,0.15), transparent 60%),
+              radial-gradient(900px 500px at 110% 10%, rgba(176,138,255,0.12), transparent 60%),
+              var(--bg-0);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 22px 80px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.brand {
+  display: flex; align-items: center; gap: 14px;
+}
+.brand-logo {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid; place-items: center;
+  font-size: 22px;
+  box-shadow: var(--shadow);
+}
+.brand h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+}
+.brand p {
+  margin: 2px 0 0;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.streak-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.streak-pill strong { color: var(--text); }
+
+/* Header right-side cluster */
+.header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* Language toggle */
+.lang-toggle {
+  display: inline-flex;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 2px;
+}
+.lang-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.15s ease;
+}
+.lang-btn:hover { color: var(--text); }
+.lang-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+}
+
+/* Welcome banner */
+.welcome-banner {
+  margin-bottom: 18px;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(124,156,255,0.14), rgba(176,138,255,0.14));
+  border: 1px solid var(--border-strong);
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+}
+.welcome-banner .avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent));
+  display: grid; place-items: center;
+  font-size: 18px; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+.welcome-banner .who { font-size: 14px; color: var(--text-dim); }
+.welcome-banner .who strong { color: var(--text); font-size: 16px; display: block; }
+
+/* =========================================================
+   TABS
+   ========================================================= */
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 6px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+}
+.tab {
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.tab:hover { color: var(--text); background: var(--bg-2); }
+.tab.active {
+  background: linear-gradient(135deg, rgba(124,156,255,0.18), rgba(176,138,255,0.18));
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.panel { display: none; animation: fadeIn 0.3s ease; }
+.panel.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+.card .subtitle { color: var(--text-dim); font-size: 13px; margin-bottom: 16px; }
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 800px) {
+  .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+}
+
+.stat {
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.stat .label { color: var(--text-dim); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+.stat .value { font-size: 26px; font-weight: 600; margin-top: 6px; }
+.stat .hint { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
+
+/* Progress bar */
+.bar {
+  height: 8px;
+  background: var(--bg-3);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-2);
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+.btn:hover { background: var(--bg-3); transform: translateY(-1px); }
+.btn.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: none;
+  color: white;
+}
+.btn.primary:hover { filter: brightness(1.1); }
+.btn.ghost { background: transparent; }
+.btn.small { padding: 6px 12px; font-size: 12px; }
+
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  background: rgba(124,156,255,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(124,156,255,0.25);
+}
+.tag.green { background: rgba(110,231,199,0.12); color: var(--accent-3); border-color: rgba(110,231,199,0.25); }
+.tag.purple { background: rgba(176,138,255,0.12); color: var(--accent-2); border-color: rgba(176,138,255,0.25); }
+.tag.warn { background: rgba(255,184,107,0.12); color: var(--warn); border-color: rgba(255,184,107,0.25); }
+
+/* =========================================================
+   HOME / DAILY PLAN
+   ========================================================= */
+.plan-list { list-style: none; padding: 0; margin: 0; }
+.plan-list li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+.plan-list .time {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(124,156,255,0.12);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.encourage {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(110,231,199,0.10), rgba(124,156,255,0.10));
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FLASHCARDS
+   ========================================================= */
+.flash-controls {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.flash-controls select {
+  background: var(--bg-2);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.flash-wrap {
+  perspective: 1200px;
+  margin: 0 auto;
+  max-width: 520px;
+}
+.flash {
+  position: relative;
+  height: 320px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+.flash.flipped { transform: rotateY(180deg); }
+.flash-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  padding: 56px 26px 36px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.flash-front {
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+}
+.flash-back {
+  background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
+  transform: rotateY(180deg);
+}
+.flash-word { font-size: 30px; font-weight: 600; }
+.flash-pron { color: var(--text-muted); font-size: 13px; font-style: italic; margin-bottom: 8px; letter-spacing: 0.4px; }
+.flash-example { color: var(--text-dim); font-style: italic; font-size: 14px; max-width: 320px; line-height: 1.5; }
+.flash-hint { position: absolute; bottom: 12px; right: 16px; color: var(--text-muted); font-size: 11px; }
+
+/* Rows that wrap the word + speaker, and example + speaker */
+.flash-word-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.flash-example-row {
+  display: flex; align-items: flex-start; justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  max-width: 380px;
+}
+
+/* Speaker buttons — used on flashcards and (optionally) elsewhere */
+.speaker-btn {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(124,156,255,0.10);
+  border: 1px solid rgba(124,156,255,0.30);
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  -webkit-tap-highlight-color: transparent; /* nicer on mobile */
+}
+.speaker-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.12);
+  box-shadow: 0 6px 18px rgba(124,156,255,0.35);
+}
+.speaker-btn:active { transform: scale(0.94); }
+.speaker-btn.small { width: 26px; height: 26px; font-size: 12px; }
+.speaker-btn.speaking {
+  background: var(--accent);
+  color: #fff;
+  animation: speakerPulse 1.1s ease-in-out infinite;
+}
+@keyframes speakerPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124,156,255,0.5); }
+  50%      { box-shadow: 0 0 0 10px rgba(124,156,255,0); }
+}
+
+/* Card meta row + difficult star */
+.flash-meta {
+  position: absolute;
+  top: 14px; left: 14px;
+  display: flex; gap: 6px;
+}
+.tag.level {
+  background: rgba(110,231,199,0.12);
+  color: var(--accent-3);
+  border-color: rgba(110,231,199,0.25);
+}
+.flash-star {
+  position: absolute;
+  top: 12px; right: 14px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+.flash-star:hover { color: var(--warn); transform: scale(1.08); border-color: var(--warn); }
+.flash-star.on {
+  background: rgba(255,184,107,0.15);
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.flash-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 16px; gap: 12px;
+}
+.flash-counter { color: var(--text-dim); font-size: 13px; }
+
+/* =========================================================
+   GRAMMAR
+   ========================================================= */
+.grammar-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.grammar-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.grammar-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.grammar-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.grammar-table td:first-child { color: var(--text); font-weight: 500; }
+.grammar-table td:last-child { color: var(--text-dim); }
+.az-note {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(176,138,255,0.10);
+  color: var(--text-dim);
+  font-size: 13px;
+  border-left: 3px solid var(--accent-2);
+}
+.az-note strong { color: var(--accent-2); }
+
+/* =========================================================
+   SPEAKING
+   ========================================================= */
+.speak-box {
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+.speak-question {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 10px 0 4px;
+}
+.speak-az {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 18px;
+}
+.speak-starter {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 16px auto 0;
+  max-width: 480px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.speak-starter strong { color: var(--accent-3); }
+
+/* =========================================================
+   LISTENING / RESOURCES
+   ========================================================= */
+.resource {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: all 0.2s ease;
+}
+.resource:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+.resource .icon { font-size: 26px; }
+.resource h3 { margin: 0; font-size: 15px; }
+.resource p { margin: 0; color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+.quiz-q {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.quiz-options { display: grid; gap: 10px; }
+.quiz-opt {
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+.quiz-opt:hover { background: var(--bg-3); border-color: var(--border-strong); }
+.quiz-opt.correct { background: rgba(93,213,168,0.18); border-color: var(--success); color: var(--success); }
+.quiz-opt.wrong { background: rgba(255,122,138,0.15); border-color: var(--danger); color: var(--danger); }
+.quiz-opt.disabled { cursor: not-allowed; opacity: 0.85; }
+
+.quiz-feedback {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.good { background: rgba(93,213,168,0.10); color: var(--success); border: 1px solid rgba(93,213,168,0.25); }
+.quiz-feedback.bad { background: rgba(255,122,138,0.10); color: var(--danger); border: 1px solid rgba(255,122,138,0.25); }
+
+.quiz-stats {
+  display: flex; gap: 14px; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  background: var(--bg-2);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+}
+
+/* =========================================================
+   PROGRESS / CHECKLIST
+   ========================================================= */
+.check-list { list-style: none; padding: 0; margin: 0; }
+.check-list li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+.check-list li:hover { background: var(--bg-3); }
+.check-list .box {
+  width: 22px; height: 22px;
+  border-radius: 7px;
+  border: 1.5px solid var(--border-strong);
+  display: grid; place-items: center;
+  font-size: 14px;
+  color: transparent;
+  background: transparent;
+  flex-shrink: 0;
+}
+.check-list li.done .box {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent));
+  border-color: transparent;
+  color: white;
+}
+.check-list li.done .label { text-decoration: line-through; color: var(--text-dim); }
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+textarea.notes {
+  width: 100%;
+  min-height: 240px;
+  padding: 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.6;
+}
+textarea.notes:focus { outline: none; border-color: var(--accent); }
+
+/* =========================================================
+   FOOTER NOTE
+   ========================================================= */
+.footer-note {
+  margin-top: 30px;
+  padding: 14px 16px;
+  background: var(--bg-1);
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- =========================================================
+       HEADER
+       ========================================================= -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-logo">🇬🇧</div>
+      <div>
+        <h1>English ⇄ Azərbaycan Learning Hub</h1>
+        <p data-i18n="tagline">UK Spouse Visa English Practice • A1 / A2 Friendly</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="lang-toggle" role="tablist" aria-label="Language">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="az">AZ</button>
+      </div>
+      <div class="streak-pill">🔥 <span data-i18n="streak_label">Daily streak:</span> <strong id="streakValue">1</strong> <span data-i18n="streak_unit">day</span></div>
+    </div>
+  </header>
+
+  <!-- Personal welcome banner -->
+  <div class="welcome-banner">
+    <div class="avatar">EE</div>
+    <div class="who">
+      <span data-i18n="welcome">Welcome,</span>
+      <strong>Elxan Eminov</strong>
+    </div>
+    <div style="flex:1;"></div>
+    <div style="color:var(--text-muted); font-size:12px;" data-i18n="welcome_hint">You can switch language any time using EN / AZ above.</div>
+  </div>
+
+  <!-- =========================================================
+       TABS
+       ========================================================= -->
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="home"><span data-i18n="tab_home">🏠 Home</span></button>
+    <button class="tab" data-tab="flash"><span data-i18n="tab_flash">🃏 Flashcards</span></button>
+    <button class="tab" data-tab="grammar"><span data-i18n="tab_grammar">📘 Grammar</span></button>
+    <button class="tab" data-tab="speak"><span data-i18n="tab_speak">🎤 Speaking</span></button>
+    <button class="tab" data-tab="listen"><span data-i18n="tab_listen">🎧 Listening</span></button>
+    <button class="tab" data-tab="quiz"><span data-i18n="tab_quiz">🧠 Quiz</span></button>
+    <button class="tab" data-tab="progress"><span data-i18n="tab_progress">✅ Progress</span></button>
+    <button class="tab" data-tab="notes"><span data-i18n="tab_notes">📝 Notes</span></button>
+  </nav>
+
+  <!-- =========================================================
+       HOME / DAILY PLAN
+       ========================================================= -->
+  <section class="panel active" id="panel-home">
+    <div class="grid cols-3" style="margin-bottom:18px;">
+      <div class="stat">
+        <div class="label" data-i18n="stat_focus_label">Today's focus</div>
+        <div class="value" data-i18n="stat_focus_value">Family words 👨‍👩‍👧</div>
+        <div class="hint" data-i18n="stat_focus_hint">Vocabulary + speaking practice</div>
+      </div>
+      <div class="stat">
+        <div class="label" data-i18n="stat_plan_label">Daily plan</div>
+        <div class="value" data-i18n="stat_plan_value">15 minutes ⏱️</div>
+        <div class="hint" data-i18n="stat_plan_hint">Short, simple, every day</div>
+      </div>
+      <div class="stat">
+        <div class="label" data-i18n="stat_tasks_label">Tasks completed</div>
+        <div class="value"><span id="homeTaskCount">0</span> / 5</div>
+        <div class="bar"><span id="homeProgress"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="plan_title">📅 Your 15-Minute Daily Plan</h2>
+      <p class="subtitle" data-i18n="plan_subtitle">A small amount every day is better than a lot once a week.</p>
+      <ul class="plan-list">
+        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item1">Review 5 vocabulary flashcards 🃏</span></li>
+        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item2">Read 1 grammar rule 📘</span></li>
+        <li><span class="time">4 <span data-i18n="min">min</span></span> <span data-i18n="plan_item3">Answer 3 speaking questions aloud 🎤</span></li>
+        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item4">Watch a short BBC / British Council clip 🎧</span></li>
+        <li><span class="time">2 <span data-i18n="min">min</span></span> <span data-i18n="plan_item5">Take a quick quiz 🧠</span></li>
+      </ul>
+      <div class="encourage" data-i18n-html="encourage_html">
+        💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FLASHCARDS
+       ========================================================= -->
+  <section class="panel" id="panel-flash">
+    <div class="card">
+      <h2 data-i18n="flash_title">🃏 Vocabulary Flashcards</h2>
+      <p class="subtitle" data-i18n="flash_subtitle">Click the card to flip.</p>
+
+      <div class="flash-controls">
+        <select id="flashCategory">
+          <option value="all"        data-i18n="cat_all">All categories</option>
+          <option value="personal"   data-i18n="cat_personal">🪪 Personal information</option>
+          <option value="family"     data-i18n="cat_family">👨‍👩‍👧 Family &amp; relationships</option>
+          <option value="daily"      data-i18n="cat_daily">☀️ Daily routine</option>
+          <option value="home"       data-i18n="cat_home">🏠 Home &amp; city life</option>
+          <option value="food"       data-i18n="cat_food">🍞 Food, shopping &amp; travel</option>
+          <option value="visa"       data-i18n="cat_visa">🛂 Visa / Interview</option>
+          <option value="difficult"  data-i18n="cat_difficult">⭐ My difficult cards</option>
+        </select>
+        <button class="btn small" id="flashShuffle" data-i18n="shuffle">🔀 Shuffle</button>
+        <button class="btn small" id="flashRandom"  data-i18n="random">🎲 Random</button>
+      </div>
+
+      <div class="flash-wrap">
+        <div class="flash" id="flashCard">
+          <div class="flash-face flash-front">
+            <div class="flash-meta">
+              <span class="tag" id="flashTag">family</span>
+              <span class="tag level" id="flashLevel">A1</span>
+            </div>
+            <button class="flash-star" id="flashStar" title="Mark difficult" aria-label="Mark difficult">☆</button>
+
+            <div class="flash-word-row">
+              <div class="flash-word" id="flashWord">husband</div>
+              <button class="speaker-btn" id="flashSpeakWord" aria-label="Hear word" title="Hear word">🔊</button>
+            </div>
+            <div class="flash-pron" id="flashPron">/ˈhʌzbənd/</div>
+            <div class="flash-example-row">
+              <div class="flash-example" id="flashExample">"My husband lives in the UK."</div>
+              <button class="speaker-btn small" id="flashSpeakExample" aria-label="Hear example" title="Hear example">🔊</button>
+            </div>
+
+            <div class="flash-hint" data-i18n="flip_hint">Click to flip ↻</div>
+          </div>
+          <div class="flash-face flash-back">
+            <div class="flash-meta">
+              <span class="tag purple">Azərbaycan</span>
+              <span class="tag level" id="flashLevelBack">A1</span>
+            </div>
+            <div class="flash-word" id="flashTrans">ər</div>
+            <div class="flash-example" id="flashExampleAz">"Mənim ərim Böyük Britaniyada yaşayır."</div>
+            <div class="flash-hint" data-i18n="flip_hint">Click to flip ↻</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flash-nav">
+        <button class="btn" id="flashPrev" data-i18n="prev">← Previous</button>
+        <span class="flash-counter">
+          <span data-i18n="card_label">Card</span>
+          <strong id="flashIndex">1</strong>
+          <span data-i18n="of">of</span>
+          <strong id="flashTotal">0</strong>
+        </span>
+        <button class="btn primary" id="flashNext" data-i18n="next">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       GRAMMAR
+       ========================================================= -->
+  <section class="panel" id="panel-grammar">
+    <div class="card">
+      <h2 data-i18n="grammar_title">📘 Grammar Basics (A1 / A2)</h2>
+      <p class="subtitle" data-i18n="grammar_subtitle">Simple rules you'll use in everyday English and in the visa interview.</p>
+
+      <!-- Add or edit grammar cards inside this section -->
+      <div class="grammar-card">
+        <h3>🔹 To be — <em>I am / You are / We are</em></h3>
+        <table class="grammar-table">
+          <tr><td>I am</td><td>I am from Azerbaijan.</td></tr>
+          <tr><td>You are</td><td>You are kind.</td></tr>
+          <tr><td>He / She is</td><td>She is my wife.</td></tr>
+          <tr><td>We are</td><td>We are married.</td></tr>
+          <tr><td>They are</td><td>They are my family.</td></tr>
+        </table>
+        <div class="az-note"><strong>Azərbaycanca:</strong> "olmaq" feli. "I am" = "Mənəm". Bu felin formaları cins və şəxsdən asılı olaraq dəyişir.</div>
+      </div>
+
+      <div class="grammar-card">
+        <h3>🔹 To have — <em>I have / We have</em></h3>
+        <table class="grammar-table">
+          <tr><td>I have</td><td>I have one brother.</td></tr>
+          <tr><td>You have</td><td>You have a nice family.</td></tr>
+          <tr><td>He / She has</td><td>She has two children.</td></tr>
+          <tr><td>We have</td><td>We have a small house.</td></tr>
+        </table>
+        <div class="az-note"><strong>Azərbaycanca:</strong> "have" = "var". "I have a brother" = "Mənim qardaşım var".</div>
+      </div>
+
+      <div class="grammar-card">
+        <h3>🔹 Present Simple — <em>I live / I work / I study</em></h3>
+        <table class="grammar-table">
+          <tr><td>I live</td><td>I live in Baku.</td></tr>
+          <tr><td>I work</td><td>I work in a shop.</td></tr>
+          <tr><td>I study</td><td>I study English every day.</td></tr>
+          <tr><td>He / She lives</td><td>She lives in London.</td></tr>
+        </table>
+        <div class="az-note"><strong>Tip:</strong> With <em>he / she / it</em> we add <strong>-s</strong> → "He works", "She studies".</div>
+      </div>
+
+      <div class="grammar-card">
+        <h3>🔹 Question Forms</h3>
+        <table class="grammar-table">
+          <tr><td>Where do you live?</td><td>I live in Baku.</td></tr>
+          <tr><td>What do you do?</td><td>I am a teacher.</td></tr>
+          <tr><td>How are you?</td><td>I am fine, thank you.</td></tr>
+          <tr><td>What is your name?</td><td>My name is Aysel.</td></tr>
+          <tr><td>Do you have children?</td><td>Yes, I have two children.</td></tr>
+        </table>
+        <div class="az-note"><strong>Azərbaycanca:</strong> "Where do you live?" = "Sən harada yaşayırsan?". İngiliscədə sual sözü ("where, what, how") cümlənin əvvəlində gəlir.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SPEAKING
+       ========================================================= -->
+  <section class="panel" id="panel-speak">
+    <div class="card">
+      <h2 data-i18n="speak_title">🎤 Speaking Practice</h2>
+      <p class="subtitle" data-i18n="speak_subtitle">Practise answering visa-style questions. Take your time.</p>
+
+      <div class="speak-box">
+        <span class="tag green" data-i18n="question_tag">Question</span>
+        <div class="speak-question" id="speakQ">What is your full name?</div>
+        <div class="speak-az" id="speakAz">Tam adınız nədir?</div>
+
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn primary" id="speakNew" data-i18n="new_question">🎲 New Question</button>
+          <button class="btn" id="speakPlay" data-i18n="read_aloud">🔊 Read Aloud</button>
+        </div>
+
+        <div class="speak-starter" id="speakStarter">
+          <strong data-i18n="starter_label">💡 Helpful starter:</strong> "My full name is ..."
+        </div>
+      </div>
+
+      <div class="encourage" style="margin-top:18px;" data-i18n-html="speak_tip">
+        💛 <strong>Tip:</strong> Speak slowly and clearly. Short, correct sentences are better than long, complicated ones.
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       LISTENING / RESOURCES
+       ========================================================= -->
+  <section class="panel" id="panel-listen">
+    <div class="card">
+      <h2 data-i18n="listen_title">🎧 Listening & Video Practice</h2>
+      <p class="subtitle" data-i18n="listen_subtitle">Free trusted resources for everyday English listening.</p>
+
+      <div class="grid cols-2">
+        <!-- Edit / add resource cards here -->
+        <a class="resource" href="https://www.bbc.co.uk/learningenglish" target="_blank" rel="noopener">
+          <span class="icon">📺</span>
+          <h3>BBC Learning English</h3>
+          <p data-i18n="res_bbc">Short daily lessons, clear pronunciation, free videos and exercises.</p>
+          <span class="tag" data-i18n="tag_beginner">Beginner friendly</span>
+        </a>
+        <a class="resource" href="https://learnenglish.britishcouncil.org/" target="_blank" rel="noopener">
+          <span class="icon">🎓</span>
+          <h3>British Council — LearnEnglish</h3>
+          <p data-i18n="res_bc">Free courses, listening practice, grammar lessons, and speaking exercises.</p>
+          <span class="tag green" data-i18n="tag_trusted">Trusted</span>
+        </a>
+        <a class="resource" href="https://www.youtube.com/results?search_query=A1+english+speaking+practice" target="_blank" rel="noopener">
+          <span class="icon">▶️</span>
+          <h3 data-i18n="res_a1_title">A1 Speaking Practice (YouTube)</h3>
+          <p data-i18n="res_a1">Search results for beginner-level spoken English videos.</p>
+          <span class="tag purple">YouTube</span>
+        </a>
+        <a class="resource" href="https://www.gov.uk/english-language" target="_blank" rel="noopener">
+          <span class="icon">🛂</span>
+          <h3 data-i18n="res_gov_title">GOV.UK — English Language Requirement</h3>
+          <p data-i18n="res_gov">Official UK government guidance about English requirements for visas.</p>
+          <span class="tag warn" data-i18n="tag_official">Official</span>
+        </a>
+        <a class="resource" href="https://www.youtube.com/results?search_query=english+for+spouse+visa+interview" target="_blank" rel="noopener">
+          <span class="icon">💬</span>
+          <h3 data-i18n="res_interview_title">Spouse Visa Interview Practice</h3>
+          <p data-i18n="res_interview">YouTube searches for sample interview questions and answers.</p>
+          <span class="tag" data-i18n="tag_practice">Practice</span>
+        </a>
+        <!-- Empty placeholder card – replace href / text when you find a good resource -->
+        <a class="resource" href="#" target="_blank" rel="noopener">
+          <span class="icon">➕</span>
+          <h3 data-i18n="res_placeholder_title">Add your own resource</h3>
+          <p data-i18n="res_placeholder">Edit this file and replace the link, title, and description.</p>
+          <span class="tag" data-i18n="tag_placeholder">Placeholder</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       QUIZ
+       ========================================================= -->
+  <section class="panel" id="panel-quiz">
+    <div class="card">
+      <h2 data-i18n="quiz_title">🧠 Quiz Mode</h2>
+      <p class="subtitle" data-i18n="quiz_subtitle">Multiple choice. Easy questions to build confidence.</p>
+
+      <div class="quiz-stats">
+        <div><span data-i18n="quiz_score">Score:</span> <strong id="quizScore">0</strong> / <strong id="quizTotal">0</strong></div>
+        <div><span data-i18n="quiz_q_label">Question</span> <strong id="quizIndex">1</strong> <span data-i18n="of">of</span> <strong id="quizCount">0</strong></div>
+        <button class="btn small" id="quizRestart" data-i18n="restart">↻ Restart</button>
+      </div>
+
+      <div class="quiz-q" id="quizQuestion">Loading question...</div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+
+      <div style="margin-top:18px; display:flex; justify-content:flex-end;">
+        <button class="btn primary" id="quizNext" data-i18n="next_question">Next Question →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       PROGRESS TRACKER
+       ========================================================= -->
+  <section class="panel" id="panel-progress">
+    <div class="card">
+      <h2 data-i18n="progress_title">✅ Daily Progress Tracker</h2>
+      <p class="subtitle" data-i18n="progress_subtitle">Tick off each task as you finish it. Progress saves automatically.</p>
+
+      <div class="bar" style="margin-bottom:16px;"><span id="progressBar"></span></div>
+      <div style="display:flex;justify-content:space-between;color:var(--text-dim);font-size:13px;margin-bottom:14px;">
+        <span><span id="progressDone">0</span> / 5 <span data-i18n="completed">completed</span></span>
+        <button class="btn small ghost" id="progressReset" data-i18n="reset_day">↻ Reset day</button>
+      </div>
+
+      <ul class="check-list" id="checkList">
+        <li data-key="vocab"><div class="box">✓</div><span class="label" data-i18n="check1">Review 5 vocabulary cards</span></li>
+        <li data-key="grammar"><div class="box">✓</div><span class="label" data-i18n="check2">Practise 1 grammar rule</span></li>
+        <li data-key="speak"><div class="box">✓</div><span class="label" data-i18n="check3">Answer 3 speaking questions</span></li>
+        <li data-key="video"><div class="box">✓</div><span class="label" data-i18n="check4">Watch 1 short video</span></li>
+        <li data-key="quiz"><div class="box">✓</div><span class="label" data-i18n="check5">Complete 1 quiz</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       NOTES
+       ========================================================= -->
+  <section class="panel" id="panel-notes">
+    <div class="card">
+      <h2 data-i18n="notes_title">📝 Notes & Difficult Words</h2>
+      <p class="subtitle" data-i18n="notes_subtitle">Write down new words, sentences, or anything you want to remember. Saved automatically.</p>
+      <textarea class="notes" id="notesArea" data-i18n-ph="notes_placeholder" placeholder="e.g. neighbour = qonşu&#10;appointment = görüş&#10;..."></textarea>
+      <div style="margin-top:10px;color:var(--text-muted);font-size:12px;" data-i18n="notes_saved">💾 Saved to your browser only (localStorage).</div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <div class="footer-note" data-i18n-html="footer">
+    💛 Made with love for your UK spouse visa journey. Practise a little every day — you're doing great.<br>
+    ⚠️ Always check the official <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK guidance</a> for the latest English language requirements. This site does not guarantee visa success.
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   I18N — Edit translations here (English + Azerbaijani)
+   ========================================================= */
+const I18N = {
+  en: {
+    tagline: "UK Spouse Visa English Practice • A1 / A2 Friendly",
+    welcome: "Welcome,",
+    welcome_hint: "You can switch language any time using EN / AZ above.",
+    streak_label: "Daily streak:",
+    streak_unit: "day",
+
+    tab_home: "🏠 Home",
+    tab_flash: "🃏 Flashcards",
+    tab_grammar: "📘 Grammar",
+    tab_speak: "🎤 Speaking",
+    tab_listen: "🎧 Listening",
+    tab_quiz: "🧠 Quiz",
+    tab_progress: "✅ Progress",
+    tab_notes: "📝 Notes",
+
+    stat_focus_label: "Today's focus",
+    stat_focus_value: "Family words 👨‍👩‍👧",
+    stat_focus_hint: "Vocabulary + speaking practice",
+    stat_plan_label: "Daily plan",
+    stat_plan_value: "15 minutes ⏱️",
+    stat_plan_hint: "Short, simple, every day",
+    stat_tasks_label: "Tasks completed",
+
+    plan_title: "📅 Your 15-Minute Daily Plan",
+    plan_subtitle: "A small amount every day is better than a lot once a week.",
+    min: "min",
+    plan_item1: "Review 5 vocabulary flashcards 🃏",
+    plan_item2: "Read 1 grammar rule 📘",
+    plan_item3: "Answer 3 speaking questions aloud 🎤",
+    plan_item4: "Watch a short BBC / British Council clip 🎧",
+    plan_item5: "Take a quick quiz 🧠",
+    encourage_html: "💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.",
+
+    flash_title: "🃏 Vocabulary Flashcards",
+    flash_subtitle: "Click the card to flip. Tap the star ⭐ to mark difficult ones.",
+    cat_all: "All categories",
+    cat_personal: "🪪 Personal information",
+    cat_family: "👨‍👩‍👧 Family & relationships",
+    cat_daily: "☀️ Daily routine",
+    cat_home: "🏠 Home & city life",
+    cat_food: "🍞 Food, shopping & travel",
+    cat_visa: "🛂 Visa / Interview",
+    cat_difficult: "⭐ My difficult cards",
+    shuffle: "🔀 Shuffle",
+    random: "🎲 Random",
+    flip_hint: "Click to flip ↻",
+    prev: "← Previous",
+    next: "Next →",
+    card_label: "Card",
+    mark_difficult: "Mark as difficult",
+    unmark_difficult: "Marked as difficult",
+    no_cards: "No cards in this category yet.",
+    no_cards_az: "No difficult cards yet — tap the star to mark one.",
+
+    grammar_title: "📘 Grammar Basics (A1 / A2)",
+    grammar_subtitle: "Simple rules you'll use in everyday English and in the visa interview.",
+
+    speak_title: "🎤 Speaking Practice",
+    speak_subtitle: "Practise answering visa-style questions. Take your time.",
+    question_tag: "Question",
+    new_question: "🎲 New Question",
+    read_aloud: "🔊 Read Aloud",
+    starter_label: "💡 Helpful starter:",
+    speak_tip: "💛 <strong>Tip:</strong> Speak slowly and clearly. Short, correct sentences are better than long, complicated ones.",
+
+    listen_title: "🎧 Listening & Video Practice",
+    listen_subtitle: "Free trusted resources for everyday English listening.",
+    res_bbc: "Short daily lessons, clear pronunciation, free videos and exercises.",
+    res_bc: "Free courses, listening practice, grammar lessons, and speaking exercises.",
+    res_a1_title: "A1 Speaking Practice (YouTube)",
+    res_a1: "Search results for beginner-level spoken English videos.",
+    res_gov_title: "GOV.UK — English Language Requirement",
+    res_gov: "Official UK government guidance about English requirements for visas.",
+    res_interview_title: "Spouse Visa Interview Practice",
+    res_interview: "YouTube searches for sample interview questions and answers.",
+    res_placeholder_title: "Add your own resource",
+    res_placeholder: "Edit this file and replace the link, title, and description.",
+    tag_beginner: "Beginner friendly",
+    tag_trusted: "Trusted",
+    tag_official: "Official",
+    tag_practice: "Practice",
+    tag_placeholder: "Placeholder",
+
+    quiz_title: "🧠 Quiz Mode",
+    quiz_subtitle: "Multiple choice. Easy questions to build confidence.",
+    quiz_score: "Score:",
+    quiz_q_label: "Question",
+    of: "of",
+    restart: "↻ Restart",
+    next_question: "Next Question →",
+    quiz_correct: "✅ Correct! Well done.",
+    quiz_wrong: "❌ Not quite — the correct answer is highlighted in green.",
+    quiz_complete: "🎉 Quiz complete! You scored {s} / {t}. Starting again...",
+
+    progress_title: "✅ Daily Progress Tracker",
+    progress_subtitle: "Tick off each task as you finish it. Progress saves automatically.",
+    completed: "completed",
+    reset_day: "↻ Reset day",
+    check1: "Review 5 vocabulary cards",
+    check2: "Practise 1 grammar rule",
+    check3: "Answer 3 speaking questions",
+    check4: "Watch 1 short video",
+    check5: "Complete 1 quiz",
+
+    notes_title: "📝 Notes & Difficult Words",
+    notes_subtitle: "Write down new words, sentences, or anything you want to remember. Saved automatically.",
+    notes_placeholder: "e.g. neighbour = qonşu\nappointment = görüş\n...",
+    notes_saved: "💾 Saved to your browser only (localStorage).",
+
+    footer: '💛 Made with love for your UK spouse visa journey. Practise a little every day — you\'re doing great.<br>⚠️ Always check the official <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK guidance</a> for the latest English language requirements. This site does not guarantee visa success.'
+  },
+
+  az: {
+    tagline: "Böyük Britaniya həyat yoldaşı vizası üçün ingilis dili praktikası • A1 / A2",
+    welcome: "Xoş gəldin,",
+    welcome_hint: "Yuxarıdakı EN / AZ düymələri ilə dili dəyişə bilərsən.",
+    streak_label: "Gündəlik seriya:",
+    streak_unit: "gün",
+
+    tab_home: "🏠 Ana",
+    tab_flash: "🃏 Kartlar",
+    tab_grammar: "📘 Qrammatika",
+    tab_speak: "🎤 Danışıq",
+    tab_listen: "🎧 Dinləmə",
+    tab_quiz: "🧠 Test",
+    tab_progress: "✅ İrəliləyiş",
+    tab_notes: "📝 Qeydlər",
+
+    stat_focus_label: "Bugünkü diqqət",
+    stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
+    stat_focus_hint: "Lüğət + danışıq praktikası",
+    stat_plan_label: "Gündəlik plan",
+    stat_plan_value: "15 dəqiqə ⏱️",
+    stat_plan_hint: "Qısa, sadə, hər gün",
+    stat_tasks_label: "Tamamlanmış tapşırıqlar",
+
+    plan_title: "📅 Sənin 15 dəqiqəlik gündəlik planın",
+    plan_subtitle: "Hər gün az, amma davamlı — həftədə bir dəfə çox işləməkdən yaxşıdır.",
+    min: "dəq",
+    plan_item1: "5 söz kartını təkrarla 🃏",
+    plan_item2: "1 qrammatika qaydasını oxu 📘",
+    plan_item3: "3 danışıq sualını ucadan cavablandır 🎤",
+    plan_item4: "BBC / British Council qısa videosuna bax 🎧",
+    plan_item5: "Qısa test həll et 🧠",
+    encourage_html: "💛 <strong>Sən bacarırsan.</strong> Hər gün məşq etdikcə daha yaxınlaşırsan. Səhvlərdən qorxma — səhvlər öyrənməyin bir hissəsidir.",
+
+    flash_title: "🃏 Söz kartları",
+    flash_subtitle: "Kartı çevirmək üçün üzərinə klikləyin. Çətin sözləri ulduzla ⭐ işarələyin.",
+    cat_all: "Bütün kateqoriyalar",
+    cat_personal: "🪪 Şəxsi məlumat",
+    cat_family: "👨‍👩‍👧 Ailə və qohumluq",
+    cat_daily: "☀️ Gündəlik rejim",
+    cat_home: "🏠 Ev və şəhər həyatı",
+    cat_food: "🍞 Yemək, alış-veriş, səyahət",
+    cat_visa: "🛂 Viza / Müsahibə",
+    cat_difficult: "⭐ Çətin kartlarım",
+    shuffle: "🔀 Qarışdır",
+    random: "🎲 Təsadüfi",
+    flip_hint: "Çevirmək üçün klikləyin ↻",
+    prev: "← Əvvəlki",
+    next: "Sonrakı →",
+    card_label: "Kart",
+    mark_difficult: "Çətin kimi işarələ",
+    unmark_difficult: "Çətin işarəlidir",
+    no_cards: "Bu kateqoriyada hələ kart yoxdur.",
+    no_cards_az: "Hələ çətin kart yoxdur — ulduzla işarələyin.",
+
+    grammar_title: "📘 Qrammatika əsasları (A1 / A2)",
+    grammar_subtitle: "Gündəlik ingiliscədə və viza müsahibəsində istifadə edəcəyin sadə qaydalar.",
+
+    speak_title: "🎤 Danışıq praktikası",
+    speak_subtitle: "Viza müsahibəsi tipli suallara cavab verməyi məşq et. Tələsmə.",
+    question_tag: "Sual",
+    new_question: "🎲 Yeni sual",
+    read_aloud: "🔊 Ucadan oxu",
+    starter_label: "💡 Faydalı başlanğıc:",
+    speak_tip: "💛 <strong>Məsləhət:</strong> Yavaş və aydın danış. Qısa, düzgün cümlələr uzun və mürəkkəb olanlardan yaxşıdır.",
+
+    listen_title: "🎧 Dinləmə və video praktikası",
+    listen_subtitle: "Gündəlik ingiliscə dinləmək üçün pulsuz və etibarlı resurslar.",
+    res_bbc: "Qısa gündəlik dərslər, aydın tələffüz, pulsuz videolar və tapşırıqlar.",
+    res_bc: "Pulsuz kurslar, dinləmə, qrammatika dərsləri və danışıq məşqləri.",
+    res_a1_title: "A1 səviyyəsi danışıq praktikası (YouTube)",
+    res_a1: "Başlanğıc səviyyəli ingiliscə danışıq videoları üçün axtarış nəticələri.",
+    res_gov_title: "GOV.UK — İngilis dili tələbi",
+    res_gov: "Vizalar üçün ingilis dili tələbləri ilə bağlı Britaniya hökumətinin rəsmi təlimatı.",
+    res_interview_title: "Həyat yoldaşı vizası müsahibə praktikası",
+    res_interview: "Nümunə müsahibə sualları və cavablar üçün YouTube axtarışları.",
+    res_placeholder_title: "Öz resursunu əlavə et",
+    res_placeholder: "Bu faylı redaktə edib linki, başlığı və təsviri dəyişdirə bilərsən.",
+    tag_beginner: "Başlanğıclar üçün",
+    tag_trusted: "Etibarlı",
+    tag_official: "Rəsmi",
+    tag_practice: "Məşq",
+    tag_placeholder: "Boş yer",
+
+    quiz_title: "🧠 Test rejimi",
+    quiz_subtitle: "Çoxseçimli. Özünə inam yaratmaq üçün asan suallar.",
+    quiz_score: "Bal:",
+    quiz_q_label: "Sual",
+    of: "/",
+    restart: "↻ Yenidən başla",
+    next_question: "Növbəti sual →",
+    quiz_correct: "✅ Düzdür! Afərin.",
+    quiz_wrong: "❌ Doğru deyil — düzgün cavab yaşıl rəngdədir.",
+    quiz_complete: "🎉 Test bitdi! Nəticə: {s} / {t}. Yenidən başlayır...",
+
+    progress_title: "✅ Gündəlik irəliləyiş izləyicisi",
+    progress_subtitle: "Hər tapşırığı tamamladıqca işarələ. İrəliləyiş avtomatik yadda saxlanılır.",
+    completed: "tamamlandı",
+    reset_day: "↻ Günü sıfırla",
+    check1: "5 söz kartını təkrarla",
+    check2: "1 qrammatika qaydasını məşq et",
+    check3: "3 danışıq sualına cavab ver",
+    check4: "1 qısa videoya bax",
+    check5: "1 test həll et",
+
+    notes_title: "📝 Qeydlər və çətin sözlər",
+    notes_subtitle: "Yeni sözləri, cümlələri və ya yadda saxlamaq istədiyin hər şeyi yaz. Avtomatik yadda saxlanılır.",
+    notes_placeholder: "məs. neighbour = qonşu\nappointment = görüş\n...",
+    notes_saved: "💾 Yalnız brauzerində yadda saxlanır (localStorage).",
+
+    footer: '💛 Böyük Britaniya həyat yoldaşı vizası yolun üçün sevgi ilə hazırlanıb. Hər gün bir az məşq et — sən əla iş görürsən.<br>⚠️ Ən son ingilis dili tələbləri üçün həmişə rəsmi <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK təlimatına</a> bax. Bu sayt viza uğurunu zəmanət vermir.'
+  }
+};
+
+/* =========================================================
+   DATA — Edit vocabulary, questions, prompts, and quiz here
+   =========================================================
+   To ADD a flashcard: copy a row and change the text.
+   To ADD a speaking question: add to SPEAKING_QUESTIONS.
+   To ADD a quiz question: add to QUIZ.
+   To ADD a resource: edit the HTML "Listening" section above.
+   ========================================================= */
+
+// ---------- FLASHCARDS ----------
+// Each card: cat (category), level (A1/A2), en, az, pron (pronunciation hint),
+// ex (English example), exAz (Azerbaijani translation of example).
+// Add more cards by copying any row and changing the fields.
+const VOCAB = [
+  // =============== PERSONAL INFORMATION ===============
+  { cat: "personal", level: "A1", en: "name",            az: "ad",                    pron: "neɪm",              ex: "My name is Elxan.",                 exAz: "Mənim adım Elxandır." },
+  { cat: "personal", level: "A1", en: "surname",         az: "soyad",                 pron: "ˈsɜːneɪm",          ex: "My surname is Eminov.",             exAz: "Mənim soyadım Eminovdur." },
+  { cat: "personal", level: "A1", en: "age",             az: "yaş",                   pron: "eɪdʒ",              ex: "I am 30 years old.",                exAz: "Mənim 30 yaşım var." },
+  { cat: "personal", level: "A1", en: "country",         az: "ölkə",                  pron: "ˈkʌntri",           ex: "I am from Azerbaijan.",             exAz: "Mən Azərbaycandanam." },
+  { cat: "personal", level: "A2", en: "nationality",     az: "milliyyət",             pron: "ˌnæʃəˈnæləti",      ex: "My nationality is Azerbaijani.",    exAz: "Mənim milliyyətim azərbaycanlıdır." },
+  { cat: "personal", level: "A1", en: "address",         az: "ünvan",                 pron: "əˈdres",            ex: "What is your address?",             exAz: "Sənin ünvanın nədir?" },
+  { cat: "personal", level: "A1", en: "phone number",    az: "telefon nömrəsi",       pron: "fəʊn ˈnʌmbə",       ex: "My phone number is here.",          exAz: "Telefon nömrəm buradadır." },
+  { cat: "personal", level: "A1", en: "email",           az: "e-poçt",                pron: "ˈiːmeɪl",           ex: "Please write your email.",          exAz: "Zəhmət olmasa e-poçtunu yaz." },
+  { cat: "personal", level: "A2", en: "date of birth",   az: "doğum tarixi",          pron: "deɪt əv bɜːθ",      ex: "My date of birth is 5 May.",        exAz: "Doğum tarixim 5 May-dır." },
+  { cat: "personal", level: "A1", en: "married",         az: "evli",                  pron: "ˈmærid",            ex: "I am married.",                     exAz: "Mən evliyəm." },
+  { cat: "personal", level: "A1", en: "single",          az: "subay",                 pron: "ˈsɪŋɡəl",           ex: "She is single.",                    exAz: "O subaydır." },
+  { cat: "personal", level: "A2", en: "citizen",         az: "vətəndaş",              pron: "ˈsɪtɪzən",          ex: "I am a citizen of Azerbaijan.",     exAz: "Mən Azərbaycan vətəndaşıyam." },
+  { cat: "personal", level: "A1", en: "language",        az: "dil",                   pron: "ˈlæŋɡwɪdʒ",         ex: "I speak two languages.",            exAz: "Mən iki dildə danışıram." },
+  { cat: "personal", level: "A1", en: "gender",          az: "cins",                  pron: "ˈdʒendə",           ex: "Please tick your gender.",          exAz: "Cinsinizi qeyd edin." },
+  { cat: "personal", level: "A2", en: "occupation",      az: "peşə",                  pron: "ˌɒkjʊˈpeɪʃən",      ex: "My occupation is driver.",          exAz: "Mənim peşəm sürücülükdür." },
+  { cat: "personal", level: "A2", en: "signature",       az: "imza",                  pron: "ˈsɪɡnətʃə",         ex: "Put your signature here.",          exAz: "İmzanızı buraya qoyun." },
+  { cat: "personal", level: "A2", en: "ID card",         az: "şəxsiyyət vəsiqəsi",    pron: "aɪ-diː kɑːd",       ex: "Show me your ID card, please.",     exAz: "Şəxsiyyət vəsiqənizi göstərin." },
+  { cat: "personal", level: "A2", en: "to introduce",    az: "təqdim etmək",          pron: "ˌɪntrəˈdjuːs",      ex: "Let me introduce myself.",          exAz: "Qoy özümü təqdim edim." },
+
+  // =============== FAMILY & RELATIONSHIPS ===============
+  { cat: "family",   level: "A1", en: "husband",         az: "ər",                    pron: "ˈhʌzbənd",          ex: "My husband works in London.",       exAz: "Ərim Londonda işləyir." },
+  { cat: "family",   level: "A1", en: "wife",            az: "arvad",                 pron: "waɪf",              ex: "She is my wife.",                   exAz: "O mənim arvadımdır." },
+  { cat: "family",   level: "A1", en: "son",             az: "oğul",                  pron: "sʌn",               ex: "We have one son.",                  exAz: "Bizim bir oğlumuz var." },
+  { cat: "family",   level: "A1", en: "daughter",        az: "qız",                   pron: "ˈdɔːtə",            ex: "Our daughter is five.",             exAz: "Qızımız beş yaşındadır." },
+  { cat: "family",   level: "A1", en: "brother",         az: "qardaş",                pron: "ˈbrʌðə",            ex: "I have one brother.",               exAz: "Bir qardaşım var." },
+  { cat: "family",   level: "A1", en: "sister",          az: "bacı",                  pron: "ˈsɪstə",            ex: "My sister lives in Baku.",          exAz: "Bacım Bakıda yaşayır." },
+  { cat: "family",   level: "A1", en: "mother",          az: "ana",                   pron: "ˈmʌðə",             ex: "My mother is kind.",                exAz: "Anam mehribandır." },
+  { cat: "family",   level: "A1", en: "father",          az: "ata",                   pron: "ˈfɑːðə",            ex: "My father is a driver.",            exAz: "Atam sürücüdür." },
+  { cat: "family",   level: "A1", en: "parents",         az: "valideynlər",           pron: "ˈpeərənts",         ex: "My parents live in Baku.",          exAz: "Valideynlərim Bakıda yaşayır." },
+  { cat: "family",   level: "A2", en: "grandfather",     az: "baba",                  pron: "ˈɡrænˌfɑːðə",       ex: "My grandfather is 80.",             exAz: "Babam 80 yaşındadır." },
+  { cat: "family",   level: "A2", en: "grandmother",     az: "nənə",                  pron: "ˈɡrænˌmʌðə",        ex: "I love my grandmother.",            exAz: "Nənəmi çox sevirəm." },
+  { cat: "family",   level: "A2", en: "uncle",           az: "əmi / dayı",            pron: "ˈʌŋkəl",            ex: "My uncle lives nearby.",            exAz: "Əmim yaxınlıqda yaşayır." },
+  { cat: "family",   level: "A2", en: "aunt",            az: "bibi / xala",           pron: "ɑːnt",              ex: "My aunt has two kids.",             exAz: "Xalamın iki uşağı var." },
+  { cat: "family",   level: "A2", en: "cousin",          az: "əmiuşağı / xalauşağı",  pron: "ˈkʌzən",            ex: "My cousin studies abroad.",         exAz: "Əmiuşağım xaricdə oxuyur." },
+  { cat: "family",   level: "A2", en: "relatives",       az: "qohumlar",              pron: "ˈrelətɪvz",         ex: "All my relatives are here.",        exAz: "Bütün qohumlarım buradadır." },
+  { cat: "family",   level: "A2", en: "fiancée",         az: "nişanlı (qadın)",       pron: "fiˈɒnseɪ",          ex: "This is my fiancée.",               exAz: "Bu mənim nişanlımdır." },
+  { cat: "family",   level: "A1", en: "wedding",         az: "toy",                   pron: "ˈwedɪŋ",            ex: "Our wedding was last year.",        exAz: "Toyumuz keçən il idi." },
+  { cat: "family",   level: "A2", en: "to love",         az: "sevmək",                pron: "lʌv",               ex: "I love my family.",                 exAz: "Mən ailəmi sevirəm." },
+
+  // =============== DAILY ROUTINE ===============
+  { cat: "daily",    level: "A1", en: "to wake up",      az: "oyanmaq",               pron: "weɪk ʌp",           ex: "I wake up at 7.",                   exAz: "Saat 7-də oyanıram." },
+  { cat: "daily",    level: "A1", en: "to get up",       az: "ayağa qalxmaq",         pron: "ɡet ʌp",            ex: "I get up early.",                   exAz: "Tez qalxıram." },
+  { cat: "daily",    level: "A1", en: "breakfast",       az: "səhər yeməyi",          pron: "ˈbrekfəst",         ex: "I eat breakfast at 8.",             exAz: "Səhər yeməyini saat 8-də yeyirəm." },
+  { cat: "daily",    level: "A1", en: "lunch",           az: "günorta yeməyi",        pron: "lʌntʃ",             ex: "We have lunch at noon.",            exAz: "Günorta yeməyini günorta yeyirik." },
+  { cat: "daily",    level: "A1", en: "dinner",          az: "şam yeməyi",            pron: "ˈdɪnə",             ex: "Dinner is at 7 pm.",                exAz: "Şam yeməyi axşam 7-dədir." },
+  { cat: "daily",    level: "A1", en: "to cook",         az: "bişirmək",              pron: "kʊk",               ex: "I cook every evening.",             exAz: "Hər axşam yemək bişirirəm." },
+  { cat: "daily",    level: "A1", en: "to clean",        az: "təmizləmək",            pron: "kliːn",             ex: "She cleans the house.",             exAz: "O evi təmizləyir." },
+  { cat: "daily",    level: "A1", en: "to wash",         az: "yumaq",                 pron: "wɒʃ",               ex: "I wash my clothes.",                exAz: "Paltarlarımı yuyuram." },
+  { cat: "daily",    level: "A1", en: "to sleep",        az: "yatmaq",                pron: "sliːp",             ex: "I sleep for 8 hours.",              exAz: "8 saat yatıram." },
+  { cat: "daily",    level: "A1", en: "morning",         az: "səhər",                 pron: "ˈmɔːnɪŋ",           ex: "Good morning!",                     exAz: "Sabahın xeyir!" },
+  { cat: "daily",    level: "A2", en: "afternoon",       az: "günorta",               pron: "ˌɑːftəˈnuːn",       ex: "Good afternoon.",                   exAz: "Günortanız xeyir." },
+  { cat: "daily",    level: "A1", en: "evening",         az: "axşam",                 pron: "ˈiːvnɪŋ",           ex: "Good evening.",                     exAz: "Axşamınız xeyir." },
+  { cat: "daily",    level: "A1", en: "night",           az: "gecə",                  pron: "naɪt",              ex: "Good night.",                       exAz: "Gecəniz xeyrə." },
+  { cat: "daily",    level: "A2", en: "to brush teeth",  az: "diş fırçalamaq",        pron: "brʌʃ",              ex: "I brush my teeth twice a day.",     exAz: "Gündə iki dəfə dişlərimi fırçalayıram." },
+  { cat: "daily",    level: "A2", en: "to take a shower",az: "duş qəbul etmək",       pron: "ˈʃaʊə",             ex: "I take a shower in the morning.",   exAz: "Səhər duş qəbul edirəm." },
+  { cat: "daily",    level: "A1", en: "to read",         az: "oxumaq",                pron: "riːd",              ex: "I read books at night.",            exAz: "Gecə kitab oxuyuram." },
+  { cat: "daily",    level: "A1", en: "to watch TV",     az: "televizora baxmaq",     pron: "wɒtʃ",              ex: "We watch TV together.",             exAz: "Biz birlikdə televizora baxırıq." },
+  { cat: "daily",    level: "A2", en: "weekend",         az: "həftəsonu",             pron: "ˌwiːkˈend",         ex: "I relax at the weekend.",           exAz: "Həftəsonu istirahət edirəm." },
+
+  // =============== HOME & CITY LIFE ===============
+  { cat: "home",     level: "A1", en: "house",           az: "ev",                    pron: "haʊs",              ex: "We live in a small house.",         exAz: "Biz kiçik bir evdə yaşayırıq." },
+  { cat: "home",     level: "A1", en: "flat",            az: "mənzil",                pron: "flæt",              ex: "I rent a flat in London.",          exAz: "Londonda bir mənzil kirayələyirəm." },
+  { cat: "home",     level: "A1", en: "room",            az: "otaq",                  pron: "ruːm",              ex: "My room is small.",                 exAz: "Otağım kiçikdir." },
+  { cat: "home",     level: "A1", en: "kitchen",         az: "mətbəx",                pron: "ˈkɪtʃən",           ex: "I cook in the kitchen.",            exAz: "Mətbəxdə yemək bişirirəm." },
+  { cat: "home",     level: "A1", en: "bathroom",        az: "hamam",                 pron: "ˈbɑːθruːm",         ex: "The bathroom is upstairs.",         exAz: "Hamam yuxarı mərtəbədədir." },
+  { cat: "home",     level: "A1", en: "bedroom",         az: "yataq otağı",           pron: "ˈbedruːm",          ex: "Our bedroom is big.",               exAz: "Yataq otağımız böyükdür." },
+  { cat: "home",     level: "A2", en: "garden",          az: "bağ",                   pron: "ˈɡɑːdən",           ex: "We have a small garden.",           exAz: "Kiçik bağımız var." },
+  { cat: "home",     level: "A1", en: "neighbour",       az: "qonşu",                 pron: "ˈneɪbə",            ex: "My neighbour is nice.",             exAz: "Qonşum mehribandır." },
+  { cat: "home",     level: "A1", en: "street",          az: "küçə",                  pron: "striːt",            ex: "I live on this street.",            exAz: "Bu küçədə yaşayıram." },
+  { cat: "home",     level: "A1", en: "city",            az: "şəhər",                 pron: "ˈsɪti",             ex: "London is a big city.",             exAz: "London böyük şəhərdir." },
+  { cat: "home",     level: "A2", en: "village",         az: "kənd",                  pron: "ˈvɪlɪdʒ",           ex: "I grew up in a village.",           exAz: "Mən kənddə böyümüşəm." },
+  { cat: "home",     level: "A1", en: "bus",             az: "avtobus",               pron: "bʌs",               ex: "I take the bus to work.",           exAz: "İşə avtobusla gedirəm." },
+  { cat: "home",     level: "A1", en: "train",           az: "qatar",                 pron: "treɪn",             ex: "The train is fast.",                exAz: "Qatar sürətlidir." },
+  { cat: "home",     level: "A1", en: "car",             az: "maşın",                 pron: "kɑː",               ex: "We don't have a car.",              exAz: "Bizim maşınımız yoxdur." },
+  { cat: "home",     level: "A1", en: "hospital",        az: "xəstəxana",             pron: "ˈhɒspɪtəl",         ex: "The hospital is near.",             exAz: "Xəstəxana yaxındadır." },
+  { cat: "home",     level: "A1", en: "school",          az: "məktəb",                pron: "skuːl",             ex: "My son goes to school.",            exAz: "Oğlum məktəbə gedir." },
+  { cat: "home",     level: "A2", en: "park",            az: "park",                  pron: "pɑːk",              ex: "We walk in the park.",              exAz: "Parkda gəzirik." },
+  { cat: "home",     level: "A2", en: "library",         az: "kitabxana",             pron: "ˈlaɪbrəri",         ex: "I study at the library.",           exAz: "Kitabxanada oxuyuram." },
+
+  // =============== FOOD, SHOPPING & TRAVEL ===============
+  { cat: "food",     level: "A1", en: "bread",           az: "çörək",                 pron: "bred",              ex: "I buy bread every day.",            exAz: "Hər gün çörək alıram." },
+  { cat: "food",     level: "A1", en: "water",           az: "su",                    pron: "ˈwɔːtə",            ex: "Can I have some water?",            exAz: "Bir az su ala bilərəm?" },
+  { cat: "food",     level: "A1", en: "milk",            az: "süd",                   pron: "mɪlk",              ex: "I drink milk in the morning.",      exAz: "Səhər süd içirəm." },
+  { cat: "food",     level: "A1", en: "tea",             az: "çay",                   pron: "tiː",               ex: "Would you like some tea?",          exAz: "Bir az çay istəyirsiniz?" },
+  { cat: "food",     level: "A1", en: "coffee",          az: "qəhvə",                 pron: "ˈkɒfi",             ex: "I love coffee.",                    exAz: "Qəhvəni çox sevirəm." },
+  { cat: "food",     level: "A1", en: "meat",            az: "ət",                    pron: "miːt",              ex: "I don't eat much meat.",            exAz: "Çox ət yemirəm." },
+  { cat: "food",     level: "A1", en: "rice",            az: "düyü / plov",           pron: "raɪs",              ex: "We had rice for dinner.",           exAz: "Şam yeməyinə düyü yedik." },
+  { cat: "food",     level: "A1", en: "fruit",           az: "meyvə",                 pron: "fruːt",             ex: "Fruit is healthy.",                 exAz: "Meyvə faydalıdır." },
+  { cat: "food",     level: "A1", en: "vegetables",      az: "tərəvəzlər",            pron: "ˈvedʒtəbəlz",       ex: "I like vegetables.",                exAz: "Tərəvəzləri sevirəm." },
+  { cat: "food",     level: "A1", en: "supermarket",     az: "market",                pron: "ˈsuːpəˌmɑːkət",     ex: "I go to the supermarket.",          exAz: "Mən marketə gedirəm." },
+  { cat: "food",     level: "A1", en: "money",           az: "pul",                   pron: "ˈmʌni",             ex: "I don't have much money.",          exAz: "Çox pulum yoxdur." },
+  { cat: "food",     level: "A2", en: "price",           az: "qiymət",                pron: "praɪs",             ex: "What is the price?",                exAz: "Qiymət nə qədərdir?" },
+  { cat: "food",     level: "A1", en: "cheap",           az: "ucuz",                  pron: "tʃiːp",             ex: "This shop is cheap.",               exAz: "Bu mağaza ucuzdur." },
+  { cat: "food",     level: "A1", en: "expensive",       az: "bahalı",                pron: "ɪkˈspensɪv",        ex: "London is expensive.",              exAz: "London bahalıdır." },
+  { cat: "food",     level: "A1", en: "ticket",          az: "bilet",                 pron: "ˈtɪkɪt",            ex: "I have my ticket.",                 exAz: "Mənim biletim var." },
+  { cat: "food",     level: "A1", en: "airport",         az: "hava limanı",           pron: "ˈeəpɔːt",           ex: "The airport is far.",               exAz: "Hava limanı uzaqdadır." },
+  { cat: "food",     level: "A1", en: "passport",        az: "pasport",               pron: "ˈpɑːspɔːt",         ex: "Here is my passport.",              exAz: "Pasportum buyurun." },
+  { cat: "food",     level: "A2", en: "suitcase",        az: "çamadan",               pron: "ˈsuːtkeɪs",         ex: "My suitcase is heavy.",             exAz: "Çamadanım ağırdır." },
+  { cat: "food",     level: "A1", en: "hotel",           az: "mehmanxana",            pron: "həʊˈtel",           ex: "We stayed in a hotel.",             exAz: "Biz mehmanxanada qaldıq." },
+  { cat: "food",     level: "A2", en: "to buy",          az: "almaq",                 pron: "baɪ",               ex: "I want to buy bread.",              exAz: "Çörək almaq istəyirəm." },
+
+  // =============== VISA / INTERVIEW ===============
+  { cat: "visa",     level: "A2", en: "interview",       az: "müsahibə",              pron: "ˈɪntəvjuː",         ex: "I have an interview tomorrow.",     exAz: "Sabah müsahibəm var." },
+  { cat: "visa",     level: "A2", en: "application",     az: "müraciət",              pron: "ˌæplɪˈkeɪʃən",      ex: "I sent my application.",            exAz: "Müraciətimi göndərdim." },
+  { cat: "visa",     level: "A2", en: "document",        az: "sənəd",                 pron: "ˈdɒkjʊmənt",        ex: "I have all the documents.",         exAz: "Bütün sənədlərim var." },
+  { cat: "visa",     level: "A2", en: "signature",       az: "imza",                  pron: "ˈsɪɡnətʃə",         ex: "Please sign here.",                 exAz: "Zəhmət olmasa burada imza atın." },
+  { cat: "visa",     level: "A1", en: "married",         az: "evli",                  pron: "ˈmærid",            ex: "We are married.",                   exAz: "Biz evliyik." },
+  { cat: "visa",     level: "A1", en: "to live",         az: "yaşamaq",               pron: "lɪv",               ex: "I want to live in the UK.",         exAz: "Böyük Britaniyada yaşamaq istəyirəm." },
+  { cat: "visa",     level: "A1", en: "to work",         az: "işləmək",               pron: "wɜːk",              ex: "I want to work as a driver.",       exAz: "Sürücü kimi işləmək istəyirəm." },
+  { cat: "visa",     level: "A1", en: "visa",            az: "viza",                  pron: "ˈviːzə",            ex: "I am applying for a visa.",         exAz: "Viza üçün müraciət edirəm." },
+  { cat: "visa",     level: "A2", en: "embassy",         az: "səfirlik",              pron: "ˈembəsi",           ex: "I went to the embassy.",            exAz: "Səfirliyə getdim." },
+  { cat: "visa",     level: "A2", en: "spouse",          az: "həyat yoldaşı",         pron: "spaʊs",             ex: "My spouse is British.",             exAz: "Həyat yoldaşım britaniyalıdır." },
+  { cat: "visa",     level: "A2", en: "appointment",     az: "görüş / randevu",       pron: "əˈpɔɪntmənt",       ex: "I have an appointment at 10.",      exAz: "Saat 10-da görüşüm var." },
+  { cat: "visa",     level: "A2", en: "fingerprint",     az: "barmaq izi",            pron: "ˈfɪŋɡəprɪnt",       ex: "They take my fingerprints.",        exAz: "Onlar barmaq izlərimi götürürlər." },
+  { cat: "visa",     level: "A2", en: "immigration",     az: "mühacirət",             pron: "ˌɪmɪˈɡreɪʃən",      ex: "Go to immigration first.",          exAz: "Əvvəlcə mühacirət bölməsinə gedin." },
+  { cat: "visa",     level: "A2", en: "approved",        az: "təsdiqlənmiş",          pron: "əˈpruːvd",          ex: "My visa was approved.",             exAz: "Vizam təsdiqləndi." },
+  { cat: "visa",     level: "A2", en: "refused",         az: "rədd edilmiş",          pron: "rɪˈfjuːzd",         ex: "His visa was refused.",             exAz: "Onun vizası rədd edildi." },
+  { cat: "visa",     level: "A2", en: "proof",           az: "sübut",                 pron: "pruːf",             ex: "I need proof of address.",          exAz: "Mənə ünvan sübutu lazımdır." },
+  { cat: "visa",     level: "A2", en: "valid",           az: "etibarlı",              pron: "ˈvælɪd",            ex: "My passport is valid.",             exAz: "Pasportum etibarlıdır." },
+  { cat: "visa",     level: "A2", en: "expired",         az: "vaxtı keçmiş",          pron: "ɪkˈspaɪəd",         ex: "My visa has expired.",              exAz: "Vizamın vaxtı keçib." },
+  { cat: "visa",     level: "A2", en: "permission",      az: "icazə",                 pron: "pəˈmɪʃən",          ex: "I have permission to stay.",        exAz: "Qalmağa icazəm var." },
+  { cat: "visa",     level: "A1", en: "yes / no",        az: "bəli / xeyr",           pron: "jes / nəʊ",         ex: "Yes, I am married.",                exAz: "Bəli, mən evliyəm." }
+];
+
+// ---------- SPEAKING QUESTIONS ----------
+const SPEAKING_QUESTIONS = [
+  { q: "What is your full name?",          az: "Tam adınız nədir?",                  starter: '"My full name is ..."' },
+  { q: "Where do you live?",               az: "Harada yaşayırsınız?",               starter: '"I live in ..."' },
+  { q: "Tell me about your spouse.",       az: "Həyat yoldaşınız haqqında danışın.", starter: '"My husband\'s/wife\'s name is ... He/She lives in ..."' },
+  { q: "Why are you learning English?",    az: "Niyə ingilis dili öyrənirsiniz?",    starter: '"I am learning English because ..."' },
+  { q: "What do you do every day?",        az: "Hər gün nə edirsiniz?",              starter: '"Every day I ... I also ..."' },
+  { q: "Tell me about your family.",       az: "Ailəniz haqqında danışın.",          starter: '"I have ... in my family. They are ..."' },
+  { q: "How did you meet your spouse?",    az: "Həyat yoldaşınızla necə tanış oldunuz?", starter: '"We met in ... in (year)."' },
+  { q: "When did you get married?",        az: "Nə vaxt evləndiniz?",                starter: '"We got married in (month / year)."' },
+  { q: "What is your job?",                az: "İşiniz nədir?",                      starter: '"I am a ... I work in ..."' },
+  { q: "Do you have children?",            az: "Uşaqlarınız var?",                   starter: '"Yes, I have ..." or "No, I don\'t have children."' },
+  { q: "Where do your parents live?",      az: "Valideynləriniz harada yaşayır?",    starter: '"My parents live in ..."' },
+  { q: "What food do you like?",           az: "Hansı yeməkləri sevirsiniz?",        starter: '"I like ..."' }
+];
+
+// ---------- QUIZ ----------
+const QUIZ = [
+  { q: "I ___ from Azerbaijan.",                   opts: ["am", "is", "are", "be"],                                a: 0 },
+  { q: "She ___ a teacher.",                        opts: ["am", "is", "are", "have"],                              a: 1 },
+  { q: "We ___ married for two years.",             opts: ["is", "has", "have been", "are been"],                   a: 2 },
+  { q: "Where ___ you live?",                       opts: ["does", "is", "do", "are"],                              a: 2 },
+  { q: "What is the Azerbaijani word for 'husband'?", opts: ["arvad", "qardaş", "ər", "oğul"],                      a: 2 },
+  { q: "Choose the correct sentence:",              opts: ["He live in London.", "He lives in London.", "He living in London.", "He is live in London."], a: 1 },
+  { q: "'I have two children.' — In Azerbaijani:",  opts: ["Mənim iki uşağım var.", "Mən iki uşaqam.", "İki uşağı varam.", "Uşaq iki var mən."], a: 0 },
+  { q: "How do you answer: 'How are you?'",         opts: ["I am Baku.", "I am fine, thank you.", "Yes, I have.", "My name is Ali."], a: 1 },
+  { q: "What does 'müsahibə' mean in English?",     opts: ["passport", "interview", "appointment", "marriage"],     a: 1 },
+  { q: "Pick the question form:",                   opts: ["You live where?", "Where do you live?", "Where you live?", "Live where you?"], a: 1 },
+  { q: "'I ___ English every day.'",                opts: ["study", "studies", "studying", "am study"],             a: 0 },
+  { q: "'My wife' in Azerbaijani is:",              opts: ["arvadım", "qızım", "bacım", "anam"],                    a: 0 }
+];
+
+/* =========================================================
+   LANGUAGE SWITCHING (EN / AZ)
+   ========================================================= */
+let LANG = localStorage.getItem("lang") || "en";
+
+function applyLanguage(lang) {
+  LANG = lang;
+  localStorage.setItem("lang", lang);
+  document.documentElement.lang = lang === "az" ? "az" : "en";
+
+  const dict = I18N[lang] || I18N.en;
+
+  // Plain text content
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key] !== undefined) el.textContent = dict[key];
+  });
+  // Rich (HTML) content
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const key = el.getAttribute("data-i18n-html");
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  // Placeholders
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+    const key = el.getAttribute("data-i18n-ph");
+    if (dict[key] !== undefined) el.setAttribute("placeholder", dict[key]);
+  });
+
+  // Toggle active state on language buttons
+  document.querySelectorAll(".lang-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.lang === lang);
+  });
+
+  // Re-render dynamic UI that already had its text set in code
+  if (typeof refreshDynamicUI === "function") refreshDynamicUI();
+}
+
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
+});
+
+// Helper to use in dynamic code below
+function t(key) { return (I18N[LANG] && I18N[LANG][key]) || I18N.en[key] || key; }
+
+/* =========================================================
+   SPEECH SYNTHESIS — shared helper used by flashcards + speaking tab
+   ========================================================= */
+let englishVoice = null;
+function pickEnglishVoice() {
+  if (!("speechSynthesis" in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices || !voices.length) return null;
+  // Prefer high-quality natural-sounding en-GB voices, then fall back
+  const tests = [
+    v => /en-GB/i.test(v.lang) && /(google|natural|premium|enhanced|neural)/i.test(v.name),
+    v => /en-GB/i.test(v.lang) && /(daniel|kate|serena|samantha|libby|sonia)/i.test(v.name),
+    v => /en-GB/i.test(v.lang),
+    v => /^en/i.test(v.lang) && /(google|natural|premium|enhanced|neural)/i.test(v.name),
+    v => /^en/i.test(v.lang)
+  ];
+  for (const test of tests) {
+    const found = voices.find(test);
+    if (found) return found;
+  }
+  return null;
+}
+function refreshVoice() { englishVoice = pickEnglishVoice(); }
+if ("speechSynthesis" in window) {
+  refreshVoice();
+  // Voices often load asynchronously
+  window.speechSynthesis.onvoiceschanged = refreshVoice;
+}
+
+// Speak `text` in English. Optionally pass a button to show a "speaking" pulse.
+function speakText(text, btn) {
+  if (!("speechSynthesis" in window) || !text) return;
+  const synth = window.speechSynthesis;
+
+  // Some Chrome versions auto-pause synth after ~15s of inactivity.
+  // resume() before speaking is a defensive no-op when not paused.
+  try { synth.resume(); } catch (_) {}
+
+  const startSpeech = () => {
+    // Clear pulse state on any previously-active speaker button
+    document.querySelectorAll(".speaker-btn.speaking").forEach(b => b.classList.remove("speaking"));
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-GB";
+    u.rate = 0.9;
+    u.pitch = 1;
+    if (englishVoice) u.voice = englishVoice;
+    if (btn) {
+      btn.classList.add("speaking");
+      const clear = () => btn.classList.remove("speaking");
+      u.onend = clear;
+      u.onerror = clear;
+    }
+    synth.speak(u);
+  };
+
+  // Chrome/Safari bug: calling cancel() then speak() in the same tick
+  // sometimes drops the new utterance. Wait one tick if we just cancelled.
+  if (synth.speaking || synth.pending) {
+    synth.cancel();
+    setTimeout(startSpeech, 80);
+  } else {
+    startSpeech();
+  }
+}
+
+/* =========================================================
+   TAB SWITCHING
+   ========================================================= */
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    document.getElementById("panel-" + tab.dataset.tab).classList.add("active");
+  });
+});
+
+/* =========================================================
+   FLASHCARDS
+   ========================================================= */
+const flashCard       = document.getElementById("flashCard");
+const flashWord       = document.getElementById("flashWord");
+const flashPron       = document.getElementById("flashPron");
+const flashExample    = document.getElementById("flashExample");
+const flashTrans      = document.getElementById("flashTrans");
+const flashExampleAz  = document.getElementById("flashExampleAz");
+const flashTag        = document.getElementById("flashTag");
+const flashLevel      = document.getElementById("flashLevel");
+const flashLevelBack  = document.getElementById("flashLevelBack");
+const flashStar       = document.getElementById("flashStar");
+const flashIndexEl    = document.getElementById("flashIndex");
+const flashTotalEl    = document.getElementById("flashTotal");
+const flashCategory   = document.getElementById("flashCategory");
+
+let flashList = [];
+let flashIndex = 0;
+
+// "Mark as difficult" — persisted in localStorage by "cat:en" key
+let difficultSet = new Set(JSON.parse(localStorage.getItem("difficult_cards") || "[]"));
+function cardId(c) { return c.cat + ":" + c.en; }
+function isDifficult(c) { return difficultSet.has(cardId(c)); }
+function toggleDifficult(c) {
+  const id = cardId(c);
+  if (difficultSet.has(id)) difficultSet.delete(id);
+  else difficultSet.add(id);
+  localStorage.setItem("difficult_cards", JSON.stringify([...difficultSet]));
+}
+
+// Build the list of visible cards based on the selected category
+function buildFlashList() {
+  const v = flashCategory.value;
+  if (v === "all")              flashList = [...VOCAB];
+  else if (v === "difficult")   flashList = VOCAB.filter(c => isDifficult(c));
+  else                          flashList = VOCAB.filter(c => c.cat === v);
+
+  if (flashList.length === 0) {
+    const msg = v === "difficult" ? t("no_cards_az") : t("no_cards");
+    flashList = [{ cat: "—", level: "", en: msg, az: msg, pron: "", ex: "", exAz: "" }];
+  }
+  flashIndex = 0;
+}
+
+function renderFlash() {
+  if (flashList.length === 0) return;
+  const c = flashList[flashIndex];
+  flashWord.textContent       = c.en;
+  flashPron.textContent       = c.pron ? "/" + c.pron + "/" : "";
+  flashExample.textContent    = c.ex ? '"' + c.ex + '"' : "";
+  flashTrans.textContent      = c.az;
+  flashExampleAz.textContent  = c.exAz ? '"' + c.exAz + '"' : "";
+  flashTag.textContent        = c.cat;
+  flashLevel.textContent      = c.level || "";
+  flashLevelBack.textContent  = c.level || "";
+  flashLevel.style.display     = c.level ? "" : "none";
+  flashLevelBack.style.display = c.level ? "" : "none";
+
+  const fav = isDifficult(c);
+  flashStar.textContent = fav ? "★" : "☆";
+  flashStar.classList.toggle("on", fav);
+  flashStar.title = fav ? t("unmark_difficult") : t("mark_difficult");
+  flashStar.style.display = c.cat === "—" ? "none" : "";
+
+  flashCard.classList.remove("flipped");
+  flashIndexEl.textContent = flashIndex + 1;
+  flashTotalEl.textContent = flashList.length;
+}
+
+flashCard.addEventListener("click", () => flashCard.classList.toggle("flipped"));
+
+// Pronunciation — stopPropagation so the card doesn't flip when the button is tapped
+const flashSpeakWord    = document.getElementById("flashSpeakWord");
+const flashSpeakExample = document.getElementById("flashSpeakExample");
+flashSpeakWord.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const c = flashList[flashIndex];
+  if (c && c.en && c.cat !== "—") speakText(c.en, flashSpeakWord);
+});
+flashSpeakExample.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const c = flashList[flashIndex];
+  if (c && c.ex) speakText(c.ex, flashSpeakExample);
+});
+
+document.getElementById("flashNext").addEventListener("click", () => {
+  flashIndex = (flashIndex + 1) % flashList.length;
+  renderFlash();
+});
+document.getElementById("flashPrev").addEventListener("click", () => {
+  flashIndex = (flashIndex - 1 + flashList.length) % flashList.length;
+  renderFlash();
+});
+document.getElementById("flashShuffle").addEventListener("click", () => {
+  flashList = flashList.sort(() => Math.random() - 0.5);
+  flashIndex = 0;
+  renderFlash();
+});
+document.getElementById("flashRandom").addEventListener("click", () => {
+  if (flashList.length <= 1) return;
+  let r;
+  do { r = Math.floor(Math.random() * flashList.length); } while (r === flashIndex);
+  flashIndex = r;
+  renderFlash();
+});
+
+// Star button — don't flip the card when clicking it
+flashStar.addEventListener("click", (e) => {
+  e.stopPropagation();
+  if (!flashList.length) return;
+  const c = flashList[flashIndex];
+  if (c.cat === "—") return; // placeholder card
+  toggleDifficult(c);
+  renderFlash();
+});
+
+flashCategory.addEventListener("change", () => {
+  buildFlashList();
+  renderFlash();
+});
+
+buildFlashList();
+renderFlash();
+
+/* =========================================================
+   SPEAKING
+   ========================================================= */
+const speakQ       = document.getElementById("speakQ");
+const speakAz      = document.getElementById("speakAz");
+const speakStarter = document.getElementById("speakStarter");
+
+let currentSpeakStarter = SPEAKING_QUESTIONS[0].starter;
+function newSpeakingQuestion() {
+  const q = SPEAKING_QUESTIONS[Math.floor(Math.random() * SPEAKING_QUESTIONS.length)];
+  speakQ.textContent = q.q;
+  speakAz.textContent = q.az;
+  currentSpeakStarter = q.starter;
+  speakStarter.innerHTML = `<strong>${t("starter_label")}</strong> ${q.starter}`;
+}
+document.getElementById("speakNew").addEventListener("click", newSpeakingQuestion);
+document.getElementById("speakPlay").addEventListener("click", (e) => {
+  if (!("speechSynthesis" in window)) {
+    alert("Sorry, your browser does not support speech.");
+    return;
+  }
+  speakText(speakQ.textContent, e.currentTarget);
+});
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+const quizQuestion = document.getElementById("quizQuestion");
+const quizOptions  = document.getElementById("quizOptions");
+const quizFeedback = document.getElementById("quizFeedback");
+const quizScoreEl  = document.getElementById("quizScore");
+const quizTotalEl  = document.getElementById("quizTotal");
+const quizIndexEl  = document.getElementById("quizIndex");
+const quizCountEl  = document.getElementById("quizCount");
+
+let quizOrder = [];
+let quizPos = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+function startQuiz() {
+  quizOrder = [...QUIZ.keys()].sort(() => Math.random() - 0.5);
+  quizPos = 0;
+  quizScore = 0;
+  quizCountEl.textContent = quizOrder.length;
+  renderQuiz();
+}
+
+function renderQuiz() {
+  quizAnswered = false;
+  quizFeedback.classList.remove("show", "good", "bad");
+  const q = QUIZ[quizOrder[quizPos]];
+  quizQuestion.textContent = q.q;
+  quizIndexEl.textContent = quizPos + 1;
+  quizScoreEl.textContent = quizScore;
+  quizTotalEl.textContent = quizPos;
+  quizOptions.innerHTML = "";
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-opt";
+    btn.textContent = opt;
+    btn.addEventListener("click", () => answerQuiz(i, btn, q.a));
+    quizOptions.appendChild(btn);
+  });
+}
+
+function answerQuiz(picked, btn, correct) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const opts = quizOptions.querySelectorAll(".quiz-opt");
+  opts.forEach((o, i) => {
+    o.classList.add("disabled");
+    if (i === correct) o.classList.add("correct");
+    if (i === picked && picked !== correct) o.classList.add("wrong");
+  });
+  if (picked === correct) {
+    quizScore++;
+    quizFeedback.textContent = t("quiz_correct");
+    quizFeedback.className = "quiz-feedback show good";
+  } else {
+    quizFeedback.textContent = t("quiz_wrong");
+    quizFeedback.className = "quiz-feedback show bad";
+  }
+  quizScoreEl.textContent = quizScore;
+  quizTotalEl.textContent = quizPos + 1;
+}
+
+document.getElementById("quizNext").addEventListener("click", () => {
+  if (!quizAnswered) return;
+  quizPos = (quizPos + 1) % quizOrder.length;
+  if (quizPos === 0) {
+    alert(t("quiz_complete").replace("{s}", quizScore).replace("{t}", quizOrder.length));
+    quizScore = 0;
+  }
+  renderQuiz();
+});
+document.getElementById("quizRestart").addEventListener("click", startQuiz);
+startQuiz();
+
+/* =========================================================
+   PROGRESS CHECKLIST + localStorage
+   ========================================================= */
+const checkItems = document.querySelectorAll("#checkList li");
+const progressBar  = document.getElementById("progressBar");
+const progressDone = document.getElementById("progressDone");
+const homeTaskCount = document.getElementById("homeTaskCount");
+const homeProgress  = document.getElementById("homeProgress");
+
+function todayKey() {
+  const d = new Date();
+  return "progress_" + d.getFullYear() + "_" + (d.getMonth()+1) + "_" + d.getDate();
+}
+
+function loadProgress() {
+  const saved = JSON.parse(localStorage.getItem(todayKey()) || "{}");
+  let done = 0;
+  checkItems.forEach(li => {
+    if (saved[li.dataset.key]) { li.classList.add("done"); done++; }
+  });
+  updateProgressUI(done);
+}
+
+function saveProgress() {
+  const obj = {};
+  let done = 0;
+  checkItems.forEach(li => {
+    const isDone = li.classList.contains("done");
+    obj[li.dataset.key] = isDone;
+    if (isDone) done++;
+  });
+  localStorage.setItem(todayKey(), JSON.stringify(obj));
+  updateProgressUI(done);
+}
+
+function updateProgressUI(done) {
+  const pct = (done / checkItems.length) * 100;
+  progressBar.style.width = pct + "%";
+  homeProgress.style.width = pct + "%";
+  progressDone.textContent = done;
+  homeTaskCount.textContent = done;
+}
+
+checkItems.forEach(li => {
+  li.addEventListener("click", () => {
+    li.classList.toggle("done");
+    saveProgress();
+  });
+});
+
+document.getElementById("progressReset").addEventListener("click", () => {
+  checkItems.forEach(li => li.classList.remove("done"));
+  saveProgress();
+});
+
+loadProgress();
+
+/* =========================================================
+   NOTES (localStorage)
+   ========================================================= */
+const notesArea = document.getElementById("notesArea");
+notesArea.value = localStorage.getItem("notes_text") || "";
+notesArea.addEventListener("input", () => {
+  localStorage.setItem("notes_text", notesArea.value);
+});
+
+/* =========================================================
+   DYNAMIC UI REFRESH — re-applies translations to JS-rendered text
+   ========================================================= */
+function refreshDynamicUI() {
+  // Re-render the helpful starter label in the current language
+  if (speakStarter) {
+    speakStarter.innerHTML = `<strong>${t("starter_label")}</strong> ${currentSpeakStarter}`;
+  }
+  // Re-render flashcard so star tooltip and placeholder text follow the language
+  if (typeof flashList !== "undefined" && flashList.length) {
+    // If the placeholder card is showing, rebuild so its text is in the new language
+    if (flashList[flashIndex] && flashList[flashIndex].cat === "—") buildFlashList();
+    renderFlash();
+  }
+}
+
+// Initial language application (after all UI exists)
+applyLanguage(LANG);
+
+/* =========================================================
+   STREAK COUNTER (simple — counts days the page was opened)
+   ========================================================= */
+(function streak() {
+  const today = new Date().toDateString();
+  const data = JSON.parse(localStorage.getItem("streak_data") || "{}");
+  if (data.last !== today) {
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    if (data.last === y.toDateString()) data.count = (data.count || 0) + 1;
+    else data.count = 1;
+    data.last = today;
+    localStorage.setItem("streak_data", JSON.stringify(data));
+  }
+  document.getElementById("streakValue").textContent = data.count || 1;
+})();
+</script>
+</body>
+</html>
