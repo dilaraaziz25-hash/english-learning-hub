@@ -1002,7 +1002,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <div class="avatar">EE</div>
     <div class="who">
       <span data-i18n="welcome">Welcome,</span>
-      <strong>Elxan Eminov</strong>
+      <strong>Elkhan Eminov</strong>
     </div>
     <div style="flex:1;"></div>
     <div style="color:var(--text-muted); font-size:12px;" data-i18n="welcome_hint">You can switch language any time using EN / AZ above.</div>
@@ -1110,6 +1110,14 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <option value="daily"      data-i18n="cat_daily">☀️ Daily routine</option>
           <option value="home"       data-i18n="cat_home">🏠 Home &amp; city life</option>
           <option value="food"       data-i18n="cat_food">🍞 Food, shopping &amp; travel</option>
+          <option value="work"       data-i18n="cat_work">💼 Work &amp; business</option>
+          <option value="education"  data-i18n="cat_education">🎓 Education</option>
+          <option value="health"     data-i18n="cat_health">🏥 Health &amp; doctor</option>
+          <option value="weather"    data-i18n="cat_weather">☀️ Weather</option>
+          <option value="phone"      data-i18n="cat_phone">📞 Phone &amp; conversation</option>
+          <option value="hobbies"    data-i18n="cat_hobbies">⚽ Hobbies</option>
+          <option value="numbers"    data-i18n="cat_numbers">🔢 Numbers &amp; dates</option>
+          <option value="uk"         data-i18n="cat_uk">🇬🇧 UK arrival</option>
           <option value="visa"       data-i18n="cat_visa">🛂 Visa / Interview</option>
           <option value="difficult"  data-i18n="cat_difficult">⭐ My difficult cards</option>
         </select>
@@ -1370,7 +1378,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
-    💛 Made with love for your UK spouse visa journey. Practise a little every day — you're doing great.<br>
+    ❤️ Made with love for Elkhan’s English learning journey. Created with love by your life, Dilara ❤️ Practise a little every day — I trust on you.<br>
     ⚠️ Always check the official <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK guidance</a> for the latest English language requirements. This site does not guarantee visa success.
   </div>
 </div>
@@ -1443,6 +1451,14 @@ const I18N = {
     cat_daily: "☀️ Daily routine",
     cat_home: "🏠 Home & city life",
     cat_food: "🍞 Food, shopping & travel",
+    cat_work: "💼 Work & business",
+    cat_education: "🎓 Education",
+    cat_health: "🏥 Health & doctor",
+    cat_weather: "☀️ Weather",
+    cat_phone: "📞 Phone & conversation",
+    cat_hobbies: "⚽ Hobbies",
+    cat_numbers: "🔢 Numbers & dates",
+    cat_uk: "🇬🇧 UK arrival",
     cat_visa: "🛂 Visa / Interview",
     cat_difficult: "⭐ My difficult cards",
     shuffle: "🔀 Shuffle",
@@ -1577,6 +1593,14 @@ const I18N = {
     cat_daily: "☀️ Gündəlik rejim",
     cat_home: "🏠 Ev və şəhər həyatı",
     cat_food: "🍞 Yemək, alış-veriş, səyahət",
+    cat_work: "💼 İş və biznes",
+    cat_education: "🎓 Təhsil",
+    cat_health: "🏥 Sağlamlıq və həkim",
+    cat_weather: "☀️ Hava",
+    cat_phone: "📞 Telefon və söhbət",
+    cat_hobbies: "⚽ Hobbilər",
+    cat_numbers: "🔢 Rəqəmlər və tarixlər",
+    cat_uk: "🇬🇧 Böyük Britaniyaya gəliş",
     cat_visa: "🛂 Viza / Müsahibə",
     cat_difficult: "⭐ Çətin kartlarım",
     shuffle: "🔀 Qarışdır",
@@ -1664,7 +1688,7 @@ const I18N = {
 // Add more cards by copying any row and changing the fields.
 const VOCAB = [
   // =============== PERSONAL INFORMATION ===============
-  { cat: "personal", level: "A1", en: "name",            az: "ad",                    pron: "neɪm",              ex: "My name is Elxan.",                 exAz: "Mənim adım Elxandır." },
+  { cat: "personal", level: "A1", en: "name",            az: "ad",                    pron: "neɪm",              ex: "My name is Elkhan.",                exAz: "Mənim adım Elkhandır." },
   { cat: "personal", level: "A1", en: "surname",         az: "soyad",                 pron: "ˈsɜːneɪm",          ex: "My surname is Eminov.",             exAz: "Mənim soyadım Eminovdur." },
   { cat: "personal", level: "A1", en: "age",             az: "yaş",                   pron: "eɪdʒ",              ex: "I am 55 years old.",                exAz: "Mənim 55 yaşım var." },
   { cat: "personal", level: "A1", en: "country",         az: "ölkə",                  pron: "ˈkʌntri",           ex: "I am from Azerbaijan.",             exAz: "Mən Azərbaycandanam." },
@@ -1672,13 +1696,13 @@ const VOCAB = [
   { cat: "personal", level: "A1", en: "address",         az: "ünvan",                 pron: "əˈdres",            ex: "What is your address?",             exAz: "Sənin ünvanın nədir?" },
   { cat: "personal", level: "A1", en: "phone number",    az: "telefon nömrəsi",       pron: "fəʊn ˈnʌmbə",       ex: "My phone number is here.",          exAz: "Telefon nömrəm buradadır." },
   { cat: "personal", level: "A1", en: "email",           az: "e-poçt",                pron: "ˈiːmeɪl",           ex: "Please write your email.",          exAz: "Zəhmət olmasa e-poçtunu yaz." },
-  { cat: "personal", level: "A2", en: "date of birth",   az: "doğum tarixi",          pron: "deɪt əv bɜːθ",      ex: "My date of birth is 5 May 1970.",   exAz: "Doğum tarixim 5 May 1970-ci ildir." },
+  { cat: "personal", level: "A2", en: "date of birth",   az: "doğum tarixi",          pron: "deɪt əv bɜːθ",      ex: "My date of birth is 25 June 1971.", exAz: "Doğum tarixim 25 İyun 1971-ci ildir." },
   { cat: "personal", level: "A1", en: "married",         az: "evli",                  pron: "ˈmærid",            ex: "I am married.",                     exAz: "Mən evliyəm." },
   { cat: "personal", level: "A1", en: "single",          az: "subay",                 pron: "ˈsɪŋɡəl",           ex: "She is single.",                    exAz: "O subaydır." },
   { cat: "personal", level: "A2", en: "citizen",         az: "vətəndaş",              pron: "ˈsɪtɪzən",          ex: "I am a citizen of Azerbaijan.",     exAz: "Mən Azərbaycan vətəndaşıyam." },
   { cat: "personal", level: "A1", en: "language",        az: "dil",                   pron: "ˈlæŋɡwɪdʒ",         ex: "I speak two languages.",            exAz: "Mən iki dildə danışıram." },
   { cat: "personal", level: "A1", en: "gender",          az: "cins",                  pron: "ˈdʒendə",           ex: "Please tick your gender.",          exAz: "Cinsinizi qeyd edin." },
-  { cat: "personal", level: "A2", en: "occupation",      az: "peşə",                  pron: "ˌɒkjʊˈpeɪʃən",      ex: "I have worked as a driver for many years.", exAz: "Uzun illərdir sürücü kimi işləyirəm." },
+  { cat: "personal", level: "A2", en: "occupation",      az: "peşə",                  pron: "ˌɒkjʊˈpeɪʃən",      ex: "I am an engineer and businessman.", exAz: "Mən mühəndis və iş adamıyam." },
   { cat: "personal", level: "A2", en: "signature",       az: "imza",                  pron: "ˈsɪɡnətʃə",         ex: "Put your signature here.",          exAz: "İmzanızı buraya qoyun." },
   { cat: "personal", level: "A2", en: "ID card",         az: "şəxsiyyət vəsiqəsi",    pron: "aɪ-diː kɑːd",       ex: "Show me your ID card, please.",     exAz: "Şəxsiyyət vəsiqənizi göstərin." },
   { cat: "personal", level: "A2", en: "to introduce",    az: "təqdim etmək",          pron: "ˌɪntrəˈdjuːs",      ex: "Let me introduce myself.",          exAz: "Qoy özümü təqdim edim." },
@@ -1686,25 +1710,24 @@ const VOCAB = [
   // =============== FAMILY & RELATIONSHIPS ===============
   { cat: "family",   level: "A1", en: "husband",         az: "ər",                    pron: "ˈhʌzbənd",          ex: "My husband works in London.",       exAz: "Ərim Londonda işləyir." },
   { cat: "family",   level: "A1", en: "wife",            az: "arvad",                 pron: "waɪf",              ex: "She is my wife.",                   exAz: "O mənim arvadımdır." },
-  { cat: "family",   level: "A1", en: "son",             az: "oğul",                  pron: "sʌn",               ex: "We have a grown-up son.",           exAz: "Yetkin bir oğlumuz var." },
-  { cat: "family",   level: "A1", en: "daughter",        az: "qız",                   pron: "ˈdɔːtə",            ex: "Our daughter is married.",          exAz: "Qızımız evlidir." },
-  { cat: "family",   level: "A1", en: "brother",         az: "qardaş",                pron: "ˈbrʌðə",            ex: "I have one brother.",               exAz: "Bir qardaşım var." },
-  { cat: "family",   level: "A1", en: "sister",          az: "bacı",                  pron: "ˈsɪstə",            ex: "My sister lives in Baku.",          exAz: "Bacım Bakıda yaşayır." },
-  { cat: "family",   level: "A1", en: "mother",          az: "ana",                   pron: "ˈmʌðə",             ex: "My mother is 80 years old.",        exAz: "Anam 80 yaşındadır." },
-  { cat: "family",   level: "A1", en: "father",          az: "ata",                   pron: "ˈfɑːðə",            ex: "My father has retired.",            exAz: "Atam təqaüdə çıxıb." },
-  { cat: "family",   level: "A1", en: "parents",         az: "valideynlər",           pron: "ˈpeərənts",         ex: "My parents are elderly now.",       exAz: "Valideynlərim artıq yaşlıdır." },
-  { cat: "family",   level: "A2", en: "grandfather",     az: "baba",                  pron: "ˈɡrænˌfɑːðə",       ex: "I am a grandfather now.",           exAz: "Mən artıq babayam." },
-  { cat: "family",   level: "A2", en: "grandmother",     az: "nənə",                  pron: "ˈɡrænˌmʌðə",        ex: "My wife is a kind grandmother.",    exAz: "Həyat yoldaşım mehriban nənədir." },
-  { cat: "family",   level: "A2", en: "grandchildren",   az: "nəvələr",               pron: "ˈɡrænˌtʃɪldrən",    ex: "I have two grandchildren.",         exAz: "İki nəvəm var." },
-  { cat: "family",   level: "A2", en: "grandson",        az: "oğlan nəvə",            pron: "ˈɡrænsʌn",          ex: "My grandson is three years old.",   exAz: "Oğlan nəvəm üç yaşındadır." },
-  { cat: "family",   level: "A2", en: "granddaughter",   az: "qız nəvə",              pron: "ˈɡrænˌdɔːtə",       ex: "My granddaughter lives in London.", exAz: "Qız nəvəm Londonda yaşayır." },
-  { cat: "family",   level: "A2", en: "retired",         az: "təqaüdçü",              pron: "rɪˈtaɪəd",          ex: "I am retired now.",                 exAz: "Mən artıq təqaüdçüyəm." },
+  { cat: "family",   level: "A1", en: "son",             az: "oğul",                  pron: "sʌn",               ex: "My son is a doctor.",               exAz: "Oğlum həkimdir." },
+  { cat: "family",   level: "A1", en: "daughter",        az: "qız",                   pron: "ˈdɔːtə",            ex: "My daughter lives in Moscow.",      exAz: "Qızım Moskvada yaşayır." },
+  { cat: "family",   level: "A1", en: "brother",         az: "qardaş",                pron: "ˈbrʌðə",            ex: "I have two brothers in Baku.",      exAz: "Bakıda iki qardaşım var." },
+  { cat: "family",   level: "A1", en: "sister",          az: "bacı",                  pron: "ˈsɪstə",            ex: "My two sisters live in a village.", exAz: "İki bacım kənddə yaşayır." },
+  { cat: "family",   level: "A1", en: "mother",          az: "ana",                   pron: "ˈmʌðə",             ex: "My mother is 86 years old.",        exAz: "Anam 86 yaşındadır." },
+  { cat: "family",   level: "A1", en: "father",          az: "ata",                   pron: "ˈfɑːðə",            ex: "My father passed away 13 years ago.", exAz: "Atam 13 il əvvəl vəfat etdi." },
+  { cat: "family",   level: "A1", en: "parents",         az: "valideynlər",           pron: "ˈpeərənts",         ex: "My mother lives in Azerbaijan.",    exAz: "Anam Azərbaycanda yaşayır." },
+  { cat: "family",   level: "A2", en: "grandfather",     az: "baba",                  pron: "ˈɡrænˌfɑːðə",       ex: "My grandfather lived in a village.", exAz: "Babam kənddə yaşayırdı." },
+  { cat: "family",   level: "A2", en: "grandmother",     az: "nənə",                  pron: "ˈɡrænˌmʌðə",        ex: "I remember my grandmother well.",   exAz: "Nənəmi yaxşı xatırlayıram." },
+  { cat: "family",   level: "A2", en: "grandchildren",   az: "nəvələr",               pron: "ˈɡrænˌtʃɪldrən",    ex: "We have no grandchildren yet.",     exAz: "Hələ nəvələrimiz yoxdur." },
+  { cat: "family",   level: "A2", en: "children",        az: "uşaqlar",               pron: "ˈtʃɪldrən",         ex: "I have two grown-up children.",     exAz: "İki yetkin övladım var." },
+  { cat: "family",   level: "A2", en: "in-laws",         az: "qayınatalar",           pron: "ˈɪn lɔːz",          ex: "My in-laws live in the UK.",        exAz: "Qayınatalarım Böyük Britaniyada yaşayır." },
   { cat: "family",   level: "A2", en: "uncle",           az: "əmi / dayı",            pron: "ˈʌŋkəl",            ex: "My uncle lives nearby.",            exAz: "Əmim yaxınlıqda yaşayır." },
   { cat: "family",   level: "A2", en: "aunt",            az: "bibi / xala",           pron: "ɑːnt",              ex: "My aunt has two kids.",             exAz: "Xalamın iki uşağı var." },
   { cat: "family",   level: "A2", en: "cousin",          az: "əmiuşağı / xalauşağı",  pron: "ˈkʌzən",            ex: "My cousin lives in Baku.",          exAz: "Əmiuşağım Bakıda yaşayır." },
   { cat: "family",   level: "A2", en: "relatives",       az: "qohumlar",              pron: "ˈrelətɪvz",         ex: "All my relatives are here.",        exAz: "Bütün qohumlarım buradadır." },
   { cat: "family",   level: "A1", en: "wedding",         az: "toy",                   pron: "ˈwedɪŋ",            ex: "Our wedding was many years ago.",   exAz: "Toyumuz çox illər əvvəl olub." },
-  { cat: "family",   level: "A2", en: "anniversary",     az: "ildönümü",              pron: "ˌænɪˈvɜːsəri",      ex: "Our anniversary is in May.",        exAz: "İldönümümüz May ayındadır." },
+  { cat: "family",   level: "A2", en: "anniversary",     az: "ildönümü",              pron: "ˌænɪˈvɜːsəri",      ex: "Our anniversary is in October.",    exAz: "İldönümümüz Oktyabr ayındadır." },
   { cat: "family",   level: "A2", en: "to love",         az: "sevmək",                pron: "lʌv",               ex: "I love my family.",                 exAz: "Mən ailəmi sevirəm." },
 
   // =============== DAILY ROUTINE ===============
@@ -1789,39 +1812,256 @@ const VOCAB = [
   { cat: "visa",     level: "A2", en: "valid",           az: "etibarlı",              pron: "ˈvælɪd",            ex: "My passport is valid.",             exAz: "Pasportum etibarlıdır." },
   { cat: "visa",     level: "A2", en: "expired",         az: "vaxtı keçmiş",          pron: "ɪkˈspaɪəd",         ex: "My visa has expired.",              exAz: "Vizamın vaxtı keçib." },
   { cat: "visa",     level: "A2", en: "permission",      az: "icazə",                 pron: "pəˈmɪʃən",          ex: "I have permission to stay.",        exAz: "Qalmağa icazəm var." },
-  { cat: "visa",     level: "A1", en: "yes / no",        az: "bəli / xeyr",           pron: "jes / nəʊ",         ex: "Yes, I am married.",                exAz: "Bəli, mən evliyəm." }
+  { cat: "visa",     level: "A1", en: "yes / no",        az: "bəli / xeyr",           pron: "jes / nəʊ",         ex: "Yes, I am married.",                exAz: "Bəli, mən evliyəm." },
+
+  // =============== WORK & BUSINESS ===============
+  { cat: "work",     level: "A2", en: "engineer",        az: "mühəndis",              pron: "ˌendʒɪˈnɪə",        ex: "I worked as an engineer.",          exAz: "Mən mühəndis kimi işləmişəm." },
+  { cat: "work",     level: "A2", en: "business",        az: "biznes",                pron: "ˈbɪznəs",           ex: "I have my own business.",           exAz: "Mənim öz biznesim var." },
+  { cat: "work",     level: "A2", en: "businessman",     az: "iş adamı",              pron: "ˈbɪznəsmæn",        ex: "I am a businessman.",               exAz: "Mən iş adamıyam." },
+  { cat: "work",     level: "A2", en: "wholesale",       az: "topdansatış",           pron: "ˈhəʊlseɪl",         ex: "I own a wholesale business.",       exAz: "Mənim topdansatış biznesim var." },
+  { cat: "work",     level: "A2", en: "owner",           az: "sahib",                 pron: "ˈəʊnə",             ex: "I am the owner of a business.",     exAz: "Mən bir biznesin sahibiyəm." },
+  { cat: "work",     level: "A2", en: "customer",        az: "müştəri",               pron: "ˈkʌstəmə",          ex: "I have many customers.",            exAz: "Çoxlu müştərim var." },
+  { cat: "work",     level: "A2", en: "office",          az: "ofis",                  pron: "ˈɒfɪs",             ex: "I have a small office.",            exAz: "Mənim kiçik ofisim var." },
+  { cat: "work",     level: "A2", en: "company",         az: "şirkət",                pron: "ˈkʌmpəni",          ex: "I worked at an oil company.",       exAz: "Mən neft şirkətində işləmişəm." },
+  { cat: "work",     level: "A2", en: "oil company",     az: "neft şirkəti",          pron: "ɔɪl ˈkʌmpəni",      ex: "I worked at the Oil Company of Azerbaijan.", exAz: "Mən Azərbaycan Neft Şirkətində işləmişəm." },
+  { cat: "work",     level: "A2", en: "salary",          az: "maaş",                  pron: "ˈsæləri",           ex: "My salary was good.",               exAz: "Maaşım yaxşı idi." },
+  { cat: "work",     level: "A2", en: "manager",         az: "menecer",               pron: "ˈmænɪdʒə",          ex: "I am my own manager now.",          exAz: "İndi öz menecerim mənəm." },
+  { cat: "work",     level: "A2", en: "to sell",         az: "satmaq",                pron: "sel",               ex: "I sell goods to shops.",            exAz: "Malları mağazalara satıram." },
+  { cat: "work",     level: "A2", en: "shop",            az: "mağaza",                pron: "ʃɒp",               ex: "I sell to many small shops.",       exAz: "Çoxlu kiçik mağazaya satıram." },
+  { cat: "work",     level: "A2", en: "experience",      az: "təcrübə",               pron: "ɪkˈspɪəriəns",      ex: "I have a lot of work experience.",  exAz: "Çoxlu iş təcrübəm var." },
+
+  // =============== EDUCATION ===============
+  { cat: "education", level: "A2", en: "university",     az: "universitet",           pron: "ˌjuːnɪˈvɜːsəti",    ex: "I studied at the State Oil Academy.", exAz: "Mən Dövlət Neft Akademiyasında oxumuşam." },
+  { cat: "education", level: "A2", en: "academy",        az: "akademiya",             pron: "əˈkædəmi",          ex: "I went to the Oil Academy.",        exAz: "Mən Neft Akademiyasına getmişəm." },
+  { cat: "education", level: "A2", en: "degree",         az: "diplom / dərəcə",       pron: "dɪˈɡriː",           ex: "I have a university degree.",       exAz: "Universitet diplomum var." },
+  { cat: "education", level: "A2", en: "honours",        az: "fərqlənmə",             pron: "ˈɒnəz",             ex: "I graduated with honours.",         exAz: "Fərqlənmə diplomu ilə bitirmişəm." },
+  { cat: "education", level: "A1", en: "maths",          az: "riyaziyyat",            pron: "mæθs",              ex: "I am very good at maths.",          exAz: "Mən riyaziyyatda çox yaxşıyam." },
+  { cat: "education", level: "A1", en: "physics",        az: "fizika",                pron: "ˈfɪzɪks",           ex: "I am very good at physics.",        exAz: "Mən fizikada çox yaxşıyam." },
+  { cat: "education", level: "A1", en: "student",        az: "tələbə",                pron: "ˈstjuːdənt",        ex: "I was a good student.",             exAz: "Mən yaxşı tələbə idim." },
+  { cat: "education", level: "A2", en: "to study",       az: "oxumaq",                pron: "ˈstʌdi",            ex: "I study English every day.",        exAz: "Hər gün ingilis dilini öyrənirəm." },
+  { cat: "education", level: "A2", en: "to graduate",    az: "məzun olmaq",           pron: "ˈɡrædʒueɪt",        ex: "I graduated many years ago.",       exAz: "Çoxlu il əvvəl məzun olmuşam." },
+  { cat: "education", level: "A2", en: "exam",           az: "imtahan",               pron: "ɪɡˈzæm",            ex: "I passed all my exams.",            exAz: "Bütün imtahanlarımı vermişəm." },
+  { cat: "education", level: "A2", en: "diploma",        az: "diplom",                pron: "dɪˈpləʊmə",         ex: "I have an engineering diploma.",    exAz: "Mənim mühəndislik diplomum var." },
+  { cat: "education", level: "A1", en: "teacher",        az: "müəllim",               pron: "ˈtiːtʃə",           ex: "My teacher was very kind.",         exAz: "Müəllimim çox mehriban idi." },
+  { cat: "education", level: "A2", en: "subject",        az: "fənn",                  pron: "ˈsʌbdʒɪkt",         ex: "My favourite subjects are maths and physics.", exAz: "Sevimli fənlərim riyaziyyat və fizikadır." },
+
+  // =============== HEALTH & DOCTOR ===============
+  { cat: "health",   level: "A1", en: "doctor",          az: "həkim",                 pron: "ˈdɒktə",            ex: "My son is a doctor.",               exAz: "Oğlum həkimdir." },
+  { cat: "health",   level: "A1", en: "medicine",        az: "dərman",                pron: "ˈmedsən",           ex: "I take some medicine.",             exAz: "Bir az dərman qəbul edirəm." },
+  { cat: "health",   level: "A1", en: "pain",            az: "ağrı",                  pron: "peɪn",              ex: "I have a small pain in my back.",   exAz: "Belimdə kiçik ağrı var." },
+  { cat: "health",   level: "A1", en: "headache",        az: "başağrısı",             pron: "ˈhedeɪk",           ex: "I have a headache today.",          exAz: "Bu gün başım ağrıyır." },
+  { cat: "health",   level: "A1", en: "sick",            az: "xəstə",                 pron: "sɪk",               ex: "I am not sick today.",              exAz: "Bu gün xəstə deyiləm." },
+  { cat: "health",   level: "A1", en: "healthy",         az: "sağlam",                pron: "ˈhelθi",            ex: "My mother is healthy.",             exAz: "Anam sağlamdır." },
+  { cat: "health",   level: "A2", en: "nurse",           az: "tibb bacısı",           pron: "nɜːs",              ex: "The nurse was very kind.",          exAz: "Tibb bacısı çox mehriban idi." },
+  { cat: "health",   level: "A2", en: "prescription",    az: "resept",                pron: "prɪˈskrɪpʃən",      ex: "The doctor gave me a prescription.", exAz: "Həkim mənə resept verdi." },
+  { cat: "health",   level: "A2", en: "blood pressure",  az: "qan təzyiqi",           pron: "blʌd ˈpreʃə",       ex: "My blood pressure is normal.",      exAz: "Qan təzyiqim normaldır." },
+  { cat: "health",   level: "A1", en: "to feel",         az: "hiss etmək",            pron: "fiːl",              ex: "I feel well today.",                exAz: "Bu gün özümü yaxşı hiss edirəm." },
+  { cat: "health",   level: "A1", en: "tired",           az: "yorğun",                pron: "ˈtaɪəd",            ex: "I am a little tired.",              exAz: "Bir az yorğunam." },
+  { cat: "health",   level: "A2", en: "glasses",         az: "eynək",                 pron: "ˈɡlɑːsɪz",          ex: "I wear glasses for reading.",       exAz: "Oxumaq üçün eynək taxıram." },
+  { cat: "health",   level: "A2", en: "pharmacy",        az: "aptek",                 pron: "ˈfɑːməsi",          ex: "I went to the pharmacy.",           exAz: "Aptekə getdim." },
+
+  // =============== WEATHER ===============
+  { cat: "weather",  level: "A1", en: "weather",         az: "hava",                  pron: "ˈweðə",             ex: "The weather is nice today.",        exAz: "Bu gün hava yaxşıdır." },
+  { cat: "weather",  level: "A1", en: "hot",             az: "isti",                  pron: "hɒt",               ex: "Summer is hot in Baku.",            exAz: "Bakıda yay istidir." },
+  { cat: "weather",  level: "A1", en: "cold",            az: "soyuq",                 pron: "kəʊld",             ex: "It is cold in London.",             exAz: "Londonda soyuqdur." },
+  { cat: "weather",  level: "A1", en: "rain",            az: "yağış",                 pron: "reɪn",              ex: "It rains a lot in the UK.",         exAz: "Böyük Britaniyada çoxlu yağış yağır." },
+  { cat: "weather",  level: "A1", en: "snow",            az: "qar",                   pron: "snəʊ",              ex: "It snows in winter.",               exAz: "Qışda qar yağır." },
+  { cat: "weather",  level: "A1", en: "sunny",           az: "günəşli",               pron: "ˈsʌni",             ex: "Today is sunny.",                   exAz: "Bu gün günəşlidir." },
+  { cat: "weather",  level: "A1", en: "cloudy",          az: "buludlu",               pron: "ˈklaʊdi",           ex: "It is cloudy outside.",             exAz: "Bayırda buludludur." },
+  { cat: "weather",  level: "A1", en: "windy",           az: "küləkli",               pron: "ˈwɪndi",            ex: "Baku is a windy city.",             exAz: "Bakı küləkli şəhərdir." },
+  { cat: "weather",  level: "A1", en: "warm",            az: "mülayim",               pron: "wɔːm",              ex: "The room is warm.",                 exAz: "Otaq mülayimdir." },
+  { cat: "weather",  level: "A2", en: "season",          az: "fəsil",                 pron: "ˈsiːzən",           ex: "Spring is my favourite season.",    exAz: "Yaz mənim sevimli fəslimdir." },
+
+  // =============== PHONE & CONVERSATION ===============
+  { cat: "phone",    level: "A1", en: "to call",         az: "zəng etmək",            pron: "kɔːl",              ex: "I call my daughter every day.",     exAz: "Qızıma hər gün zəng edirəm." },
+  { cat: "phone",    level: "A1", en: "hello",           az: "salam",                 pron: "həˈləʊ",            ex: "Hello, how are you?",               exAz: "Salam, necəsən?" },
+  { cat: "phone",    level: "A1", en: "goodbye",         az: "sağ ol",                pron: "ɡʊdˈbaɪ",           ex: "Goodbye, see you soon.",            exAz: "Sağ ol, görüşənədək." },
+  { cat: "phone",    level: "A1", en: "please",          az: "zəhmət olmasa",         pron: "pliːz",             ex: "Please speak slowly.",              exAz: "Zəhmət olmasa, yavaş danışın." },
+  { cat: "phone",    level: "A1", en: "thank you",       az: "təşəkkür edirəm",       pron: "ˈθæŋk juː",         ex: "Thank you very much.",              exAz: "Çox sağ olun." },
+  { cat: "phone",    level: "A1", en: "sorry",           az: "bağışlayın",            pron: "ˈsɒri",             ex: "Sorry, I do not understand.",       exAz: "Bağışlayın, başa düşmürəm." },
+  { cat: "phone",    level: "A2", en: "to speak",        az: "danışmaq",              pron: "spiːk",             ex: "I speak a little English.",         exAz: "Bir az ingilis dilində danışıram." },
+  { cat: "phone",    level: "A2", en: "message",         az: "mesaj",                 pron: "ˈmesɪdʒ",           ex: "I send a message to my son.",       exAz: "Oğluma mesaj göndərirəm." },
+  { cat: "phone",    level: "A2", en: "video call",      az: "video zəng",            pron: "ˈvɪdiəʊ kɔːl",      ex: "We talk by video call.",            exAz: "Video zənglə danışırıq." },
+  { cat: "phone",    level: "A2", en: "to repeat",       az: "təkrarlamaq",           pron: "rɪˈpiːt",           ex: "Please repeat that.",               exAz: "Zəhmət olmasa, təkrar edin." },
+
+  // =============== HOBBIES ===============
+  { cat: "hobbies",  level: "A2", en: "hobby",           az: "hobbi",                 pron: "ˈhɒbi",             ex: "Reading is my hobby.",              exAz: "Oxumaq mənim hobbimdir." },
+  { cat: "hobbies",  level: "A2", en: "gardening",       az: "bağçılıq",              pron: "ˈɡɑːdənɪŋ",         ex: "I enjoy gardening at home.",        exAz: "Evdə bağçılıq etməyi sevirəm." },
+  { cat: "hobbies",  level: "A1", en: "to walk",         az: "piyada gəzmək",         pron: "wɔːk",              ex: "I walk every morning.",             exAz: "Hər səhər piyada gəzirəm." },
+  { cat: "hobbies",  level: "A2", en: "fishing",         az: "balıq tutmaq",          pron: "ˈfɪʃɪŋ",            ex: "I like fishing on weekends.",       exAz: "Həftəsonu balıq tutmağı sevirəm." },
+  { cat: "hobbies",  level: "A1", en: "music",           az: "musiqi",                pron: "ˈmjuːzɪk",          ex: "I listen to music in the evening.", exAz: "Axşam musiqi dinləyirəm." },
+  { cat: "hobbies",  level: "A2", en: "chess",           az: "şahmat",                pron: "tʃes",              ex: "I play chess with my friends.",     exAz: "Dostlarımla şahmat oynayıram." },
+  { cat: "hobbies",  level: "A2", en: "to enjoy",        az: "zövq almaq",            pron: "ɪnˈdʒɔɪ",           ex: "I enjoy walking in the park.",      exAz: "Parkda gəzməkdən zövq alıram." },
+  { cat: "hobbies",  level: "A2", en: "to relax",        az: "istirahət etmək",       pron: "rɪˈlæks",           ex: "I relax with a cup of tea.",        exAz: "Bir fincan çayla istirahət edirəm." },
+
+  // =============== NUMBERS & DATES ===============
+  { cat: "numbers",  level: "A1", en: "one",             az: "bir",                   pron: "wʌn",               ex: "I have one wife.",                  exAz: "Bir həyat yoldaşım var." },
+  { cat: "numbers",  level: "A1", en: "two",             az: "iki",                   pron: "tuː",               ex: "I have two children.",              exAz: "İki övladım var." },
+  { cat: "numbers",  level: "A1", en: "ten",             az: "on",                    pron: "ten",               ex: "Ten people work for me.",           exAz: "On nəfər mənim üçün işləyir." },
+  { cat: "numbers",  level: "A1", en: "hundred",         az: "yüz",                   pron: "ˈhʌndrəd",          ex: "One hundred pounds, please.",       exAz: "Yüz funt, zəhmət olmasa." },
+  { cat: "numbers",  level: "A1", en: "today",           az: "bu gün",                pron: "təˈdeɪ",            ex: "Today is a good day.",              exAz: "Bu gün yaxşı gündür." },
+  { cat: "numbers",  level: "A1", en: "tomorrow",        az: "sabah",                 pron: "təˈmɒrəʊ",          ex: "I will call you tomorrow.",         exAz: "Sənə sabah zəng edəcəyəm." },
+  { cat: "numbers",  level: "A1", en: "yesterday",       az: "dünən",                 pron: "ˈjestədeɪ",         ex: "Yesterday was busy.",               exAz: "Dünən qarışıq idi." },
+  { cat: "numbers",  level: "A1", en: "day",             az: "gün",                   pron: "deɪ",               ex: "Every day I study English.",        exAz: "Hər gün ingilis dilini öyrənirəm." },
+  { cat: "numbers",  level: "A1", en: "week",            az: "həftə",                 pron: "wiːk",              ex: "This week is calm.",                exAz: "Bu həftə sakitdir." },
+  { cat: "numbers",  level: "A1", en: "month",           az: "ay",                    pron: "mʌnθ",              ex: "We got married in October.",        exAz: "Biz Oktyabr ayında evləndik." },
+  { cat: "numbers",  level: "A1", en: "year",            az: "il",                    pron: "jɪə",               ex: "I am 55 years old.",                exAz: "Mənim 55 yaşım var." },
+  { cat: "numbers",  level: "A1", en: "October",         az: "Oktyabr",               pron: "ɒkˈtəʊbə",          ex: "Our anniversary is in October.",    exAz: "İldönümümüz Oktyabrdadır." },
+  { cat: "numbers",  level: "A1", en: "June",            az: "İyun",                  pron: "dʒuːn",             ex: "I was born in June.",               exAz: "Mən İyunda doğulmuşam." },
+  { cat: "numbers",  level: "A1", en: "summer",          az: "yay",                   pron: "ˈsʌmə",             ex: "Summer is my favourite season.",    exAz: "Yay sevimli fəslimdir." },
+  { cat: "numbers",  level: "A1", en: "winter",          az: "qış",                   pron: "ˈwɪntə",            ex: "Winter is cold in Baku.",           exAz: "Bakıda qış soyuqdur." },
+
+  // =============== UK ARRIVAL ===============
+  { cat: "uk",       level: "A1", en: "UK",              az: "Böyük Britaniya",       pron: "juː keɪ",           ex: "I want to live in the UK.",         exAz: "Böyük Britaniyada yaşamaq istəyirəm." },
+  { cat: "uk",       level: "A1", en: "England",         az: "İngiltərə",             pron: "ˈɪŋɡlənd",          ex: "England is part of the UK.",        exAz: "İngiltərə Böyük Britaniyanın bir hissəsidir." },
+  { cat: "uk",       level: "A1", en: "London",          az: "London",                pron: "ˈlʌndən",           ex: "My wife lives in London.",          exAz: "Həyat yoldaşım Londonda yaşayır." },
+  { cat: "uk",       level: "A1", en: "British",         az: "britaniyalı",           pron: "ˈbrɪtɪʃ",           ex: "My wife is British.",               exAz: "Həyat yoldaşım britaniyalıdır." },
+  { cat: "uk",       level: "A1", en: "station",         az: "stansiya",              pron: "ˈsteɪʃən",          ex: "I will go to the train station.",   exAz: "Qatar stansiyasına gedəcəyəm." },
+  { cat: "uk",       level: "A1", en: "taxi",            az: "taksi",                 pron: "ˈtæksi",            ex: "I will take a taxi from the airport.", exAz: "Hava limanından taksi tutacağam." },
+  { cat: "uk",       level: "A2", en: "queue",           az: "növbə",                 pron: "kjuː",              ex: "Please wait in the queue.",         exAz: "Zəhmət olmasa, növbədə gözləyin." },
+  { cat: "uk",       level: "A2", en: "customs",         az: "gömrük",                pron: "ˈkʌstəmz",          ex: "I went through customs.",           exAz: "Gömrükdən keçdim." },
+  { cat: "uk",       level: "A2", en: "arrivals",        az: "gəlişlər",              pron: "əˈraɪvəlz",         ex: "I waited at the arrivals gate.",    exAz: "Gəlişlər qapısında gözlədim." },
+  { cat: "uk",       level: "A2", en: "luggage",         az: "yük",                   pron: "ˈlʌɡɪdʒ",           ex: "I have one suitcase of luggage.",   exAz: "Bir çamadan yüküm var." },
+  { cat: "uk",       level: "A1", en: "flight",          az: "uçuş",                  pron: "flaɪt",             ex: "My flight is at 8 in the morning.", exAz: "Uçuşum səhər saat 8-dədir." },
+  { cat: "uk",       level: "A1", en: "to land",         az: "enmək",                 pron: "lænd",              ex: "The plane lands at 11.",            exAz: "Təyyarə saat 11-də enir." },
+
+  // =============== EXTRA FOOD (potatoes!) ===============
+  { cat: "food",     level: "A1", en: "potato",          az: "kartof",                pron: "pəˈteɪtəʊ",         ex: "I love potatoes.",                  exAz: "Mən kartofu çox sevirəm." },
+  { cat: "food",     level: "A1", en: "onion",           az: "soğan",                 pron: "ˈʌnjən",            ex: "I cook with onion.",                exAz: "Soğanla yemək bişirirəm." },
+  { cat: "food",     level: "A1", en: "chicken",         az: "toyuq",                 pron: "ˈtʃɪkɪn",           ex: "Chicken is good for health.",       exAz: "Toyuq sağlamlıq üçün yaxşıdır." },
+  { cat: "food",     level: "A1", en: "fish",            az: "balıq",                 pron: "fɪʃ",               ex: "I sometimes eat fish.",             exAz: "Bəzən balıq yeyirəm." },
+  { cat: "food",     level: "A1", en: "soup",            az: "şorba",                 pron: "suːp",              ex: "I like hot soup in winter.",        exAz: "Qışda isti şorbanı sevirəm." },
+  { cat: "food",     level: "A1", en: "salt",            az: "duz",                   pron: "sɒlt",              ex: "Not too much salt, please.",        exAz: "Çoxlu duz olmasın, zəhmət olmasa." }
 ];
 
 // ---------- SPEAKING QUESTIONS ----------
+// Starters are personalised with Elkhan's real-life answers.
 const SPEAKING_QUESTIONS = [
-  { q: "What is your full name?",          az: "Tam adınız nədir?",                  starter: '"My full name is ..."' },
-  { q: "Where do you live?",               az: "Harada yaşayırsınız?",               starter: '"I live in ..."' },
-  { q: "Tell me about your spouse.",       az: "Həyat yoldaşınız haqqında danışın.", starter: '"My husband\'s/wife\'s name is ... He/She lives in ..."' },
-  { q: "Why are you learning English?",    az: "Niyə ingilis dili öyrənirsiniz?",    starter: '"I am learning English because ..."' },
-  { q: "What do you do every day?",        az: "Hər gün nə edirsiniz?",              starter: '"Every day I ... I also ..."' },
-  { q: "Tell me about your family.",       az: "Ailəniz haqqında danışın.",          starter: '"I have ... in my family. They are ..."' },
-  { q: "How did you meet your spouse?",    az: "Həyat yoldaşınızla necə tanış oldunuz?", starter: '"We met in ... in (year)."' },
-  { q: "When did you get married?",        az: "Nə vaxt evləndiniz?",                starter: '"We got married in (month / year)."' },
-  { q: "What is your job?",                az: "İşiniz nədir?",                      starter: '"I am a ... I work in ..."' },
-  { q: "Do you have children?",            az: "Uşaqlarınız var?",                   starter: '"Yes, I have ..." or "No, I don\'t have children."' },
-  { q: "Where do your parents live?",      az: "Valideynləriniz harada yaşayır?",    starter: '"My parents live in ..."' },
-  { q: "What food do you like?",           az: "Hansı yeməkləri sevirsiniz?",        starter: '"I like ..."' }
+  // Personal information
+  { q: "What is your full name?",          az: "Tam adınız nədir?",                       starter: '"My full name is Elkhan Eminov."' },
+  { q: "How old are you?",                 az: "Neçə yaşınız var?",                       starter: '"I am 55 years old."' },
+  { q: "When were you born?",              az: "Nə vaxt doğulmusunuz?",                   starter: '"I was born on 25 June 1971."' },
+  { q: "Where are you from?",              az: "Haradansınız?",                           starter: '"I am from Azerbaijan."' },
+  { q: "Where do you live?",               az: "Harada yaşayırsınız?",                    starter: '"I live in Baku, Azerbaijan."' },
+  { q: "What is your nationality?",        az: "Milliyyətiniz nədir?",                    starter: '"I am Azerbaijani."' },
+
+  // Education
+  { q: "Where did you study?",             az: "Harada oxumusunuz?",                      starter: '"I studied at the State Oil Academy."' },
+  { q: "Do you have a degree?",            az: "Diplomunuz varmı?",                       starter: '"Yes, I have an honours degree in engineering."' },
+  { q: "What are you good at?",            az: "Nədə yaxşısınız?",                        starter: '"I am very good at maths and physics."' },
+
+  // Work
+  { q: "What do you do?",                  az: "Nə işlə məşğulsunuz?",                    starter: '"I own a wholesale business."' },
+  { q: "What is your job?",                az: "İşiniz nədir?",                           starter: '"I am a businessman. I have my own wholesale company."' },
+  { q: "Did you have another job before?", az: "Əvvəl başqa işiniz var idi?",             starter: '"Yes, I worked as an engineer at the Oil Company of Azerbaijan."' },
+  { q: "How long have you worked there?",  az: "Orada nə qədər işləmisiniz?",             starter: '"I have worked in this business for many years."' },
+
+  // Family
+  { q: "Tell me about your family.",       az: "Ailəniz haqqında danışın.",               starter: '"I am married. I have two grown-up children — a son and a daughter."' },
+  { q: "Tell me about your spouse.",       az: "Həyat yoldaşınız haqqında danışın.",      starter: '"My wife is British and she lives in the UK."' },
+  { q: "How did you meet your spouse?",    az: "Həyat yoldaşınızla necə tanış oldunuz?",  starter: '"We met some years ago."' },
+  { q: "When did you get married?",        az: "Nə vaxt evləndiniz?",                     starter: '"We got married in October."' },
+  { q: "When is your anniversary?",        az: "İldönümünüz nə vaxtdır?",                 starter: '"Our anniversary is in October."' },
+  { q: "Do you have children?",            az: "Uşaqlarınız var?",                        starter: '"Yes, I have two children. Both are married."' },
+  { q: "What does your son do?",           az: "Oğlunuz nə işlə məşğuldur?",              starter: '"My son is a doctor. He lives in a village in Azerbaijan."' },
+  { q: "What does your daughter do?",      az: "Qızınız nə işlə məşğuldur?",              starter: '"My daughter is a housewife. She lives in Moscow."' },
+  { q: "Do you have grandchildren?",       az: "Nəvələriniz var?",                        starter: '"Not yet. We have no grandchildren yet."' },
+  { q: "Do you have brothers or sisters?", az: "Qardaş və ya bacılarınız var?",           starter: '"Yes, I have two brothers and two sisters."' },
+  { q: "Where do your siblings live?",     az: "Qardaş və bacılarınız harada yaşayır?",   starter: '"My brothers live in Baku. My sisters live in a village."' },
+  { q: "Where do your parents live?",      az: "Valideynləriniz harada yaşayır?",         starter: '"My mother is 86 and lives in Azerbaijan. My father passed away 13 years ago."' },
+  { q: "How old is your mother?",          az: "Ananız neçə yaşındadır?",                 starter: '"My mother is 86 years old."' },
+
+  // Daily life
+  { q: "What do you do every day?",        az: "Hər gün nə edirsiniz?",                   starter: '"Every day I work in my business. In the evening I relax at home."' },
+  { q: "What time do you wake up?",        az: "Saat neçədə oyanırsınız?",                starter: '"I wake up at 7 in the morning."' },
+  { q: "What do you do at the weekend?",   az: "Həftəsonu nə edirsiniz?",                 starter: '"At the weekend I rest and see my family."' },
+
+  // Food
+  { q: "What food do you like?",           az: "Hansı yeməkləri sevirsiniz?",             starter: '"I love potatoes. I also like soup and chicken."' },
+  { q: "What did you have for breakfast?", az: "Səhər yeməyinə nə yedik?",                starter: '"This morning I had bread, cheese and tea."' },
+
+  // Hobbies
+  { q: "What are your hobbies?",           az: "Hobbiləriniz nələrdir?",                  starter: '"I enjoy walking and gardening. I sometimes play chess."' },
+  { q: "What do you do to relax?",         az: "İstirahət üçün nə edirsiniz?",            starter: '"I relax with a cup of tea and music."' },
+
+  // UK / Visa interview
+  { q: "Why do you want to come to the UK?", az: "Niyə Böyük Britaniyaya gəlmək istəyirsiniz?", starter: '"I want to live with my wife in the UK."' },
+  { q: "Why are you learning English?",    az: "Niyə ingilis dili öyrənirsiniz?",         starter: '"I am learning English so I can live and speak in the UK."' },
+  { q: "Have you been to the UK before?",  az: "Əvvəl Böyük Britaniyada olmusunuz?",      starter: '"Yes, I have visited a few times." or "No, this will be my first time."' },
+  { q: "How will you travel to the UK?",   az: "Böyük Britaniyaya necə gedəcəksiniz?",    starter: '"I will travel by plane from Baku to London."' },
+  { q: "Where will you live in the UK?",   az: "Böyük Britaniyada harada yaşayacaqsınız?", starter: '"I will live with my wife in her home."' },
+
+  // Health / general
+  { q: "How are you today?",               az: "Bu gün necəsiniz?",                       starter: '"I am fine, thank you."' },
+  { q: "How is your mother?",              az: "Ananız necədir?",                         starter: '"She is well, thank you. She is 86."' },
+
+  // Conversation basics
+  { q: "Can you speak English?",           az: "İngilis dilində danışa bilirsiniz?",      starter: '"A little. I am still learning."' },
+  { q: "Can you repeat that, please?",     az: "Zəhmət olmasa, təkrar edə bilərsiniz?",   starter: '"Sorry, can you repeat that, please?"' }
 ];
 
 // ---------- QUIZ ----------
+// Many of these use Elkhan's own life so practising the quiz also rehearses real answers.
 const QUIZ = [
-  { q: "I ___ from Azerbaijan.",                   opts: ["am", "is", "are", "be"],                                a: 0 },
-  { q: "She ___ a teacher.",                        opts: ["am", "is", "are", "have"],                              a: 1 },
-  { q: "We ___ married for many years.",             opts: ["is", "has", "have been", "are been"],                  a: 2 },
-  { q: "Where ___ you live?",                       opts: ["does", "is", "do", "are"],                              a: 2 },
-  { q: "What is the Azerbaijani word for 'husband'?", opts: ["arvad", "qardaş", "ər", "oğul"],                      a: 2 },
-  { q: "Choose the correct sentence:",              opts: ["He live in London.", "He lives in London.", "He living in London.", "He is live in London."], a: 1 },
-  { q: "'I have two children.' — In Azerbaijani:",  opts: ["Mənim iki uşağım var.", "Mən iki uşaqam.", "İki uşağı varam.", "Uşaq iki var mən."], a: 0 },
-  { q: "How do you answer: 'How are you?'",         opts: ["I am Baku.", "I am fine, thank you.", "Yes, I have.", "My name is Ali."], a: 1 },
-  { q: "What does 'müsahibə' mean in English?",     opts: ["passport", "interview", "appointment", "marriage"],     a: 1 },
-  { q: "Pick the question form:",                   opts: ["You live where?", "Where do you live?", "Where you live?", "Live where you?"], a: 1 },
-  { q: "'I ___ English every day.'",                opts: ["study", "studies", "studying", "am study"],             a: 0 },
-  { q: "'My wife' in Azerbaijani is:",              opts: ["arvadım", "qızım", "bacım", "anam"],                    a: 0 }
+  // Grammar — basics
+  { q: "I ___ from Azerbaijan.",                            opts: ["am", "is", "are", "be"],                                a: 0 },
+  { q: "She ___ a teacher.",                                 opts: ["am", "is", "are", "have"],                              a: 1 },
+  { q: "We ___ married for many years.",                     opts: ["is", "has", "have been", "are been"],                   a: 2 },
+  { q: "Where ___ you live?",                                opts: ["does", "is", "do", "are"],                              a: 2 },
+  { q: "Pick the question form:",                            opts: ["You live where?", "Where do you live?", "Where you live?", "Live where you?"], a: 1 },
+  { q: "'I ___ English every day.'",                         opts: ["study", "studies", "studying", "am study"],             a: 0 },
+  { q: "Choose the correct sentence:",                       opts: ["He live in London.", "He lives in London.", "He living in London.", "He is live in London."], a: 1 },
+
+  // Personalised — Elkhan's life (answer with HIS real answer)
+  { q: "Complete: 'My name is ___ Eminov.'",                 opts: ["Elkhan", "Elnur", "Anar", "Rashad"],                    a: 0 },
+  { q: "Complete: 'I am ___ years old.'",                    opts: ["35", "45", "55", "65"],                                 a: 2 },
+  { q: "Complete: 'I was born on ___ June 1971.'",           opts: ["5", "15", "25", "30"],                                  a: 2 },
+  { q: "Complete: 'I studied at the State ___ Academy.'",    opts: ["Music", "Oil", "Sport", "Medical"],                     a: 1 },
+  { q: "Complete: 'I am very good at ___ and physics.'",     opts: ["English", "music", "maths", "sport"],                   a: 2 },
+  { q: "Complete: 'I worked as an ___.'",                    opts: ["actor", "engineer", "artist", "teacher"],               a: 1 },
+  { q: "Complete: 'I own a ___ business.'",                  opts: ["small shop", "wholesale", "factory", "hotel"],          a: 1 },
+  { q: "My son is a ___.",                                   opts: ["teacher", "driver", "doctor", "farmer"],                a: 2 },
+  { q: "My daughter lives in ___.",                          opts: ["London", "Moscow", "Baku", "Istanbul"],                 a: 1 },
+  { q: "My mother is ___ years old.",                        opts: ["66", "76", "86", "96"],                                 a: 2 },
+  { q: "How many brothers do you have?",                     opts: ["one", "two", "three", "four"],                          a: 1 },
+  { q: "How many sisters do you have?",                      opts: ["one", "two", "three", "four"],                          a: 1 },
+  { q: "Where do your brothers live?",                       opts: ["in a village", "in Baku", "in Moscow", "in London"],    a: 1 },
+  { q: "Where do your sisters live?",                        opts: ["in a village", "in Baku", "in Moscow", "in London"],    a: 0 },
+  { q: "Our anniversary is in ___.",                         opts: ["June", "August", "October", "December"],                a: 2 },
+  { q: "Which food does Elkhan love?",                       opts: ["fish", "potatoes", "rice", "bread"],                    a: 1 },
+  { q: "Do you have grandchildren?",                         opts: ["Yes, two.", "Yes, three.", "Not yet.", "Yes, four."],   a: 2 },
+
+  // Vocabulary meaning (EN ⇄ AZ)
+  { q: "What is the Azerbaijani word for 'husband'?",        opts: ["arvad", "qardaş", "ər", "oğul"],                        a: 2 },
+  { q: "'My wife' in Azerbaijani is:",                       opts: ["arvadım", "qızım", "bacım", "anam"],                    a: 0 },
+  { q: "What does 'müsahibə' mean in English?",              opts: ["passport", "interview", "appointment", "marriage"],     a: 1 },
+  { q: "What does 'həkim' mean in English?",                 opts: ["doctor", "engineer", "teacher", "driver"],              a: 0 },
+  { q: "'Topdansatış' in English is:",                       opts: ["retail", "wholesale", "market", "delivery"],            a: 1 },
+  { q: "'Mühəndis' in English is:",                          opts: ["engineer", "manager", "owner", "officer"],              a: 0 },
+  { q: "'Nəvə' in English is:",                              opts: ["grandchild", "child", "nephew", "cousin"],              a: 0 },
+  { q: "'Kartof' in English is:",                            opts: ["tomato", "carrot", "potato", "onion"],                  a: 2 },
+  { q: "'Yağış' in English is:",                             opts: ["snow", "wind", "rain", "sun"],                          a: 2 },
+  { q: "'Səhər yeməyi' in English is:",                      opts: ["dinner", "lunch", "supper", "breakfast"],               a: 3 },
+
+  // Family relationships
+  { q: "My mother's husband is my ___.",                     opts: ["uncle", "father", "brother", "cousin"],                 a: 1 },
+  { q: "My son's wife is my ___.",                           opts: ["daughter", "daughter-in-law", "sister", "niece"],       a: 1 },
+  { q: "My wife's mother is my ___.",                        opts: ["mother-in-law", "aunt", "grandmother", "sister"],       a: 0 },
+  { q: "My brother's daughter is my ___.",                   opts: ["niece", "cousin", "sister", "daughter"],                a: 0 },
+
+  // Listening / comprehension style — answer based on hearing the sentence
+  { q: "'I have two grown-up children.' How many children?", opts: ["one", "two", "three", "four"],                          a: 1 },
+  { q: "'My daughter lives in Moscow.' Where?",              opts: ["London", "Baku", "Moscow", "Paris"],                    a: 2 },
+  { q: "'I worked at an oil company.' What job?",            opts: ["doctor", "engineer at an oil company", "teacher", "driver"], a: 1 },
+
+  // Conversation
+  { q: "How do you answer: 'How are you?'",                  opts: ["I am Baku.", "I am fine, thank you.", "Yes, I have.", "My name is Ali."], a: 1 },
+  { q: "How do you ask someone to repeat?",                  opts: ["Repeat!", "Again now.", "Can you repeat that, please?", "Say one more."], a: 2 },
+  { q: "How do you say goodbye politely?",                   opts: ["Out!", "Goodbye, see you soon.", "Finish.", "Stop now."], a: 1 },
+
+  // UK / visa
+  { q: "Why do you want to come to the UK?",                 opts: ["To work in oil.", "To live with my wife.", "For holiday.", "To study at school."], a: 1 },
+  { q: "Where does your wife live?",                         opts: ["Baku", "Moscow", "the UK", "a village"],                a: 2 }
 ];
 
 /* =========================================================
@@ -2218,6 +2458,50 @@ let flashIndex = 0;
 let difficultSet = new Set(JSON.parse(localStorage.getItem("difficult_cards") || "[]"));
 function cardId(c) { return c.cat + ":" + c.en; }
 function isDifficult(c) { return difficultSet.has(cardId(c)); }
+
+/* ---- Spaced repetition (lightweight) ----
+   Track how many times each card has been viewed, so the "Next" button can
+   gently re-surface difficult and rarely-seen cards. */
+let cardViews = (() => {
+  try { return JSON.parse(localStorage.getItem("card_views") || "{}"); }
+  catch (_) { return {}; }
+})();
+function bumpCardView(c) {
+  if (!c || c.cat === "—") return;
+  const id = cardId(c);
+  cardViews[id] = (cardViews[id] || 0) + 1;
+  try { localStorage.setItem("card_views", JSON.stringify(cardViews)); } catch (_) {}
+}
+// Counter to ensure variety: every 4th Next picks a difficult card,
+// every 7th picks a least-seen card. Otherwise advance normally.
+let nextStep = 0;
+function pickNextIndex() {
+  nextStep++;
+  const n = flashList.length;
+  if (n <= 1) return flashIndex;
+
+  // 1) Every 4th step, prefer a difficult card from the current list
+  if (nextStep % 4 === 0) {
+    const difficultIdx = flashList
+      .map((c, i) => isDifficult(c) ? i : -1)
+      .filter(i => i >= 0 && i !== flashIndex);
+    if (difficultIdx.length) {
+      return difficultIdx[Math.floor(Math.random() * difficultIdx.length)];
+    }
+  }
+  // 2) Every 7th step, jump to the least-seen card to revisit older words
+  if (nextStep % 7 === 0) {
+    let leastIdx = -1, leastViews = Infinity;
+    for (let i = 0; i < n; i++) {
+      if (i === flashIndex) continue;
+      const v = cardViews[cardId(flashList[i])] || 0;
+      if (v < leastViews) { leastViews = v; leastIdx = i; }
+    }
+    if (leastIdx >= 0) return leastIdx;
+  }
+  // 3) Default — advance sequentially
+  return (flashIndex + 1) % n;
+}
 function toggleDifficult(c) {
   const id = cardId(c);
   if (difficultSet.has(id)) difficultSet.delete(id);
@@ -2269,6 +2553,7 @@ function renderFlash() {
   flashCard.classList.remove("flipped");
   flashIndexEl.textContent = flashIndex + 1;
   flashTotalEl.textContent = flashList.length;
+  bumpCardView(c);
 }
 
 flashCard.addEventListener("click", () => flashCard.classList.toggle("flipped"));
@@ -2306,7 +2591,7 @@ flashListenSentenceBtn.addEventListener("click", (e) => {
 
 document.getElementById("flashNext").addEventListener("click", () => {
   stopSpeech();
-  flashIndex = (flashIndex + 1) % flashList.length;
+  flashIndex = pickNextIndex();
   renderFlash();
 });
 document.getElementById("flashPrev").addEventListener("click", () => {
