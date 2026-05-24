@@ -102,6 +102,30 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
   #streakWordBox { font-size: 32px; padding: 22px 16px; }
 }
 
+/* =========================================================
+   SPEAKING GAME
+   ========================================================= */
+.sg-rate {
+  min-width: 140px;
+  font-weight: 600;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.sg-rate:hover { filter: brightness(1.15); }
+.sg-rate.selected { filter: brightness(1.2); transform: scale(1.04); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+#sgAnswerInput:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#sgModelArea { animation: slideUp 0.3s ease; }
+body.large-text #sgQuestion { font-size: 30px; }
+body.large-text #sgModelAnswer { font-size: 20px; }
+body.large-text #sgAnswerInput { font-size: 18px; }
+
 /* Accessibility — visible focus states for keyboard / older users */
 :focus-visible {
   outline: 3px solid var(--accent);
@@ -1106,6 +1130,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="progress"><span data-i18n="tab_progress">✅ Progress</span></button>
     <button class="tab" data-tab="notes"><span data-i18n="tab_notes">📝 Notes</span></button>
     <button class="tab" data-tab="streak"><span data-i18n="tab_streak">⚡ Word Streak</span></button>
+    <button class="tab" data-tab="speakgame"><span data-i18n="tab_speakgame">🎤 Speaking Game</span></button>
   </nav>
 
   <!-- =========================================================
@@ -1503,6 +1528,127 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       SPEAKING GAME — Q&A Duel
+       ========================================================= -->
+  <section class="panel" id="panel-speakgame">
+    <div class="card">
+      <h2 data-i18n="sg_title">🎤 Speaking Game</h2>
+      <p class="subtitle" data-i18n="sg_subtitle">Answer real visa-style questions. Speak aloud or type — then see the model answer.</p>
+
+      <!-- Category filter + score bar -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;">
+        <select id="sgCategory" style="background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);border-radius:12px;padding:10px 14px;font-size:14px;cursor:pointer;flex:1;min-width:180px;">
+          <option value="all"       data-i18n="sg_cat_all">All questions</option>
+          <option value="personal"  data-i18n="sg_cat_personal">🪪 Personal info</option>
+          <option value="family"    data-i18n="sg_cat_family">👨‍👩‍👧 Family</option>
+          <option value="work"      data-i18n="sg_cat_work">💼 Work &amp; education</option>
+          <option value="daily"     data-i18n="sg_cat_daily">☀️ Daily life</option>
+          <option value="visa"      data-i18n="sg_cat_visa">🛂 Visa interview</option>
+        </select>
+        <div style="display:flex;gap:16px;align-items:center;font-size:14px;color:var(--text-dim);">
+          <span>✅ <strong id="sgDoneCount">0</strong></span>
+          <span>📋 <strong id="sgTotalCount">0</strong></span>
+        </div>
+      </div>
+      <div class="bar" style="margin-bottom:20px;"><span id="sgProgressBar"></span></div>
+
+      <!-- QUESTION CARD -->
+      <div id="sgQuestionCard" style="
+        background:linear-gradient(135deg,rgba(124,156,255,0.12),rgba(176,138,255,0.12));
+        border:2px solid var(--border-strong);
+        border-radius:var(--radius);
+        padding:28px 22px;
+        margin-bottom:20px;
+        text-align:center;
+      ">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:10px;">
+          <span data-i18n="sg_question_label">Question</span> <span id="sgQIndex">1</span> / <span id="sgQTotal">0</span>
+        </div>
+        <div id="sgQuestion" style="font-size:26px;font-weight:700;line-height:1.4;margin-bottom:10px;">—</div>
+        <div id="sgQuestionAz" style="font-size:15px;color:var(--text-dim);font-style:italic;">—</div>
+
+        <!-- Listen button -->
+        <button class="btn small" id="sgListenBtn" style="margin-top:14px;" data-i18n="sg_listen">🔊 Hear the question</button>
+      </div>
+
+      <!-- ANSWER AREA — shown before reveal -->
+      <div id="sgAnswerArea">
+        <p style="font-size:14px;color:var(--text-dim);margin-bottom:10px;" data-i18n="sg_instruction">Speak your answer aloud, then type it below (or just skip to see the model answer):</p>
+        <textarea id="sgAnswerInput" rows="3" style="
+          width:100%;
+          background:var(--bg-2);
+          color:var(--text);
+          border:1px solid var(--border-strong);
+          border-radius:12px;
+          padding:14px;
+          font-size:16px;
+          font-family:inherit;
+          resize:vertical;
+          margin-bottom:14px;
+        " data-i18n-ph="sg_answer_placeholder" placeholder="Type your answer here..."></textarea>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn primary" id="sgRevealBtn" data-i18n="sg_reveal">👁 See model answer</button>
+          <button class="btn" id="sgSpeakBtn" data-i18n="sg_speak_btn">🎤 I spoke it — show answer</button>
+          <button class="btn small ghost" id="sgSkipBtn" data-i18n="sg_skip">Skip →</button>
+        </div>
+      </div>
+
+      <!-- MODEL ANSWER — shown after reveal -->
+      <div id="sgModelArea" style="display:none;">
+        <div style="
+          background:rgba(110,231,185,0.10);
+          border:2px solid rgba(110,231,185,0.35);
+          border-radius:var(--radius);
+          padding:20px 22px;
+          margin-bottom:16px;
+        ">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--success);margin-bottom:8px;" data-i18n="sg_model_label">✅ Model answer</div>
+          <div id="sgModelAnswer" style="font-size:18px;font-weight:600;line-height:1.6;"></div>
+          <button class="btn small" id="sgListenAnswerBtn" style="margin-top:12px;" data-i18n="sg_listen_answer">🔊 Hear the answer</button>
+        </div>
+
+        <!-- Your answer shown back for comparison -->
+        <div id="sgYourAnswerBox" style="
+          background:var(--bg-2);
+          border:1px solid var(--border);
+          border-radius:var(--radius);
+          padding:16px 18px;
+          margin-bottom:16px;
+          display:none;
+        ">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;" data-i18n="sg_your_answer_label">Your answer</div>
+          <div id="sgYourAnswerText" style="font-size:15px;color:var(--text-dim);line-height:1.6;"></div>
+        </div>
+
+        <!-- Self-rating -->
+        <p style="font-size:14px;color:var(--text-dim);margin-bottom:10px;text-align:center;" data-i18n="sg_rating_prompt">How did you do?</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+          <button class="btn sg-rate" data-rating="great" style="background:rgba(110,231,185,0.15);border-color:var(--success);color:var(--success);" data-i18n="sg_rate_great">💪 Said it well</button>
+          <button class="btn sg-rate" data-rating="ok"    style="background:rgba(255,196,136,0.15);border-color:var(--warn);color:var(--warn);"   data-i18n="sg_rate_ok">🤔 Getting there</button>
+          <button class="btn sg-rate" data-rating="hard"  style="background:rgba(255,151,165,0.15);border-color:var(--danger);color:var(--danger);" data-i18n="sg_rate_hard">😅 Need more practice</button>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn primary" id="sgNextBtn" data-i18n="sg_next">Next Question →</button>
+          <button class="btn small" id="sgRestartBtn" data-i18n="sg_restart">↻ Restart</button>
+        </div>
+      </div>
+
+      <!-- COMPLETION screen -->
+      <div id="sgComplete" style="display:none;text-align:center;padding:20px 0;">
+        <div style="font-size:56px;margin-bottom:12px;">🎉</div>
+        <div style="font-size:22px;font-weight:700;margin-bottom:8px;" data-i18n="sg_complete_title">Round complete!</div>
+        <div id="sgCompleteStats" style="color:var(--text-dim);font-size:15px;margin-bottom:24px;"></div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn primary" id="sgPlayAgainBtn" data-i18n="sg_play_again">▶ Play Again</button>
+          <button class="btn" id="sgHardOnlyBtn" data-i18n="sg_hard_only">😅 Practice hard ones only</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -1532,6 +1678,7 @@ const I18N = {
     tab_progress: "✅ Progress",
     tab_notes: "📝 Notes",
     tab_streak: "⚡ Word Streak",
+    tab_speakgame: "🎤 Speaking Game",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_plan_label: "Daily plan",
@@ -1671,6 +1818,34 @@ const I18N = {
     streak_result_keep_going: "📚 Keep practising!",
     streak_result_sub: "You got {s} correct out of {t} words.",
     streak_missed_title: "Words to review:",
+
+    sg_title: "🎤 Speaking Game",
+    sg_subtitle: "Answer real visa-style questions. Speak aloud or type — then see the model answer.",
+    sg_cat_all: "All questions",
+    sg_cat_personal: "🪪 Personal info",
+    sg_cat_family: "👨‍👩‍👧 Family",
+    sg_cat_work: "💼 Work & education",
+    sg_cat_daily: "☀️ Daily life",
+    sg_cat_visa: "🛂 Visa interview",
+    sg_question_label: "Question",
+    sg_listen: "🔊 Hear the question",
+    sg_instruction: "Speak your answer aloud, then type it below (or skip to see the model answer):",
+    sg_answer_placeholder: "Type your answer here...",
+    sg_reveal: "👁 See model answer",
+    sg_speak_btn: "🎤 I spoke it — show answer",
+    sg_skip: "Skip →",
+    sg_model_label: "✅ Model answer",
+    sg_listen_answer: "🔊 Hear the answer",
+    sg_your_answer_label: "Your answer",
+    sg_rating_prompt: "How did you do?",
+    sg_rate_great: "💪 Said it well",
+    sg_rate_ok: "🤔 Getting there",
+    sg_rate_hard: "😅 Need more practice",
+    sg_next: "Next Question →",
+    sg_restart: "↻ Restart",
+    sg_complete_title: "Round complete!",
+    sg_play_again: "▶ Play Again",
+    sg_hard_only: "😅 Practise hard ones only",
   },
 
   az: {
@@ -1689,6 +1864,7 @@ const I18N = {
     tab_progress: "✅ İrəliləyiş",
     tab_notes: "📝 Qeydlər",
     tab_streak: "⚡ Söz Sürüşməsi",
+    tab_speakgame: "🎤 Danışıq Oyunu",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_plan_label: "Gündəlik plan",
@@ -1827,7 +2003,35 @@ const I18N = {
     streak_result_good: "👍 Yaxşı iş!",
     streak_result_keep_going: "📚 Məşq etməyə davam et!",
     streak_result_sub: "{t} sözdən {s}-ni doğru etdin.",
-    streak_missed_title: "Baxılacaq sözlər:"
+    streak_missed_title: "Baxılacaq sözlər:",
+
+    sg_title: "🎤 Danışıq Oyunu",
+    sg_subtitle: "Real viza tipli suallara cavab ver. Ucadan danış və ya yaz — sonra nümunə cavabı gör.",
+    sg_cat_all: "Bütün suallar",
+    sg_cat_personal: "🪪 Şəxsi məlumat",
+    sg_cat_family: "👨‍👩‍👧 Ailə",
+    sg_cat_work: "💼 İş və təhsil",
+    sg_cat_daily: "☀️ Gündəlik həyat",
+    sg_cat_visa: "🛂 Viza müsahibəsi",
+    sg_question_label: "Sual",
+    sg_listen: "🔊 Sualı dinlə",
+    sg_instruction: "Cavabını ucadan de, sonra aşağıya yaz (və ya nümunəni görmək üçün keç):",
+    sg_answer_placeholder: "Cavabını bura yaz...",
+    sg_reveal: "👁 Nümunə cavabı gör",
+    sg_speak_btn: "🎤 Dedim — cavabı göstər",
+    sg_skip: "Keç →",
+    sg_model_label: "✅ Nümunə cavab",
+    sg_listen_answer: "🔊 Cavabı dinlə",
+    sg_your_answer_label: "Sənin cavabın",
+    sg_rating_prompt: "Necə getdi?",
+    sg_rate_great: "💪 Yaxşı dedim",
+    sg_rate_ok: "🤔 Yaxınlaşıram",
+    sg_rate_hard: "😅 Daha çox məşq lazımdır",
+    sg_next: "Növbəti sual →",
+    sg_restart: "↻ Yenidən başla",
+    sg_complete_title: "Tur tamamlandı!",
+    sg_play_again: "▶ Yenidən oyna",
+    sg_hard_only: "😅 Yalnız çətin olanları məşq et",
   }
 };
 
@@ -2996,6 +3200,216 @@ applyLanguage(LANG);
   btn.addEventListener("click", () => {
     apply(!document.body.classList.contains("large-text"));
   });
+})();
+
+/* =========================================================
+   SPEAKING GAME — Q&A Duel
+   ========================================================= */
+(function speakingGame() {
+
+  // Extend SPEAKING_QUESTIONS with category tags
+  // Categories: personal, family, work, daily, visa
+  const SQ = [
+    // personal
+    { cat:"personal", q:"What is your full name?",          az:"Tam adınız nədir?",                        model:"My full name is Elkhan Eminov." },
+    { cat:"personal", q:"How old are you?",                 az:"Neçə yaşınız var?",                        model:"I am 55 years old." },
+    { cat:"personal", q:"When were you born?",              az:"Nə vaxt doğulmusunuz?",                    model:"I was born on 25 June 1971, in Azerbaijan." },
+    { cat:"personal", q:"Where are you from?",              az:"Haradansınız?",                            model:"I am from Azerbaijan. I live in Baku." },
+    { cat:"personal", q:"What is your nationality?",        az:"Milliyyətiniz nədir?",                     model:"I am Azerbaijani." },
+    { cat:"personal", q:"What language do you speak?",      az:"Hansı dildə danışırsınız?",                model:"I speak Azerbaijani. I am learning English." },
+    { cat:"personal", q:"Can you speak English?",           az:"İngilis dilində danışa bilirsiniz?",        model:"A little. I am still learning, but I practise every day." },
+    // family
+    { cat:"family",   q:"Are you married?",                 az:"Evlisiniz?",                               model:"Yes, I am married. My wife is British and she lives in the UK." },
+    { cat:"family",   q:"Tell me about your family.",       az:"Ailəniz haqqında danışın.",                model:"I am married. I have two grown-up children — a son and a daughter. My son is a doctor and my daughter is a housewife." },
+    { cat:"family",   q:"How did you meet your wife?",      az:"Həyat yoldaşınızla necə tanış oldunuz?",   model:"We met some years ago. We fell in love and decided to get married." },
+    { cat:"family",   q:"When did you get married?",        az:"Nə vaxt evləndiniz?",                      model:"We got married in October." },
+    { cat:"family",   q:"Do you have children?",            az:"Uşaqlarınız var?",                         model:"Yes, I have two children. Both are married." },
+    { cat:"family",   q:"What does your son do?",           az:"Oğlunuz nə işlə məşğuldur?",               model:"My son is a doctor. He lives in a village in Azerbaijan." },
+    { cat:"family",   q:"What does your daughter do?",      az:"Qızınız nə işlə məşğuldur?",               model:"My daughter is a housewife. She lives in Moscow." },
+    { cat:"family",   q:"Do you have grandchildren?",       az:"Nəvələriniz var?",                         model:"Not yet. We do not have grandchildren yet." },
+    { cat:"family",   q:"Do you have brothers or sisters?", az:"Qardaş və ya bacılarınız var?",            model:"Yes, I have two brothers and two sisters. My brothers live in Baku. My sisters live in a village." },
+    { cat:"family",   q:"How old is your mother?",          az:"Ananız neçə yaşındadır?",                  model:"My mother is 86 years old. She lives in Azerbaijan." },
+    // work
+    { cat:"work",     q:"What do you do?",                  az:"Nə işlə məşğulsunuz?",                     model:"I own a wholesale business in Azerbaijan." },
+    { cat:"work",     q:"What is your job?",                az:"İşiniz nədir?",                            model:"I am a businessman. I have my own wholesale company." },
+    { cat:"work",     q:"Did you have another job before?", az:"Əvvəl başqa işiniz var idi?",              model:"Yes. Before my business, I worked as an engineer at the Oil Company of Azerbaijan." },
+    { cat:"work",     q:"Where did you study?",             az:"Harada oxumusunuz?",                       model:"I studied at the State Oil Academy in Azerbaijan." },
+    { cat:"work",     q:"Do you have a degree?",            az:"Diplomunuz varmı?",                        model:"Yes, I have an honours degree in engineering." },
+    { cat:"work",     q:"What are you good at?",            az:"Nədə yaxşısınız?",                         model:"I am very good at maths and physics. I also have good business skills." },
+    // daily
+    { cat:"daily",    q:"What do you do every day?",        az:"Hər gün nə edirsiniz?",                    model:"Every day I work in my business. In the evening I relax at home with tea." },
+    { cat:"daily",    q:"What time do you wake up?",        az:"Saat neçədə oyanırsınız?",                 model:"I usually wake up at 7 in the morning." },
+    { cat:"daily",    q:"What do you do at the weekend?",   az:"Həftəsonu nə edirsiniz?",                  model:"At the weekend I rest and spend time with my family." },
+    { cat:"daily",    q:"What food do you like?",           az:"Hansı yeməkləri sevirsiniz?",              model:"I love potatoes. I also like soup and chicken." },
+    { cat:"daily",    q:"What are your hobbies?",           az:"Hobbiləriniz nələrdir?",                   model:"I enjoy walking and gardening. I sometimes play chess and listen to music." },
+    { cat:"daily",    q:"How are you today?",               az:"Bu gün necəsiniz?",                        model:"I am very well, thank you. I am happy to be here." },
+    // visa
+    { cat:"visa",     q:"Why do you want to come to the UK?",   az:"Niyə Böyük Britaniyaya gəlmək istəyirsiniz?",    model:"I want to live with my wife in the UK. We are married and I want us to be together." },
+    { cat:"visa",     q:"Why are you learning English?",         az:"Niyə ingilis dili öyrənirsiniz?",              model:"I am learning English so I can live, communicate, and settle in the UK." },
+    { cat:"visa",     q:"Have you been to the UK before?",       az:"Əvvəl Böyük Britaniyada olmusunuz?",           model:"Yes, I have visited the UK a few times to see my wife." },
+    { cat:"visa",     q:"Where will you live in the UK?",        az:"Böyük Britaniyada harada yaşayacaqsınız?",     model:"I will live with my wife in her home in the UK." },
+    { cat:"visa",     q:"How will you travel to the UK?",        az:"Böyük Britaniyaya necə gedəcəksiniz?",         model:"I will travel by plane from Baku to London." },
+    { cat:"visa",     q:"Do you have family in the UK?",         az:"Böyük Britaniyada ailəviz var?",               model:"Yes, my wife lives in the UK. She is British." },
+    { cat:"visa",     q:"Can you repeat that, please?",          az:"Zəhmət olmasa, təkrar edə bilərsiniz?",        model:"Sorry, could you repeat that please? I want to understand correctly." },
+  ];
+
+  const STORAGE_KEY = "speakgame_ratings";
+
+  // State
+  let queue       = [];
+  let qIndex      = 0;
+  let ratings     = {};   // questionIndex → 'great'|'ok'|'hard'
+  let currentCat  = "all";
+  let hardOnlyMode = false;
+
+  // DOM
+  const catEl        = document.getElementById("sgCategory");
+  const doneCountEl  = document.getElementById("sgDoneCount");
+  const totalCountEl = document.getElementById("sgTotalCount");
+  const progressEl   = document.getElementById("sgProgressBar");
+  const qIndexEl     = document.getElementById("sgQIndex");
+  const qTotalEl     = document.getElementById("sgQTotal");
+  const questionEl   = document.getElementById("sgQuestion");
+  const questionAzEl = document.getElementById("sgQuestionAz");
+  const answerAreaEl = document.getElementById("sgAnswerArea");
+  const answerInputEl= document.getElementById("sgAnswerInput");
+  const modelAreaEl  = document.getElementById("sgModelArea");
+  const modelAnswerEl= document.getElementById("sgModelAnswer");
+  const yourAnswerBoxEl  = document.getElementById("sgYourAnswerBox");
+  const yourAnswerTextEl = document.getElementById("sgYourAnswerText");
+  const completeEl   = document.getElementById("sgComplete");
+  const completeStatsEl  = document.getElementById("sgCompleteStats");
+
+  function loadRatings() {
+    try { ratings = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch { ratings = {}; }
+  }
+  function saveRatings() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ratings)); } catch {}
+  }
+
+  function buildQueue(hardOnly) {
+    let pool = SQ.filter(q => currentCat === "all" || q.cat === currentCat);
+    if (hardOnly) {
+      pool = pool.filter((_, i) => ratings[i] === "hard");
+      if (!pool.length) pool = SQ.filter(q => currentCat === "all" || q.cat === currentCat);
+    }
+    // Shuffle
+    queue = pool.map((q, i) => ({ ...q, origIndex: SQ.indexOf(q) }))
+                .sort(() => Math.random() - 0.5);
+    qIndex = 0;
+  }
+
+  function updateProgress() {
+    const done = qIndex;
+    const total = queue.length;
+    doneCountEl.textContent  = done;
+    totalCountEl.textContent = total;
+    progressEl.style.width   = total ? (done / total * 100) + "%" : "0%";
+    qIndexEl.textContent     = Math.min(done + 1, total);
+    qTotalEl.textContent     = total;
+  }
+
+  function showQuestion() {
+    if (qIndex >= queue.length) { showComplete(); return; }
+    const item = queue[qIndex];
+    questionEl.textContent   = item.q;
+    questionAzEl.textContent = item.az;
+    answerInputEl.value      = "";
+    answerAreaEl.style.display  = "block";
+    modelAreaEl.style.display   = "none";
+    yourAnswerBoxEl.style.display = "none";
+    completeEl.style.display    = "none";
+    // Reset rate buttons
+    document.querySelectorAll(".sg-rate").forEach(b => b.classList.remove("selected"));
+    updateProgress();
+  }
+
+  function revealAnswer(showTyped) {
+    const item = queue[qIndex];
+    modelAnswerEl.textContent = item.model;
+    answerAreaEl.style.display  = "none";
+    modelAreaEl.style.display   = "block";
+
+    if (showTyped && answerInputEl.value.trim()) {
+      yourAnswerTextEl.textContent   = answerInputEl.value.trim();
+      yourAnswerBoxEl.style.display  = "block";
+    } else {
+      yourAnswerBoxEl.style.display  = "none";
+    }
+  }
+
+  function showComplete() {
+    answerAreaEl.style.display = "none";
+    modelAreaEl.style.display  = "none";
+    completeEl.style.display   = "block";
+
+    const hardCount = queue.filter(q => ratings[q.origIndex] === "hard").length;
+    const greatCount = queue.filter(q => ratings[q.origIndex] === "great").length;
+    completeStatsEl.textContent =
+      `💪 ${greatCount} answered well · 😅 ${hardCount} need more practice`;
+    updateProgress();
+  }
+
+  // Wiring
+  catEl.addEventListener("change", () => {
+    currentCat = catEl.value;
+    hardOnlyMode = false;
+    loadRatings();
+    buildQueue(false);
+    showQuestion();
+  });
+
+  document.getElementById("sgListenBtn").addEventListener("click", (e) => {
+    if (qIndex < queue.length) speakText(queue[qIndex].q, { btn: e.currentTarget });
+  });
+  document.getElementById("sgListenAnswerBtn").addEventListener("click", (e) => {
+    if (qIndex < queue.length) speakText(queue[qIndex].model, { btn: e.currentTarget });
+  });
+
+  document.getElementById("sgRevealBtn").addEventListener("click", () => revealAnswer(true));
+  document.getElementById("sgSpeakBtn").addEventListener("click",  () => revealAnswer(false));
+  document.getElementById("sgSkipBtn").addEventListener("click", () => {
+    qIndex++;
+    updateProgress();
+    showQuestion();
+  });
+
+  document.querySelectorAll(".sg-rate").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".sg-rate").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      const rating = btn.dataset.rating;
+      if (qIndex < queue.length) {
+        ratings[queue[qIndex].origIndex] = rating;
+        saveRatings();
+      }
+    });
+  });
+
+  document.getElementById("sgNextBtn").addEventListener("click", () => {
+    qIndex++;
+    showQuestion();
+  });
+  document.getElementById("sgRestartBtn").addEventListener("click", () => {
+    hardOnlyMode = false;
+    buildQueue(false);
+    showQuestion();
+  });
+  document.getElementById("sgPlayAgainBtn").addEventListener("click", () => {
+    hardOnlyMode = false;
+    buildQueue(false);
+    showQuestion();
+  });
+  document.getElementById("sgHardOnlyBtn").addEventListener("click", () => {
+    hardOnlyMode = true;
+    buildQueue(true);
+    showQuestion();
+  });
+
+  // Init
+  loadRatings();
+  buildQueue(false);
+  showQuestion();
 })();
 
 /* =========================================================
