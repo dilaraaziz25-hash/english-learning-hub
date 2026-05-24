@@ -1469,7 +1469,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
         <div class="bar" style="margin-bottom:24px;height:10px;"><span id="streakTimerBar" style="width:100%;background:linear-gradient(90deg,var(--success),var(--accent));transition:width 1s linear;"></span></div>
 
         <!-- The word to translate -->
-        <div id="streakWordBox" style="
+        <div id="streakWord" style="
           background:linear-gradient(135deg,rgba(124,156,255,0.15),rgba(176,138,255,0.15));
           border:2px solid var(--border-strong);
           border-radius:var(--radius);
@@ -1481,7 +1481,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           min-height:100px;
           display:flex;align-items:center;justify-content:center;
           animation:wordPop 0.25s ease;
-        " id="streakWord">—</div>
+        ">—</div>
 
         <!-- 4 answer options -->
         <div id="streakOptions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto;"></div>
@@ -1494,7 +1494,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
         <div id="streakResultSub" style="color:var(--text-dim);font-size:15px;margin-bottom:24px;"></div>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
           <button class="btn primary" id="streakPlayAgain" data-i18n="streak_play_again">▶ Play Again</button>
-          <button class="btn" id="streakReviewMissed" id="streakReviewMissed" data-i18n="streak_review_missed" style="display:none;">📋 Review Missed Words</button>
+          <button class="btn" id="streakReviewMissed" data-i18n="streak_review_missed" style="display:none;">📋 Review Missed Words</button>
         </div>
         <!-- Missed words list -->
         <div id="streakMissedList" style="display:none;margin-top:24px;text-align:left;max-width:480px;margin-left:auto;margin-right:auto;"></div>
@@ -1654,7 +1654,7 @@ const I18N = {
     notes_placeholder: "e.g. neighbour = qonşu\nappointment = görüş\n...",
     notes_saved: "💾 Saved to your browser only (localStorage).",
 
-    footer: '💛 Made with love for your UK spouse visa journey. Practise a little every day — you\'re doing great.<br>⚠️ Always check the official <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK guidance</a> for the latest English language requirements. This site does not guarantee visa success.',
+    footer: '❤️ Created with love by your life, Dilara ❤️<br>💛 Practise a little every day — I believe in you.<br>⚠️ Always check the official <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK guidance</a> for the latest English language requirements. This site does not guarantee visa success.',
 
     streak_game_title: "⚡ Word Streak",
     streak_game_subtitle: "60 seconds. Translate as many words as you can. Beat your best score!",
@@ -1811,7 +1811,7 @@ const I18N = {
     notes_placeholder: "məs. neighbour = qonşu\nappointment = görüş\n...",
     notes_saved: "💾 Yalnız brauzerində yadda saxlanır (localStorage).",
 
-    footer: '💛 Böyük Britaniya həyat yoldaşı vizası yolun üçün sevgi ilə hazırlanıb. Hər gün bir az məşq et — sən əla iş görürsən.<br>⚠️ Ən son ingilis dili tələbləri üçün həmişə rəsmi <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK təlimatına</a> bax. Bu sayt viza uğurunu zəmanət vermir.',
+    footer: '❤️ Həyatın Dilara tərəfindən sevgi ilə yaradılıb ❤️<br>💛 Hər gün bir az məşq et — sənə inanıram.<br>⚠️ Ən son ingilis dili tələbləri üçün həmişə rəsmi <a href="https://www.gov.uk/english-language" target="_blank" rel="noopener">GOV.UK təlimatına</a> bax. Bu sayt viza uğurunu zəmanət vermir.',
 
     streak_game_title: "⚡ Söz Sürüşməsi",
     streak_game_subtitle: "60 saniyə. Bacardığın qədər söz tərcümə et. Ən yaxşı nəticəni keç!",
