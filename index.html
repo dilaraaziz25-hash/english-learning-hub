@@ -2745,20 +2745,16 @@ function speakText(text, opts) {
       opts.btn.classList.add("speaking");
     }
 
-    u.onend = clearSpeakingState;
-    u.onerror = (e) => {
-      // iOS sometimes fires 'interrupted' error when a previous utterance was cancelled —
-      // this is harmless, only clear state for real errors.
-      if (e.error !== "interrupted") clearSpeakingState();
-      else clearSpeakingState();
-    };
+    u.onend = () => { clearTimeout(safetyTimer); clearSpeakingState(); };
+    u.onerror = (e) => { clearTimeout(safetyTimer); clearSpeakingState(); };
 
     synth.speak(u);
 
-    // iOS Safari bug: utterance can get stuck in 'speaking' state without ever firing.
-    // If still "speaking" after text_length * rate * 1500ms + 3s buffer, force clear.
-    const timeoutMs = Math.max(3000, (text.length / Math.max(rate, 0.3)) * 80 + 3000);
-    setTimeout(() => {
+    // iOS Safari bug: utterance can get stuck without firing onend.
+    const wordCount = text.trim().split(/\s+/).length;
+    const estSeconds = (wordCount / (150 * Math.max(rate, 0.4))) * 60;
+    const timeoutMs = Math.max(15000, estSeconds * 1000 + 8000);
+    const safetyTimer = setTimeout(() => {
       if (synth.speaking) { try { synth.cancel(); } catch (_) {} clearSpeakingState(); }
     }, timeoutMs);
   };
