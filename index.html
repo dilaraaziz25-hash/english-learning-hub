@@ -343,29 +343,29 @@ button, select, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
    LARGE TEXT MODE — toggled by .large-text on <body>
    Boosts everything roughly +15-25% for the visually impaired.
    ========================================================= */
-body.large-text { font-size: 19px; }
-body.large-text .brand h1 { font-size: 24px; }
-body.large-text .brand p { font-size: 15px; }
-body.large-text .tab { font-size: 16px; padding: 14px 18px; min-height: 50px; }
-body.large-text .btn { font-size: 17px; padding: 14px 20px; min-height: 50px; }
-body.large-text .btn.small { font-size: 15px; padding: 10px 16px; min-height: 42px; }
+body.large-text { font-size: 21px; }
+body.large-text .brand h1 { font-size: 26px; }
+body.large-text .brand p { font-size: 17px; }
+body.large-text .tab { font-size: 18px; padding: 14px 18px; min-height: 50px; }
+body.large-text .btn { font-size: 19px; padding: 14px 20px; min-height: 50px; }
+body.large-text .btn.small { font-size: 17px; padding: 10px 16px; min-height: 42px; }
 
 /* Voice settings */
-body.large-text .voice-panel summary { font-size: 17px; }
-body.large-text .voice-row label { font-size: 16px; }
-body.large-text .voice-row select { font-size: 17px; padding: 14px 16px; min-height: 50px; }
-body.large-text .speed-btn { font-size: 16px; padding: 12px 16px; min-height: 46px; }
-body.large-text .voice-hint { font-size: 15px; }
+body.large-text .voice-panel summary { font-size: 19px; }
+body.large-text .voice-row label { font-size: 18px; }
+body.large-text .voice-row select { font-size: 19px; padding: 14px 16px; min-height: 50px; }
+body.large-text .speed-btn { font-size: 18px; padding: 12px 16px; min-height: 46px; }
+body.large-text .voice-hint { font-size: 17px; }
 
 /* Cards */
-body.large-text .card h2 { font-size: 22px; }
-body.large-text .card .subtitle { font-size: 16px; }
-body.large-text .stat .value { font-size: 30px; }
-body.large-text .stat .label { font-size: 14px; }
-body.large-text .stat .hint { font-size: 14px; }
-body.large-text .plan-list li { font-size: 17px; padding: 16px 18px; }
-body.large-text .plan-list .time { font-size: 14px; padding: 6px 12px; }
-body.large-text .encourage { font-size: 16px; }
+body.large-text .card h2 { font-size: 24px; }
+body.large-text .card .subtitle { font-size: 18px; }
+body.large-text .stat .value { font-size: 32px; }
+body.large-text .stat .label { font-size: 16px; }
+body.large-text .stat .hint { font-size: 16px; }
+body.large-text .plan-list li { font-size: 19px; padding: 16px 18px; }
+body.large-text .plan-list .time { font-size: 16px; padding: 6px 12px; }
+body.large-text .encourage { font-size: 18px; }
 
 /* Flashcards — the centrepiece for older learners */
 body.large-text .flash { min-height: 540px; }
@@ -1110,6 +1110,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
         <button class="btn primary" id="voiceTest" data-i18n="voice_test">🔊 Test pronunciation</button>
         <button class="btn" id="voicePause" data-i18n="voice_pause">⏸ Pause</button>
         <button class="btn" id="voiceStop" data-i18n="voice_stop">⏹ Stop</button>
+        <button class="btn small" id="voiceRefresh" title="Reload voice list after installing new voices">🔄 Refresh voices</button>
       </div>
       <div class="voice-hint" data-i18n="voice_hint">
         Slower speed is best for learning. Settings are saved automatically.
@@ -1168,6 +1169,21 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
       <div class="encourage" data-i18n-html="encourage_html">
         💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.
       </div>
+
+      <!-- Name pronunciation tip -->
+      <div style="
+        margin-top:16px;
+        background:linear-gradient(135deg,rgba(124,156,255,0.10),rgba(176,138,255,0.10));
+        border:1.5px solid var(--border-strong);
+        border-radius:var(--radius);
+        padding:16px 18px;
+      ">
+        <div style="font-weight:700;font-size:15px;margin-bottom:8px;">💬 <span data-i18n="name_tip_title">How to say your name in English</span></div>
+        <div style="font-size:15px;line-height:1.7;color:var(--text);">
+          <span data-i18n-html="name_tip_body">Your name <strong>Elxan</strong> is often mispronounced in English. British people may say <em>"Elk-san"</em> — but the correct pronunciation is closer to <strong>"El-khan"</strong> (like "khan" in Genghis Khan).<br><br>
+          You can say: <em>"My name is Elxan — it's pronounced El-khan."</em> 🗣️</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1196,6 +1212,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <option value="numbers"    data-i18n="cat_numbers">🔢 Numbers &amp; dates</option>
           <option value="uk"         data-i18n="cat_uk">🇬🇧 UK arrival</option>
           <option value="visa"       data-i18n="cat_visa">🛂 Visa / Interview</option>
+          <option value="colours"    data-i18n="cat_colours">🎨 Colours</option>
           <option value="difficult"  data-i18n="cat_difficult">⭐ My difficult cards</option>
         </select>
         <button class="btn small" id="flashShuffle" data-i18n="shuffle">🔀 Shuffle</button>
@@ -1224,7 +1241,6 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
 
             <div class="flash-actions" onclick="event.stopPropagation()">
               <button class="pill-btn" id="flashRepeatSlow" aria-label="Repeat slowly">🐢 <span data-i18n="repeat_slow">Repeat slowly</span></button>
-              <button class="pill-btn" id="flashListenSentence" aria-label="Listen to sentence">💬 <span data-i18n="listen_sentence">Listen to sentence</span></button>
             </div>
 
             <div class="flash-hint" data-i18n="flip_hint">Click to flip ↻</div>
@@ -1308,6 +1324,32 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
         </table>
         <div class="az-note"><strong>Azərbaycanca:</strong> "Where do you live?" = "Sən harada yaşayırsan?". İngiliscədə sual sözü ("where, what, how") cümlənin əvvəlində gəlir.</div>
       </div>
+
+      <!-- Cambridge free exercises -->
+      <div class="grammar-card" style="background:linear-gradient(135deg,rgba(124,156,255,0.08),rgba(176,138,255,0.08));border:1.5px solid var(--border-strong);">
+        <h3>🌐 Free Practice — Cambridge English</h3>
+        <p style="color:var(--text-dim);font-size:14px;margin:0 0 14px;">These are free exercises from Cambridge English — one of the most trusted names in English learning. Perfect for A1/A2.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="https://www.cambridgeenglish.org/learning-english/free-resources/write-and-improve/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--text);transition:border-color 0.15s;">
+            <span style="font-size:24px;">✍️</span>
+            <div><div style="font-weight:700;font-size:15px;">Write & Improve</div><div style="font-size:13px;color:var(--text-dim);">Type a sentence and get instant feedback from Cambridge AI</div></div>
+          </a>
+          <a href="https://www.cambridgeenglish.org/learning-english/activities-for-learners/?skill=grammar&level=a1" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--text);transition:border-color 0.15s;">
+            <span style="font-size:24px;">📝</span>
+            <div><div style="font-weight:700;font-size:15px;">A1 Grammar Exercises</div><div style="font-size:13px;color:var(--text-dim);">Free online activities: to be, have got, question words and more</div></div>
+          </a>
+          <a href="https://www.cambridgeenglish.org/learning-english/activities-for-learners/?skill=grammar&level=a2" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--text);transition:border-color 0.15s;">
+            <span style="font-size:24px;">📗</span>
+            <div><div style="font-weight:700;font-size:15px;">A2 Grammar Exercises</div><div style="font-size:13px;color:var(--text-dim);">Present simple, past simple, adjectives, prepositions</div></div>
+          </a>
+          <a href="https://learnenglish.britishcouncil.org/grammar/a1-a2-grammar" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--text);transition:border-color 0.15s;">
+            <span style="font-size:24px;">🇬🇧</span>
+            <div><div style="font-weight:700;font-size:15px;">British Council A1–A2 Grammar</div><div style="font-size:13px;color:var(--text-dim);">Clear grammar explanations with free interactive exercises</div></div>
+          </a>
+        </div>
+        <div class="az-note" style="margin-top:14px;"><strong>Məsləhət:</strong> Hər gün 1 məşq et — 5 dəqiqə kifayətdir. Kiçik, ardıcıl addımlar böyük nəticə verir.</div>
+      </div>
+
     </div>
   </section>
 
@@ -1327,6 +1369,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
           <button class="btn primary" id="speakNew" data-i18n="new_question">🎲 New Question</button>
           <button class="btn" id="speakPlay" data-i18n="read_aloud">🔊 Read Aloud</button>
+          <button class="btn" id="speakSlow" data-i18n="repeat_slow">🐢 Repeat slowly</button>
         </div>
 
         <div class="speak-starter" id="speakStarter">
@@ -1605,6 +1648,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
         ">
           <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--success);margin-bottom:8px;" data-i18n="sg_model_label">✅ Model answer</div>
           <div id="sgModelAnswer" style="font-size:18px;font-weight:600;line-height:1.6;"></div>
+          <div id="sgModelAnswerAz" style="font-size:14px;color:var(--text-dim);font-style:italic;margin-top:8px;line-height:1.5;"></div>
           <button class="btn small" id="sgListenAnswerBtn" style="margin-top:12px;" data-i18n="sg_listen_answer">🔊 Hear the answer</button>
         </div>
 
@@ -1681,6 +1725,7 @@ const I18N = {
     tab_speakgame: "🎤 Speaking Game",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
+    stat_focus_label: "Today's focus",
     stat_plan_label: "Daily plan",
     stat_plan_value: "15 minutes ⏱️",
     stat_plan_hint: "Short, simple, every day",
@@ -1695,6 +1740,8 @@ const I18N = {
     plan_item4: "Watch a short BBC / British Council clip 🎧",
     plan_item5: "Take a quick quiz 🧠",
     encourage_html: "💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.",
+    name_tip_title: "How to say your name in English",
+    name_tip_body: "Your name <strong>Elxan</strong> is often mispronounced in English. British people may say <em>\"Elk-san\"</em> — but the correct pronunciation is closer to <strong>\"El-khan\"</strong> (like \"khan\" in Genghis Khan).<br><br>You can say: <em>\"My name is Elxan — it's pronounced El-khan.\"</em> 🗣️",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -1734,7 +1781,7 @@ const I18N = {
     cat_numbers: "🔢 Numbers & dates",
     cat_uk: "🇬🇧 UK arrival",
     cat_visa: "🛂 Visa / Interview",
-    cat_difficult: "⭐ My difficult cards",
+    cat_colours: "🎨 Colours",
     shuffle: "🔀 Shuffle",
     random: "🎲 Random",
     flip_hint: "Click to flip ↻",
@@ -1867,6 +1914,7 @@ const I18N = {
     tab_speakgame: "🎤 Danışıq Oyunu",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
+    stat_focus_label: "Bugünkü mövzu",
     stat_plan_label: "Gündəlik plan",
     stat_plan_value: "15 dəqiqə ⏱️",
     stat_plan_hint: "Qısa, sadə, hər gün",
@@ -1881,6 +1929,8 @@ const I18N = {
     plan_item4: "BBC / British Council qısa videosuna bax 🎧",
     plan_item5: "Qısa test həll et 🧠",
     encourage_html: "💛 <strong>Sən bacarırsan.</strong> Hər gün məşq etdikcə daha yaxınlaşırsan. Səhvlərdən qorxma — səhvlər öyrənməyin bir hissəsidir.",
+    name_tip_title: "İngiliscədə adını necə söyləmək olar",
+    name_tip_body: "Sənin adın <strong>Elxan</strong> ingiliscədə tez-tez yanlış tələffüz edilir. Britaniyalılar <em>\"Elk-san\"</em> deyə bilər — amma düzgün tələffüz <strong>\"El-xan\"</strong> kimidir (Çingiz xandakı \"xan\" kimi).<br><br>Deyə bilərsən: <em>\"Mənim adım Elxandır — El-xan kimi tələffüz olunur.\"</em> 🗣️",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -1920,6 +1970,7 @@ const I18N = {
     cat_numbers: "🔢 Rəqəmlər və tarixlər",
     cat_uk: "🇬🇧 Böyük Britaniyaya gəliş",
     cat_visa: "🛂 Viza / Müsahibə",
+    cat_colours: "🎨 Rənglər",
     cat_difficult: "⭐ Çətin kartlarım",
     shuffle: "🔀 Qarışdır",
     random: "🎲 Təsadüfi",
@@ -2293,7 +2344,24 @@ const VOCAB = [
   { cat: "food",     level: "A1", en: "chicken",         az: "toyuq",                 pron: "ˈtʃɪkɪn",           ex: "Chicken is good for health.",       exAz: "Toyuq sağlamlıq üçün yaxşıdır." },
   { cat: "food",     level: "A1", en: "fish",            az: "balıq",                 pron: "fɪʃ",               ex: "I sometimes eat fish.",             exAz: "Bəzən balıq yeyirəm." },
   { cat: "food",     level: "A1", en: "soup",            az: "şorba",                 pron: "suːp",              ex: "I like hot soup in winter.",        exAz: "Qışda isti şorbanı sevirəm." },
-  { cat: "food",     level: "A1", en: "salt",            az: "duz",                   pron: "sɒlt",              ex: "Not too much salt, please.",        exAz: "Çoxlu duz olmasın, zəhmət olmasa." }
+  { cat: "food",     level: "A1", en: "salt",            az: "duz",                   pron: "sɒlt",              ex: "Not too much salt, please.",        exAz: "Çoxlu duz olmasın, zəhmət olmasa." },
+
+  // =============== COLOURS ===============
+  { cat: "colours",  level: "A1", en: "red",             az: "qırmızı",               pron: "red",               ex: "The apple is red.",                 exAz: "Alma qırmızıdır." },
+  { cat: "colours",  level: "A1", en: "blue",            az: "mavi",                  pron: "bluː",              ex: "The sky is blue.",                  exAz: "Göy üzü mavidir." },
+  { cat: "colours",  level: "A1", en: "green",           az: "yaşıl",                 pron: "ɡriːn",             ex: "The grass is green.",               exAz: "Ot yaşıldır." },
+  { cat: "colours",  level: "A1", en: "yellow",          az: "sarı",                  pron: "ˈjeləʊ",            ex: "The sun is yellow.",                exAz: "Günəş sarıdır." },
+  { cat: "colours",  level: "A1", en: "black",           az: "qara",                  pron: "blæk",              ex: "My bag is black.",                  exAz: "Çantam qaradır." },
+  { cat: "colours",  level: "A1", en: "white",           az: "ağ",                    pron: "waɪt",              ex: "Snow is white.",                    exAz: "Qar ağdır." },
+  { cat: "colours",  level: "A1", en: "orange",          az: "narıncı",               pron: "ˈɒrɪndʒ",           ex: "The orange is orange.",             exAz: "Portağal narıncıdır." },
+  { cat: "colours",  level: "A1", en: "pink",            az: "çəhrayı",               pron: "pɪŋk",              ex: "She likes pink flowers.",           exAz: "O, çəhrayı çiçəkləri sevir." },
+  { cat: "colours",  level: "A1", en: "purple",          az: "bənövşəyi",             pron: "ˈpɜːpl",            ex: "The bag is purple.",                exAz: "Çanta bənövşəyidir." },
+  { cat: "colours",  level: "A1", en: "brown",           az: "qəhvəyi",               pron: "braʊn",             ex: "My hair is brown.",                 exAz: "Saçlarım qəhvəyidir." },
+  { cat: "colours",  level: "A1", en: "grey",            az: "boz",                   pron: "ɡreɪ",              ex: "The sky is grey today.",            exAz: "Bu gün göy üzü bozdur." },
+  { cat: "colours",  level: "A2", en: "dark blue",       az: "tünd mavi",             pron: "dɑːk bluː",         ex: "He wears a dark blue suit.",        exAz: "O, tünd mavi kostyum geyinir." },
+  { cat: "colours",  level: "A2", en: "light green",     az: "açıq yaşıl",            pron: "laɪt ɡriːn",        ex: "The walls are light green.",        exAz: "Divarlar açıq yaşıldır." },
+  { cat: "colours",  level: "A2", en: "dark",            az: "tünd",                  pron: "dɑːk",              ex: "I prefer dark colours.",            exAz: "Tünd rəngləri üstün tuturam." },
+  { cat: "colours",  level: "A2", en: "light",           az: "açıq",                  pron: "laɪt",              ex: "She wears light colours.",          exAz: "O, açıq rənglər geyinir." }
 ];
 
 // ---------- SPEAKING QUESTIONS ----------
@@ -2482,12 +2550,12 @@ const SPEECH_SUPPORTED = ("speechSynthesis" in window) && ("SpeechSynthesisUtter
 
 // Speed presets — older beginner learners benefit from slower pacing.
 const SPEED_PRESETS = {
-  "very-slow": 0.65,
-  "slow":      0.78, // default
-  "normal":    0.95
+  "very-slow": 0.5,
+  "slow":      0.72, // default
+  "normal":    1.0
 };
-// Slightly slower rate when user explicitly hits "Repeat slowly"
-const REPEAT_SLOW_RATE = 0.6;
+// Repeat slowly uses the very-slow preset rate
+const REPEAT_SLOW_RATE = SPEED_PRESETS["very-slow"]; // 0.5
 
 // Saved settings (voice name + speed)
 const VOICE_SETTINGS = (() => {
@@ -2507,43 +2575,50 @@ let voicesReady = false;
  * so we explicitly prefer "Google UK English", "Google US English",
  * and any name containing "Enhanced" / "Natural" before falling back.
  */
+
+// Shared blocklist — covers macOS novelty voices, non-natural named voices
+const VOICE_BLOCKLIST = /grandpa|grandma|eddy|flo\b|reed\b|shelley|superstar|whisper|zarvox|trinoids|cellos|bells|organ|hysterical|bad news|boing|bubbles|deranged|good news|jester|junior|kathy|pipe organ|princess|ralph|robo|rocko|sandy|tessen|wobble|albert|bahh|bruce|fred|vicki|victoria|moira|veena|nora|sinji|ting-ting|rishi|milena|damayanti/i;
+
 function getBestEnglishVoice(preferredName) {
   if (!SPEECH_SUPPORTED) return null;
   const voices = window.speechSynthesis.getVoices() || [];
   if (!voices.length) return null;
 
-  // 1. Exact user-chosen voice wins, if it still exists
+  // 1. Exact user-chosen voice wins, if it still exists and isn't blocklisted
   if (preferredName) {
-    const exact = voices.find(v => v.name === preferredName);
+    const exact = voices.find(v => v.name === preferredName && !VOICE_BLOCKLIST.test(v.name));
     if (exact) return exact;
   }
 
-  const enVoices = voices.filter(v => /^en(-|_|$)/i.test(v.lang));
-  const pool = enVoices.length ? enVoices : voices;
+  const enVoices = voices.filter(v => /^en(-|_|$)/i.test(v.lang) && !VOICE_BLOCKLIST.test(v.name));
+  const pool = enVoices.length ? enVoices : voices.filter(v => !VOICE_BLOCKLIST.test(v.name));
 
-  // 2. Preferred high-quality name patterns (in priority order)
+  // 2. Preferred high-quality British voices first, then other good ones
   const namePriority = [
     /Google UK English Female/i,
     /Google UK English Male/i,
     /Google UK English/i,
-    /Google US English/i,
-    /Microsoft .* (Libby|Sonia|Aria|Jenny|Ryan|Natasha).*Online/i, // Edge "Natural" voices
+    /Microsoft.*Sonia.*Online/i,
+    /Microsoft.*Libby.*Online/i,
+    /Microsoft.*Ryan.*Online/i,
+    /Microsoft.*(Libby|Sonia|Ryan|Oliver|Mia).*Online/i,
     /English.*United Kingdom/i,
-    /English.*United States/i,
     /English UK/i,
-    /English US/i,
+    /Enhanced.*en[-_]GB/i,
+    /Natural.*en[-_]GB/i,
+    /Google US English/i,
+    /Microsoft .* (Aria|Jenny|Natasha).*Online/i,
     /Enhanced/i,
     /Natural/i,
     /Premium/i,
     /Neural/i,
-    /Daniel|Kate|Serena|Samantha|Libby|Sonia|Karen/i
   ];
   for (const pat of namePriority) {
     const found = pool.find(v => pat.test(v.name));
     if (found) return found;
   }
 
-  // 3. Prefer en-GB, then en-US, then any English
+  // 3. Prefer en-GB, then en-US, then any English — all already filtered
   const gb = pool.find(v => /en[-_]GB/i.test(v.lang));
   if (gb) return gb;
   const us = pool.find(v => /en[-_]US/i.test(v.lang));
@@ -2640,11 +2715,12 @@ function speakText(text, opts) {
     clearSpeakingState();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "en-GB";
-    u.rate = rate;
     u.pitch = 1;
     u.volume = 1;
+    // Set voice first, then rate — some browsers reset rate when voice is assigned
     const v = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
     if (v) { u.voice = v; u.lang = v.lang || "en-GB"; }
+    u.rate = rate; // Set AFTER voice to prevent Safari/iOS reset bug
 
     currentUtter = u;
     if (opts.btn) {
@@ -2703,35 +2779,51 @@ function populateVoiceSelect() {
   if (!sel) return;
   sel.innerHTML = "";
 
-  // Auto option (let the app pick the best voice)
+  // Auto option
   const auto = document.createElement("option");
   auto.value = "";
-  auto.textContent = "Auto (best available)";
+  auto.textContent = "Auto (best British voice)";
   sel.appendChild(auto);
 
-  // Show English voices first; group GB / US / other separately.
-  const groups = [
-    { label: "British English (en-GB)", filter: v => /en[-_]GB/i.test(v.lang) },
-    { label: "American English (en-US)", filter: v => /en[-_]US/i.test(v.lang) },
-    { label: "Other English",            filter: v => /^en/i.test(v.lang) && !/en[-_](GB|US)/i.test(v.lang) }
-  ];
+  // Only show British English voices — filter using shared blocklist
+  const gbVoices = englishVoices.filter(v =>
+    /en[-_]GB/i.test(v.lang) && !VOICE_BLOCKLIST.test(v.name)
+  );
 
-  groups.forEach(g => {
-    const matching = englishVoices.filter(g.filter);
-    if (!matching.length) return;
+  // Also allow any voice with "UK" or "British" in name
+  const britishByName = englishVoices.filter(v =>
+    !gbVoices.includes(v) &&
+    /(british|united kingdom|\bUK\b)/i.test(v.name) &&
+    !VOICE_BLOCKLIST.test(v.name)
+  );
+
+  const allBritish = [...gbVoices, ...britishByName];
+
+  if (allBritish.length) {
     const og = document.createElement("optgroup");
-    og.label = g.label;
-    matching.forEach(v => {
+    og.label = "British English";
+    allBritish.forEach(v => {
       const o = document.createElement("option");
       o.value = v.name;
-      o.textContent = v.name + (/(google|natural|enhanced|premium|neural|online)/i.test(v.name) ? " ★" : "");
+      // Mark high-quality voices
+      const isHighQuality = /(google|natural|enhanced|premium|neural|online|libby|sonia|ryan|oliver|aria)/i.test(v.name);
+      o.textContent = v.name + (isHighQuality ? " ★" : "");
       og.appendChild(o);
     });
     sel.appendChild(og);
-  });
+  }
 
-  // Reflect the saved choice in the dropdown
+  // Reflect the saved choice
   sel.value = VOICE_SETTINGS.voiceName || "";
+
+  // Show how many voices were found
+  const voiceStatus = document.getElementById("voicePanelStatus");
+  if (voiceStatus) {
+    const allBritishCount = [...gbVoices, ...britishByName].length;
+    voiceStatus.textContent = allBritishCount
+      ? `${allBritishCount} British voice${allBritishCount > 1 ? "s" : ""} available`
+      : "No British voices found — try reloading";
+  }
 }
 
 /* ---- Voice settings UI wiring ---- */
@@ -2772,6 +2864,20 @@ function populateVoiceSelect() {
   if (pauseBtn) pauseBtn.addEventListener("click", pauseSpeech);
   const stopBtn = document.getElementById("voiceStop");
   if (stopBtn) stopBtn.addEventListener("click", stopSpeech);
+
+  const refreshBtn = document.getElementById("voiceRefresh");
+  if (refreshBtn) refreshBtn.addEventListener("click", () => {
+    refreshBtn.textContent = "⏳ Refreshing…";
+    refreshBtn.disabled = true;
+    // Force browser to re-query voices
+    window.speechSynthesis.cancel();
+    setTimeout(() => {
+      refreshVoices();
+      populateVoiceSelect();
+      refreshBtn.textContent = "🔄 Refresh voices";
+      refreshBtn.disabled = false;
+    }, 800);
+  });
 
   if (!SPEECH_SUPPORTED) {
     setVoiceStatus(t("voice_status_unsupported"));
@@ -2909,8 +3015,7 @@ function renderFlash() {
   // Hide the sentence-speaker + repeat row when there's no sentence (e.g. empty state)
   const hasSentence = !!c.ex;
   if (flashSpeakExample) flashSpeakExample.style.display = hasSentence ? "" : "none";
-  if (flashListenSentenceBtn) flashListenSentenceBtn.style.display = hasSentence ? "" : "none";
-  if (flashRepeatSlowBtn)     flashRepeatSlowBtn.style.display     = (c.en && c.cat !== "—") ? "" : "none";
+  if (flashRepeatSlowBtn) flashRepeatSlowBtn.style.display = (c.en && c.cat !== "—") ? "" : "none";
 
   flashCard.classList.remove("flipped");
   flashIndexEl.textContent = flashIndex + 1;
@@ -2924,7 +3029,6 @@ flashCard.addEventListener("click", () => flashCard.classList.toggle("flipped"))
 const flashSpeakWord         = document.getElementById("flashSpeakWord");
 const flashSpeakExample      = document.getElementById("flashSpeakExample");
 const flashRepeatSlowBtn     = document.getElementById("flashRepeatSlow");
-const flashListenSentenceBtn = document.getElementById("flashListenSentence");
 
 flashSpeakWord.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -2940,15 +3044,8 @@ flashRepeatSlowBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   const c = flashList[flashIndex];
   if (!c || c.cat === "—") return;
-  // Repeat slowly speaks the word at the slower preset, prioritising the sentence
-  // if we just played one, otherwise the word.
   const text = (lastSpoken && lastSpoken.text) ? lastSpoken.text : c.en;
   speakText(text, { rate: REPEAT_SLOW_RATE, btn: flashRepeatSlowBtn });
-});
-flashListenSentenceBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const c = flashList[flashIndex];
-  if (c && c.ex) speakText(c.ex, { btn: flashListenSentenceBtn });
 });
 
 document.getElementById("flashNext").addEventListener("click", () => {
@@ -3009,11 +3106,12 @@ function newSpeakingQuestion() {
 }
 document.getElementById("speakNew").addEventListener("click", newSpeakingQuestion);
 document.getElementById("speakPlay").addEventListener("click", (e) => {
-  if (!SPEECH_SUPPORTED) {
-    alert(t("voice_status_unsupported"));
-    return;
-  }
+  if (!SPEECH_SUPPORTED) { alert(t("voice_status_unsupported")); return; }
   speakText(speakQ.textContent, { btn: e.currentTarget });
+});
+document.getElementById("speakSlow").addEventListener("click", (e) => {
+  if (!SPEECH_SUPPORTED) { alert(t("voice_status_unsupported")); return; }
+  speakText(speakQ.textContent, { rate: REPEAT_SLOW_RATE, btn: e.currentTarget });
 });
 
 /* =========================================================
@@ -3211,46 +3309,46 @@ applyLanguage(LANG);
   // Categories: personal, family, work, daily, visa
   const SQ = [
     // personal
-    { cat:"personal", q:"What is your full name?",          az:"Tam adınız nədir?",                        model:"My full name is Elkhan Eminov." },
-    { cat:"personal", q:"How old are you?",                 az:"Neçə yaşınız var?",                        model:"I am 55 years old." },
-    { cat:"personal", q:"When were you born?",              az:"Nə vaxt doğulmusunuz?",                    model:"I was born on 25 June 1971, in Azerbaijan." },
-    { cat:"personal", q:"Where are you from?",              az:"Haradansınız?",                            model:"I am from Azerbaijan. I live in Baku." },
-    { cat:"personal", q:"What is your nationality?",        az:"Milliyyətiniz nədir?",                     model:"I am Azerbaijani." },
-    { cat:"personal", q:"What language do you speak?",      az:"Hansı dildə danışırsınız?",                model:"I speak Azerbaijani. I am learning English." },
-    { cat:"personal", q:"Can you speak English?",           az:"İngilis dilində danışa bilirsiniz?",        model:"A little. I am still learning, but I practise every day." },
+    { cat:"personal", q:"What is your full name?",          az:"Tam adınız nədir?",                        model:"My full name is Elkhan Eminov.",                                                            modelAz:"Tam adım Elxan Eminov." },
+    { cat:"personal", q:"How old are you?",                 az:"Neçə yaşınız var?",                        model:"I am 55 years old.",                                                                       modelAz:"Mən 55 yaşındayam." },
+    { cat:"personal", q:"When were you born?",              az:"Nə vaxt doğulmusunuz?",                    model:"I was born on 25 June 1971, in Azerbaijan.",                                               modelAz:"Mən 25 iyun 1971-ci ildə Azərbaycanda doğulmuşam." },
+    { cat:"personal", q:"Where are you from?",              az:"Haradansınız?",                            model:"I am from Azerbaijan. I live in Baku.",                                                    modelAz:"Mən Azərbaycanlıyam. Bakıda yaşayıram." },
+    { cat:"personal", q:"What is your nationality?",        az:"Milliyyətiniz nədir?",                     model:"I am Azerbaijani.",                                                                        modelAz:"Mən Azərbaycanlıyam." },
+    { cat:"personal", q:"What language do you speak?",      az:"Hansı dildə danışırsınız?",                model:"I speak Azerbaijani. I am learning English.",                                              modelAz:"Azərbaycan dilində danışıram. İngilis dili öyrənirəm." },
+    { cat:"personal", q:"Can you speak English?",           az:"İngilis dilində danışa bilirsiniz?",        model:"A little. I am still learning, but I practise every day.",                                 modelAz:"Bir az. Hələ öyrənirəm, amma hər gün məşq edirəm." },
     // family
-    { cat:"family",   q:"Are you married?",                 az:"Evlisiniz?",                               model:"Yes, I am married. My wife is British and she lives in the UK." },
-    { cat:"family",   q:"Tell me about your family.",       az:"Ailəniz haqqında danışın.",                model:"I am married. I have two grown-up children — a son and a daughter. My son is a doctor and my daughter is a housewife." },
-    { cat:"family",   q:"How did you meet your wife?",      az:"Həyat yoldaşınızla necə tanış oldunuz?",   model:"We met some years ago. We fell in love and decided to get married." },
-    { cat:"family",   q:"When did you get married?",        az:"Nə vaxt evləndiniz?",                      model:"We got married in October." },
-    { cat:"family",   q:"Do you have children?",            az:"Uşaqlarınız var?",                         model:"Yes, I have two children. Both are married." },
-    { cat:"family",   q:"What does your son do?",           az:"Oğlunuz nə işlə məşğuldur?",               model:"My son is a doctor. He lives in a village in Azerbaijan." },
-    { cat:"family",   q:"What does your daughter do?",      az:"Qızınız nə işlə məşğuldur?",               model:"My daughter is a housewife. She lives in Moscow." },
-    { cat:"family",   q:"Do you have grandchildren?",       az:"Nəvələriniz var?",                         model:"Not yet. We do not have grandchildren yet." },
-    { cat:"family",   q:"Do you have brothers or sisters?", az:"Qardaş və ya bacılarınız var?",            model:"Yes, I have two brothers and two sisters. My brothers live in Baku. My sisters live in a village." },
-    { cat:"family",   q:"How old is your mother?",          az:"Ananız neçə yaşındadır?",                  model:"My mother is 86 years old. She lives in Azerbaijan." },
+    { cat:"family",   q:"Are you married?",                 az:"Evlisiniz?",                               model:"Yes, I am married. My wife is British and she lives in the UK.",                          modelAz:"Bəli, evliyəm. Həyat yoldaşım britaniyalıdır və Böyük Britaniyada yaşayır." },
+    { cat:"family",   q:"Tell me about your family.",       az:"Ailəniz haqqında danışın.",                model:"I am married. I have two grown-up children — a son and a daughter. My son is a doctor and my daughter is a housewife.", modelAz:"Evliyəm. İki böyük uşağım var — oğlum və qızım. Oğlum həkimdir, qızım ev xanımıdır." },
+    { cat:"family",   q:"How did you meet your wife?",      az:"Həyat yoldaşınızla necə tanış oldunuz?",   model:"We met some years ago. We fell in love and decided to get married.",                       modelAz:"Bir neçə il əvvəl tanış olduq. Bir-birimizə aşiq olduq və evlənmək qərarına gəldik." },
+    { cat:"family",   q:"When did you get married?",        az:"Nə vaxt evləndiniz?",                      model:"We got married in October.",                                                               modelAz:"Oktyabr ayında evləndik." },
+    { cat:"family",   q:"Do you have children?",            az:"Uşaqlarınız var?",                         model:"Yes, I have two children. Both are married.",                                              modelAz:"Bəli, iki uşağım var. İkisi də evlidir." },
+    { cat:"family",   q:"What does your son do?",           az:"Oğlunuz nə işlə məşğuldur?",               model:"My son is a doctor. He lives in a village in Azerbaijan.",                                 modelAz:"Oğlum həkimdir. Azərbaycanda bir kənddə yaşayır." },
+    { cat:"family",   q:"What does your daughter do?",      az:"Qızınız nə işlə məşğuldur?",               model:"My daughter is a housewife. She lives in Moscow.",                                         modelAz:"Qızım ev xanımıdır. Moskvada yaşayır." },
+    { cat:"family",   q:"Do you have grandchildren?",       az:"Nəvələriniz var?",                         model:"Not yet. We do not have grandchildren yet.",                                               modelAz:"Hələ yox. Hələ nəvəmiz yoxdur." },
+    { cat:"family",   q:"Do you have brothers or sisters?", az:"Qardaş və ya bacılarınız var?",            model:"Yes, I have two brothers and two sisters. My brothers live in Baku. My sisters live in a village.", modelAz:"Bəli, iki qardaşım və iki bacım var. Qardaşlarım Bakıda, bacılarım kənddə yaşayır." },
+    { cat:"family",   q:"How old is your mother?",          az:"Ananız neçə yaşındadır?",                  model:"My mother is 86 years old. She lives in Azerbaijan.",                                      modelAz:"Anam 86 yaşındadır. Azərbaycanda yaşayır." },
     // work
-    { cat:"work",     q:"What do you do?",                  az:"Nə işlə məşğulsunuz?",                     model:"I own a wholesale business in Azerbaijan." },
-    { cat:"work",     q:"What is your job?",                az:"İşiniz nədir?",                            model:"I am a businessman. I have my own wholesale company." },
-    { cat:"work",     q:"Did you have another job before?", az:"Əvvəl başqa işiniz var idi?",              model:"Yes. Before my business, I worked as an engineer at the Oil Company of Azerbaijan." },
-    { cat:"work",     q:"Where did you study?",             az:"Harada oxumusunuz?",                       model:"I studied at the State Oil Academy in Azerbaijan." },
-    { cat:"work",     q:"Do you have a degree?",            az:"Diplomunuz varmı?",                        model:"Yes, I have an honours degree in engineering." },
-    { cat:"work",     q:"What are you good at?",            az:"Nədə yaxşısınız?",                         model:"I am very good at maths and physics. I also have good business skills." },
+    { cat:"work",     q:"What do you do?",                  az:"Nə işlə məşğulsunuz?",                     model:"I own a wholesale business in Azerbaijan.",                                               modelAz:"Azərbaycanda topdan ticarət işim var." },
+    { cat:"work",     q:"What is your job?",                az:"İşiniz nədir?",                            model:"I am a businessman. I have my own wholesale company.",                                    modelAz:"Mən iş adamıyam. Öz topdan şirkətim var." },
+    { cat:"work",     q:"Did you have another job before?", az:"Əvvəl başqa işiniz var idi?",              model:"Yes. Before my business, I worked as an engineer at the Oil Company of Azerbaijan.",      modelAz:"Bəli. Öz işimdən əvvəl Azərbaycan Neft Şirkətində mühəndis işləmişəm." },
+    { cat:"work",     q:"Where did you study?",             az:"Harada oxumusunuz?",                       model:"I studied at the State Oil Academy in Azerbaijan.",                                       modelAz:"Azərbaycanda Dövlət Neft Akademiyasında oxumuşam." },
+    { cat:"work",     q:"Do you have a degree?",            az:"Diplomunuz varmı?",                        model:"Yes, I have an honours degree in engineering.",                                           modelAz:"Bəli, mühəndislik üzrə fərqlənmə diplomum var." },
+    { cat:"work",     q:"What are you good at?",            az:"Nədə yaxşısınız?",                         model:"I am very good at maths and physics. I also have good business skills.",                  modelAz:"Riyaziyyat və fizikada çox yaxşıyam. Həmçinin yaxşı biznes bacarıqlarım var." },
     // daily
-    { cat:"daily",    q:"What do you do every day?",        az:"Hər gün nə edirsiniz?",                    model:"Every day I work in my business. In the evening I relax at home with tea." },
-    { cat:"daily",    q:"What time do you wake up?",        az:"Saat neçədə oyanırsınız?",                 model:"I usually wake up at 7 in the morning." },
-    { cat:"daily",    q:"What do you do at the weekend?",   az:"Həftəsonu nə edirsiniz?",                  model:"At the weekend I rest and spend time with my family." },
-    { cat:"daily",    q:"What food do you like?",           az:"Hansı yeməkləri sevirsiniz?",              model:"I love potatoes. I also like soup and chicken." },
-    { cat:"daily",    q:"What are your hobbies?",           az:"Hobbiləriniz nələrdir?",                   model:"I enjoy walking and gardening. I sometimes play chess and listen to music." },
-    { cat:"daily",    q:"How are you today?",               az:"Bu gün necəsiniz?",                        model:"I am very well, thank you. I am happy to be here." },
+    { cat:"daily",    q:"What do you do every day?",        az:"Hər gün nə edirsiniz?",                    model:"Every day I work in my business. In the evening I relax at home with tea.",              modelAz:"Hər gün işimdə çalışıram. Axşam evdə çay içib istirahət edirəm." },
+    { cat:"daily",    q:"What time do you wake up?",        az:"Saat neçədə oyanırsınız?",                 model:"I usually wake up at 7 in the morning.",                                                  modelAz:"Adətən səhər saat 7-də oyanıram." },
+    { cat:"daily",    q:"What do you do at the weekend?",   az:"Həftəsonu nə edirsiniz?",                  model:"At the weekend I rest and spend time with my family.",                                    modelAz:"Həftəsonları istirahət edirəm və ailəmlə vaxt keçirirəm." },
+    { cat:"daily",    q:"What food do you like?",           az:"Hansı yeməkləri sevirsiniz?",              model:"I love potatoes. I also like soup and chicken.",                                          modelAz:"Kartof çox sevirəm. Həmçinin şorba və toyuq ətini sevirəm." },
+    { cat:"daily",    q:"What are your hobbies?",           az:"Hobbiləriniz nələrdir?",                   model:"I enjoy walking and gardening. I sometimes play chess and listen to music.",             modelAz:"Gəzinti və bağçılıqdan zövq alıram. Bəzən şahmat oynayıram və musiqi dinləyirəm." },
+    { cat:"daily",    q:"How are you today?",               az:"Bu gün necəsiniz?",                        model:"I am very well, thank you. I am happy to be here.",                                       modelAz:"Çox yaxşıyam, təşəkkür edirəm. Burada olmaqdan məmnunam." },
     // visa
-    { cat:"visa",     q:"Why do you want to come to the UK?",   az:"Niyə Böyük Britaniyaya gəlmək istəyirsiniz?",    model:"I want to live with my wife in the UK. We are married and I want us to be together." },
-    { cat:"visa",     q:"Why are you learning English?",         az:"Niyə ingilis dili öyrənirsiniz?",              model:"I am learning English so I can live, communicate, and settle in the UK." },
-    { cat:"visa",     q:"Have you been to the UK before?",       az:"Əvvəl Böyük Britaniyada olmusunuz?",           model:"Yes, I have visited the UK a few times to see my wife." },
-    { cat:"visa",     q:"Where will you live in the UK?",        az:"Böyük Britaniyada harada yaşayacaqsınız?",     model:"I will live with my wife in her home in the UK." },
-    { cat:"visa",     q:"How will you travel to the UK?",        az:"Böyük Britaniyaya necə gedəcəksiniz?",         model:"I will travel by plane from Baku to London." },
-    { cat:"visa",     q:"Do you have family in the UK?",         az:"Böyük Britaniyada ailəviz var?",               model:"Yes, my wife lives in the UK. She is British." },
-    { cat:"visa",     q:"Can you repeat that, please?",          az:"Zəhmət olmasa, təkrar edə bilərsiniz?",        model:"Sorry, could you repeat that please? I want to understand correctly." },
+    { cat:"visa",     q:"Why do you want to come to the UK?",   az:"Niyə Böyük Britaniyaya gəlmək istəyirsiniz?",    model:"I want to live with my wife in the UK. We are married and I want us to be together.",    modelAz:"Böyük Britaniyada həyat yoldaşımla yaşamaq istəyirəm. Evliyik və birlikdə olmaq istəyirik." },
+    { cat:"visa",     q:"Why are you learning English?",         az:"Niyə ingilis dili öyrənirsiniz?",              model:"I am learning English so I can live, communicate, and settle in the UK.",              modelAz:"İngilis dilini Böyük Britaniyada yaşaya, ünsiyyət qura və məskunlaşa bilmək üçün öyrənirəm." },
+    { cat:"visa",     q:"Have you been to the UK before?",       az:"Əvvəl Böyük Britaniyada olmusunuz?",           model:"Yes, I have visited the UK a few times to see my wife.",                               modelAz:"Bəli, həyat yoldaşımı görmək üçün Böyük Britaniyaya bir neçə dəfə getmişəm." },
+    { cat:"visa",     q:"Where will you live in the UK?",        az:"Böyük Britaniyada harada yaşayacaqsınız?",     model:"I will live with my wife in her home in the UK.",                                     modelAz:"Böyük Britaniyada həyat yoldaşımın evində onunla yaşayacağam." },
+    { cat:"visa",     q:"How will you travel to the UK?",        az:"Böyük Britaniyaya necə gedəcəksiniz?",         model:"I will travel by plane from Baku to London.",                                         modelAz:"Bakıdan Londona təyyarə ilə gedəcəyəm." },
+    { cat:"visa",     q:"Do you have family in the UK?",         az:"Böyük Britaniyada ailəviz var?",               model:"Yes, my wife lives in the UK. She is British.",                                       modelAz:"Bəli, həyat yoldaşım Böyük Britaniyada yaşayır. O, britaniyalıdır." },
+    { cat:"visa",     q:"Can you repeat that, please?",          az:"Zəhmət olmasa, təkrar edə bilərsiniz?",        model:"Sorry, could you repeat that please? I want to understand correctly.",                 modelAz:"Bağışlayın, zəhmət olmasa təkrar edə bilərsiniz? Düzgün başa düşmək istəyirəm." },
   ];
 
   const STORAGE_KEY = "speakgame_ratings";
@@ -3274,7 +3372,8 @@ applyLanguage(LANG);
   const answerAreaEl = document.getElementById("sgAnswerArea");
   const answerInputEl= document.getElementById("sgAnswerInput");
   const modelAreaEl  = document.getElementById("sgModelArea");
-  const modelAnswerEl= document.getElementById("sgModelAnswer");
+  const modelAnswerEl   = document.getElementById("sgModelAnswer");
+  const modelAnswerAzEl = document.getElementById("sgModelAnswerAz");
   const yourAnswerBoxEl  = document.getElementById("sgYourAnswerBox");
   const yourAnswerTextEl = document.getElementById("sgYourAnswerText");
   const completeEl   = document.getElementById("sgComplete");
@@ -3326,7 +3425,8 @@ applyLanguage(LANG);
 
   function revealAnswer(showTyped) {
     const item = queue[qIndex];
-    modelAnswerEl.textContent = item.model;
+    modelAnswerEl.textContent   = item.model;
+    modelAnswerAzEl.textContent = item.modelAz || "";
     answerAreaEl.style.display  = "none";
     modelAreaEl.style.display   = "block";
 
