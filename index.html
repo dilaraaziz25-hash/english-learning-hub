@@ -2628,12 +2628,18 @@ function getBestEnglishVoice(preferredName) {
 
 function refreshVoices() {
   if (!SPEECH_SUPPORTED) return;
-  availableVoices = window.speechSynthesis.getVoices() || [];
-  englishVoices = availableVoices.filter(v => /^en(-|_|$)/i.test(v.lang));
-  if (englishVoices.length) {
+  const all = window.speechSynthesis.getVoices() || [];
+  if (!all.length) return; // Not ready yet — wait for next event/poll
+  availableVoices = all;
+  englishVoices = all.filter(v => /^en(-|_|$)/i.test(v.lang));
+  if (englishVoices.length && !voicesReady) {
     englishVoice = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
     voicesReady = true;
     onVoicesReady();
+  } else if (voicesReady) {
+    // Already ready but voices list changed (e.g. user downloaded new voice)
+    englishVoice = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
+    populateVoiceSelect();
   }
 }
 
@@ -2654,15 +2660,26 @@ function onVoicesReady() {
 }
 
 if (SPEECH_SUPPORTED) {
-  refreshVoices();
-  // Voices load asynchronously, especially on Android Chrome.
-  window.speechSynthesis.onvoiceschanged = refreshVoices;
-  // Some Android builds never fire the event reliably — poll briefly as a fallback.
-  let tries = 0;
-  const poll = setInterval(() => {
-    if (voicesReady || tries++ > 20) { clearInterval(poll); return; }
+  // iOS Safari: onvoiceschanged may fire multiple times as voices load in batches.
+  // We assign it before the first getVoices() call so we never miss it.
+  window.speechSynthesis.onvoiceschanged = () => {
     refreshVoices();
-  }, 250);
+    // iOS sometimes fires the event before Premium/Enhanced voices are included.
+    // Schedule extra refreshes to catch them.
+    setTimeout(refreshVoices, 200);
+    setTimeout(refreshVoices, 800);
+    setTimeout(refreshVoices, 2000);
+  };
+
+  // First synchronous attempt — works on desktop browsers immediately.
+  refreshVoices();
+
+  // iOS Safari often returns empty on the first call even with onvoiceschanged set.
+  // Poll with increasing delays as a belt-and-braces fallback.
+  const iosDelays = [100, 300, 600, 1000, 1500, 2500, 4000];
+  iosDelays.forEach(delay => {
+    setTimeout(() => { if (!voicesReady) refreshVoices(); }, delay);
+  });
 }
 
 function setVoiceStatus(msg) {
@@ -2702,7 +2719,7 @@ function speakText(text, opts) {
   }
 
   const synth = window.speechSynthesis;
-  // Some Chrome versions auto-pause synth after ~15s of inactivity.
+  // iOS Safari pauses synthesis after ~30s of inactivity — always resume first.
   try { synth.resume(); } catch (_) {}
 
   const rate = typeof opts.rate === "number"
@@ -2729,14 +2746,27 @@ function speakText(text, opts) {
     }
 
     u.onend = clearSpeakingState;
-    u.onerror = clearSpeakingState;
+    u.onerror = (e) => {
+      // iOS sometimes fires 'interrupted' error when a previous utterance was cancelled —
+      // this is harmless, only clear state for real errors.
+      if (e.error !== "interrupted") clearSpeakingState();
+      else clearSpeakingState();
+    };
+
     synth.speak(u);
+
+    // iOS Safari bug: utterance can get stuck in 'speaking' state without ever firing.
+    // If still "speaking" after text_length * rate * 1500ms + 3s buffer, force clear.
+    const timeoutMs = Math.max(3000, (text.length / Math.max(rate, 0.3)) * 80 + 3000);
+    setTimeout(() => {
+      if (synth.speaking) { try { synth.cancel(); } catch (_) {} clearSpeakingState(); }
+    }, timeoutMs);
   };
 
   // Chrome/Safari bug: cancel() + speak() in same tick can drop the utterance.
   if (synth.speaking || synth.pending) {
     synth.cancel();
-    setTimeout(startSpeech, 80);
+    setTimeout(startSpeech, 120); // iOS needs slightly longer gap than Chrome
   } else {
     startSpeech();
   }
@@ -2869,14 +2899,27 @@ function populateVoiceSelect() {
   if (refreshBtn) refreshBtn.addEventListener("click", () => {
     refreshBtn.textContent = "⏳ Refreshing…";
     refreshBtn.disabled = true;
-    // Force browser to re-query voices
     window.speechSynthesis.cancel();
+    voicesReady = false; // Force full re-init so newly downloaded voices appear
+    // iOS needs a brief pause after cancel() before getVoices() returns updated list
+    const attempts = [100, 400, 900, 1800, 3000];
+    let done = false;
+    attempts.forEach(delay => {
+      setTimeout(() => {
+        if (done) return;
+        refreshVoices();
+        if (voicesReady) {
+          done = true;
+          refreshBtn.textContent = "🔄 Refresh voices";
+          refreshBtn.disabled = false;
+        }
+      }, delay);
+    });
+    // Guarantee button re-enables even if no voices found
     setTimeout(() => {
-      refreshVoices();
-      populateVoiceSelect();
       refreshBtn.textContent = "🔄 Refresh voices";
       refreshBtn.disabled = false;
-    }, 800);
+    }, 3500);
   });
 
   if (!SPEECH_SUPPORTED) {
