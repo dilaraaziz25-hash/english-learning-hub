@@ -103,6 +103,84 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   VERB UNIVERSE
+   ========================================================= */
+@keyframes verbCardIn {
+  from { opacity:0; transform:translateY(16px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0)    scale(1); }
+}
+.verb-tense-card {
+  background: var(--bg-2);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  position: relative;
+  animation: verbCardIn 0.4s ease both;
+}
+.verb-tense-card:nth-child(2) { animation-delay: 0.08s; }
+.verb-tense-card:nth-child(3) { animation-delay: 0.16s; }
+.verb-tense-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.verb-tense-en {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 5px;
+  padding-right: 44px;
+}
+.verb-tense-az {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.4;
+  padding-right: 44px;
+}
+.verb-tense-az::before { content: "🌍 "; }
+.verb-hear-btn {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 38px; height: 38px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s, border-color 0.12s;
+  flex-shrink: 0;
+}
+.verb-hear-btn:hover { background:rgba(124,156,255,0.15); border-color:var(--accent); }
+.verb-fave-chip {
+  background: var(--bg-2);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+  display: flex; align-items: center; gap: 6px;
+}
+.verb-fave-chip:hover { border-color:var(--accent); background:rgba(124,156,255,0.1); color:var(--accent); }
+#verbCard { animation: verbCardIn 0.4s ease both; }
+#verbFave.saved { background:rgba(255,100,120,0.15); border-color:rgba(255,100,120,0.5); }
+body.large-text .verb-tense-en { font-size:20px; }
+body.large-text .verb-tense-az { font-size:16px; }
+body.large-text #verbInfinitive { font-size:44px; }
+@media (max-width:480px) {
+  .verb-tense-en { font-size:16px; }
+  #verbInfinitive { font-size:30px; }
+}
+
+/* =========================================================
    SENTENCE BUILDER
    ========================================================= */
 @keyframes tileIn { from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);} }
@@ -1329,6 +1407,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="sounds"><span data-i18n="tab_sounds">🔤 Letter Sounds</span></button>
     <button class="tab" data-tab="animals"><span data-i18n="tab_animals">🐘 Animals</span></button>
     <button class="tab" data-tab="builder"><span data-i18n="tab_builder">🧩 Sentence Builder</span></button>
+    <button class="tab" data-tab="verbs"><span data-i18n="tab_verbs">🌍 Verb Universe</span></button>
   </nav>
 
   <!-- =========================================================
@@ -2111,6 +2190,97 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       VERB UNIVERSE
+       ========================================================= -->
+  <section class="panel" id="panel-verbs">
+    <div class="card">
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
+        <div>
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent);font-weight:700;margin-bottom:3px;" data-i18n="verbs_label">Today's Verb ✨</div>
+          <h2 style="margin:0;" data-i18n="verbs_title">🌍 Verb Universe</h2>
+        </div>
+        <button id="verbFave" class="btn small" style="font-size:20px;padding:10px 16px;" title="Save to favourites">🤍</button>
+      </div>
+      <p class="subtitle" data-i18n="verbs_subtitle">One verb a day. Three tenses. Speak it, hear it, own it.</p>
+
+      <!-- Day badge + date -->
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+        <div id="verbDayBadge" style="background:linear-gradient(135deg,var(--accent),#b08aff);color:#fff;font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;"></div>
+        <div id="verbProgress" style="font-size:13px;color:var(--text-dim);"></div>
+      </div>
+
+      <!-- Main verb card -->
+      <div id="verbCard" style="
+        background:linear-gradient(135deg,rgba(124,156,255,0.10),rgba(176,138,255,0.13));
+        border:2px solid var(--border-strong);
+        border-radius:var(--radius);
+        padding:26px 22px;
+        text-align:center;
+        margin-bottom:20px;
+        position:relative;
+      ">
+        <div id="verbEmoji" style="font-size:52px;margin-bottom:10px;"></div>
+        <div id="verbInfinitive" style="font-size:38px;font-weight:900;letter-spacing:1px;color:var(--text);margin-bottom:4px;"></div>
+        <div id="verbAz" style="font-size:20px;color:var(--accent);font-weight:700;margin-bottom:8px;"></div>
+        <div id="verbPron" style="font-size:15px;color:var(--text-muted);font-style:italic;margin-bottom:16px;"></div>
+        <button id="verbHearWord" class="btn primary" style="font-size:15px;padding:12px 24px;">🔊 <span data-i18n="verbs_hear_verb">Hear pronunciation</span></button>
+      </div>
+
+      <!-- Tense cards -->
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+
+        <!-- Present -->
+        <div class="verb-tense-card" id="vtPresent">
+          <div class="verb-tense-label">⏱ <span data-i18n="verbs_present">Present</span></div>
+          <div class="verb-tense-en" id="vtPresentEn"></div>
+          <div class="verb-tense-az" id="vtPresentAz"></div>
+          <button class="verb-hear-btn" data-tense="present">🔊</button>
+        </div>
+
+        <!-- Past -->
+        <div class="verb-tense-card" id="vtPast">
+          <div class="verb-tense-label">⏮ <span data-i18n="verbs_past">Past</span></div>
+          <div class="verb-tense-en" id="vtPastEn"></div>
+          <div class="verb-tense-az" id="vtPastAz"></div>
+          <button class="verb-hear-btn" data-tense="past">🔊</button>
+        </div>
+
+        <!-- Future -->
+        <div class="verb-tense-card" id="vtFuture">
+          <div class="verb-tense-label">⏭ <span data-i18n="verbs_future">Future</span></div>
+          <div class="verb-tense-en" id="vtFutureEn"></div>
+          <div class="verb-tense-az" id="vtFutureAz"></div>
+          <button class="verb-hear-btn" data-tense="future">🔊</button>
+        </div>
+
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;">
+        <button class="btn primary" id="verbHearAll" style="flex:1;min-width:150px;padding:14px 18px;font-size:15px;">▶ <span data-i18n="verbs_hear_all">Hear all examples</span></button>
+        <button class="btn" id="verbNext" style="flex:1;min-width:150px;padding:14px 18px;font-size:15px;">🔄 <span data-i18n="verbs_next">Next verb</span></button>
+      </div>
+
+      <!-- Favourites section -->
+      <div id="verbFavesSection" style="display:none;">
+        <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-weight:700;margin-bottom:10px;" data-i18n="verbs_faves_title">❤️ Saved favourites</div>
+        <div id="verbFavesList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
+
+      <!-- Encouraging tip -->
+      <div style="
+        margin-top:18px;background:rgba(110,231,185,0.07);
+        border:1px solid rgba(110,231,185,0.18);border-radius:12px;
+        padding:12px 16px;font-size:13px;color:var(--text-dim);
+        line-height:1.6;text-align:center;
+      " id="verbTip"></div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -2145,6 +2315,7 @@ const I18N = {
     tab_sounds: "🔤 Letter Sounds",
     tab_animals: "🐘 Animals",
     tab_builder: "🧩 Sentence Builder",
+    tab_verbs: "🌍 Verb Universe",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -2182,6 +2353,16 @@ const I18N = {
     builder_clear: "✕ Clear",
     builder_hear: "🔊 Hear sentence",
     builder_next: "→ Next",
+    verbs_label: "Today's Verb ✨",
+    verbs_title: "🌍 Verb Universe",
+    verbs_subtitle: "One verb a day. Three tenses. Speak it, hear it, own it.",
+    verbs_hear_verb: "Hear pronunciation",
+    verbs_present: "Present",
+    verbs_past: "Past",
+    verbs_future: "Future",
+    verbs_hear_all: "Hear all examples",
+    verbs_next: "Next verb",
+    verbs_faves_title: "❤️ Saved favourites",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -2372,6 +2553,7 @@ const I18N = {
     tab_sounds: "🔤 Hərf Səsləri",
     tab_animals: "🐘 Heyvanlar",
     tab_builder: "🧩 Cümlə Qurucusu",
+    tab_verbs: "🌍 Fel Kainatı",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -2409,6 +2591,16 @@ const I18N = {
     builder_clear: "✕ Sil",
     builder_hear: "🔊 Cümləni dinlə",
     builder_next: "→ Növbəti",
+    verbs_label: "Günün Feli ✨",
+    verbs_title: "🌍 Fel Kainatı",
+    verbs_subtitle: "Gündə bir fel. Üç zaman. Danış, dinlə, mənimsə.",
+    verbs_hear_verb: "Tələffüzü dinlə",
+    verbs_present: "İndiki zaman",
+    verbs_past: "Keçmiş zaman",
+    verbs_future: "Gələcək zaman",
+    verbs_hear_all: "Bütün nümunələri dinlə",
+    verbs_next: "Növbəti fel",
+    verbs_faves_title: "❤️ Seçilmişlər",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -4364,6 +4556,314 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   VERB UNIVERSE
+   ========================================================= */
+(function verbUniverse() {
+
+  const FAVE_KEY = "verb_faves";
+  const VERBS = [
+    {
+      emoji:"🍎", verb:"eat",        az:"yemək",        pron:"/iːt/",
+      present:{ en:"I eat breakfast every morning.",          az:"Mən hər səhər səhər yeməyi yeyirəm." },
+      past:   { en:"I ate a delicious meal yesterday.",       az:"Dünən dadlı bir yemək yedim." },
+      future: { en:"I will eat dinner with my wife tonight.", az:"Bu gecə həyat yoldaşımla şam yeyəcəyəm." },
+      tip:"💡 'Eat' is irregular — past tense is 'ate', not 'eated'!"
+    },
+    {
+      emoji:"🚶", verb:"go",         az:"getmək",        pron:"/ɡəʊ/",
+      present:{ en:"I go to work every day.",                 az:"Mən hər gün işə gedirəm." },
+      past:   { en:"I went to London last year.",             az:"Keçən il Londona getdim." },
+      future: { en:"I will go to the UK very soon.",          az:"Tezliklə Böyük Britaniyaya gedəcəyəm." },
+      tip:"💡 'Go' is irregular — past tense is 'went', not 'goed'!"
+    },
+    {
+      emoji:"🏠", verb:"come",       az:"gəlmək",        pron:"/kʌm/",
+      present:{ en:"I come home at six o'clock.",             az:"Mən saat altıda evə gəlirəm." },
+      past:   { en:"I came to England for the first time.",   az:"İngiltərəyə ilk dəfə gəldim." },
+      future: { en:"I will come to London to live.",          az:"Yaşamaq üçün Londona gələcəyəm." },
+      tip:"💡 'Come' is irregular — past tense is 'came', not 'comed'!"
+    },
+    {
+      emoji:"☕", verb:"drink",      az:"içmək",         pron:"/drɪŋk/",
+      present:{ en:"I drink tea every morning.",              az:"Mən hər səhər çay içirəm." },
+      past:   { en:"I drank a cup of tea this morning.",      az:"Bu səhər bir fincan çay içdim." },
+      future: { en:"I will drink coffee with my wife.",       az:"Həyat yoldaşımla qəhvə içəcəyəm." },
+      tip:"💡 'Drink' is irregular — past tense is 'drank', not 'drinked'!"
+    },
+    {
+      emoji:"😴", verb:"sleep",      az:"yatmaq",        pron:"/sliːp/",
+      present:{ en:"I sleep for eight hours every night.",    az:"Mən hər gecə səkkiz saat yatıram." },
+      past:   { en:"I slept very well last night.",           az:"Dünən gecə çox yaxşı yatdım." },
+      future: { en:"I will sleep early tonight.",             az:"Bu gecə erkən yatacağam." },
+      tip:"💡 'Sleep' is irregular — past tense is 'slept', not 'sleeped'!"
+    },
+    {
+      emoji:"💼", verb:"work",       az:"işləmək",       pron:"/wɜːk/",
+      present:{ en:"I work in my own business.",              az:"Mən öz işimdə çalışıram." },
+      past:   { en:"I worked as an engineer for many years.", az:"Bir çox il mühəndis kimi işlədim." },
+      future: { en:"I will work in the UK one day.",          az:"Bir gün Böyük Britaniyada işləyəcəyəm." },
+      tip:"💡 'Work' is regular — just add -ed for the past: worked."
+    },
+    {
+      emoji:"📖", verb:"study",      az:"oxumaq/öyrənmək",pron:"/ˈstʌdi/",
+      present:{ en:"I study English every day.",              az:"Mən hər gün ingilis dili öyrənirəm." },
+      past:   { en:"I studied engineering at university.",    az:"Universitetdə mühəndislik oxudum." },
+      future: { en:"I will study for a Master's degree.",     az:"Magistratura üçün oxuyacağam." },
+      tip:"💡 'Study' → past tense: 'studied'. Y changes to i + ed!"
+    },
+    {
+      emoji:"❤️", verb:"love",       az:"sevmək",        pron:"/lʌv/",
+      present:{ en:"I love my wife very much.",               az:"Mən həyat yoldaşımı çox sevirəm." },
+      past:   { en:"I loved her since the very first day.",   az:"Onu ilk gündən sevdim." },
+      future: { en:"I will love her for the rest of my life.",az:"Onu ömrümün sonuna qədər sevəcəyəm." },
+      tip:"💡 'Love' is regular — past tense is 'loved'."
+    },
+    {
+      emoji:"🗣️", verb:"speak",      az:"danışmaq",      pron:"/spiːk/",
+      present:{ en:"I speak Azerbaijani and some English.",   az:"Mən Azərbaycan dilində və bir az ingiliscə danışıram." },
+      past:   { en:"I spoke to my wife on the phone.",        az:"Telefonda həyat yoldaşımla danışdım." },
+      future: { en:"I will speak English fluently one day.",  az:"Bir gün ingiliscəni axıcı danışacağam." },
+      tip:"💡 'Speak' is irregular — past tense is 'spoke', not 'speaked'!"
+    },
+    {
+      emoji:"🌳", verb:"walk",       az:"gəzmək/yeriməmk",pron:"/wɔːk/",
+      present:{ en:"I walk in the park every evening.",       az:"Mən hər axşam parkda gəzirəm." },
+      past:   { en:"I walked for an hour this morning.",      az:"Bu səhər bir saat gəzdim." },
+      future: { en:"I will walk along the Thames in London.", az:"Londonda Temza boyu gəzəcəyəm." },
+      tip:"💡 'Walk' is regular — past tense is 'walked'."
+    },
+    {
+      emoji:"🌱", verb:"grow",       az:"böyümək/yetişdirmək",pron:"/ɡrəʊ/",
+      present:{ en:"I grow vegetables in my garden.",         az:"Mən bağımda tərəvəz yetişdirirəm." },
+      past:   { en:"I grew tomatoes last summer.",            az:"Keçən yay pomidor yetişdirdim." },
+      future: { en:"I will grow many things in the UK.",      az:"Böyük Britaniyada çox şeylər yetişdirəcəyəm." },
+      tip:"💡 'Grow' is irregular — past tense is 'grew', not 'growed'!"
+    },
+    {
+      emoji:"🏡", verb:"live",       az:"yaşamaq",       pron:"/lɪv/",
+      present:{ en:"I live in Baku, Azerbaijan.",             az:"Mən Azərbaycanda, Bakıda yaşayıram." },
+      past:   { en:"I lived here for many years.",            az:"Burada bir çox il yaşadım." },
+      future: { en:"I will live in London with my wife.",     az:"Həyat yoldaşımla birlikdə Londonda yaşayacağam." },
+      tip:"💡 'Live' is regular — past tense is 'lived'."
+    },
+    {
+      emoji:"🤔", verb:"think",      az:"düşünmək",      pron:"/θɪŋk/",
+      present:{ en:"I think English is difficult but fun.",   az:"Düşünürəm ki, ingilis dili çətindir amma maraqlıdır." },
+      past:   { en:"I thought about my future in the UK.",    az:"Böyük Britaniyada gələcəyim haqqında düşündüm." },
+      future: { en:"I will think carefully before I answer.", az:"Cavab verməzdən əvvəl diqqətlə düşünəcəyəm." },
+      tip:"💡 'Think' is irregular — past tense is 'thought', not 'thinked'!"
+    },
+    {
+      emoji:"📞", verb:"call",       az:"zəng etmək",    pron:"/kɔːl/",
+      present:{ en:"I call my wife every evening.",           az:"Mən hər axşam həyat yoldaşıma zəng edirəm." },
+      past:   { en:"I called her three times today.",         az:"Bu gün ona üç dəfə zəng etdim." },
+      future: { en:"I will call her as soon as I land.",      az:"Endikdən sonra dərhal ona zəng edəcəyəm." },
+      tip:"💡 'Call' is regular — past tense is 'called'."
+    },
+    {
+      emoji:"😊", verb:"feel",       az:"hiss etmək",    pron:"/fiːl/",
+      present:{ en:"I feel happy when I speak English.",      az:"İngiliscə danışanda xoşbəxt hiss edirəm." },
+      past:   { en:"I felt nervous before the interview.",    az:"Müsahibədən əvvəl həyəcanlı hiss etdim." },
+      future: { en:"I will feel at home in London.",          az:"Londonda özümü evdəki kimi hiss edəcəyəm." },
+      tip:"💡 'Feel' is irregular — past tense is 'felt', not 'feeled'!"
+    },
+    {
+      emoji:"🧳", verb:"travel",     az:"səyahət etmək", pron:"/ˈtrævəl/",
+      present:{ en:"I travel from Baku to London.",           az:"Bakıdan Londona səyahət edirəm." },
+      past:   { en:"I travelled a lot for my business.",      az:"Biznesim üçün çox səyahət etdim." },
+      future: { en:"I will travel to the UK very soon.",      az:"Tezliklə Böyük Britaniyaya səyahət edəcəyəm." },
+      tip:"💡 'Travel' is regular in British English — past tense is 'travelled'."
+    },
+    {
+      emoji:"🏆", verb:"learn",      az:"öyrənmək",      pron:"/lɜːn/",
+      present:{ en:"I learn something new every day.",        az:"Mən hər gün yeni bir şey öyrənirəm." },
+      past:   { en:"I learned ten new words today.",          az:"Bu gün on yeni söz öyrəndim." },
+      future: { en:"I will learn English and then do a Master's.",az:"İngilisini öyrənəcəyəm, sonra magistratura edəcəyəm." },
+      tip:"💡 'Learn' is regular — past tense is 'learned' or 'learnt' (both correct!)."
+    },
+    {
+      emoji:"🤝", verb:"meet",       az:"tanış olmaq/görüşmək",pron:"/miːt/",
+      present:{ en:"I meet new people in London.",            az:"Londonda yeni insanlarla tanış oluram." },
+      past:   { en:"I met my wife at university.",            az:"Həyat yoldaşımla universitetdə tanış oldum." },
+      future: { en:"I will meet her family again.",           az:"Onun ailəsi ilə yenidən görüşəcəyəm." },
+      tip:"💡 'Meet' is irregular — past tense is 'met', not 'meeted'!"
+    },
+    {
+      emoji:"😂", verb:"laugh",      az:"gülmək",        pron:"/lɑːf/",
+      present:{ en:"I laugh every day with my wife.",         az:"Həyat yoldaşımla hər gün gülürəm." },
+      past:   { en:"I laughed a lot at the film last night.", az:"Dünən gecə filmə çox güldüm." },
+      future: { en:"We will laugh and be happy together.",    az:"Birlikdə güləcəyik və xoşbəxt olacağıq." },
+      tip:"💡 'Laugh' is regular — past tense is 'laughed'. Note: 'gh' sounds like 'f'!"
+    },
+    {
+      emoji:"🙏", verb:"want",       az:"istəmək",       pron:"/wɒnt/",
+      present:{ en:"I want to live with my wife in London.",  az:"Londonda həyat yoldaşımla yaşamaq istəyirəm." },
+      past:   { en:"I always wanted to move to the UK.",      az:"Həmişə Böyük Britaniyaya köçmək istəyirdim." },
+      future: { en:"I will want to explore London together.", az:"Birlikdə Londonu kəşf etmək istəyəcəyəm." },
+      tip:"💡 'Want' is regular — past tense is 'wanted'."
+    },
+  ];
+
+  const TIPS_POOL = [
+    "💪 Verbs are the engines of sentences — master them and everything gets easier!",
+    "🌟 Every verb you learn is one more thought you can express in English.",
+    "☕ Practise verbs while you have your morning tea — one verb a day!",
+    "🎯 Past tense is the key to telling your story in English.",
+    "💛 You are doing brilliantly. Every day is progress.",
+    "🧠 Irregular verbs need memorising — but there are only about 200 of them!",
+    "🗣️ Say each example out loud — your mouth needs to practise too!",
+    "🌱 Small daily steps grow into big results. You've got this!",
+  ];
+
+  // ── State & storage ──────────────────────────────────────────────
+  const dayIndex  = Math.floor(Date.now() / 86400000);
+  let currentIdx  = dayIndex % VERBS.length;
+  let faves       = [];
+
+  function loadFaves()  { try { faves = JSON.parse(localStorage.getItem(FAVE_KEY) || "[]"); } catch { faves = []; } }
+  function saveFaves()  { try { localStorage.setItem(FAVE_KEY, JSON.stringify(faves)); } catch {} }
+
+  // ── DOM refs ─────────────────────────────────────────────────────
+  const emojiEl    = document.getElementById("verbEmoji");
+  const infinEl    = document.getElementById("verbInfinitive");
+  const azEl       = document.getElementById("verbAz");
+  const pronEl     = document.getElementById("verbPron");
+  const presEnEl   = document.getElementById("vtPresentEn");
+  const presAzEl   = document.getElementById("vtPresentAz");
+  const pastEnEl   = document.getElementById("vtPastEn");
+  const pastAzEl   = document.getElementById("vtPastAz");
+  const futEnEl    = document.getElementById("vtFutureEn");
+  const futAzEl    = document.getElementById("vtFutureAz");
+  const tipEl      = document.getElementById("verbTip");
+  const badgeEl    = document.getElementById("verbDayBadge");
+  const progressEl = document.getElementById("verbProgress");
+  const faveBtn    = document.getElementById("verbFave");
+  const favesSection = document.getElementById("verbFavesSection");
+  const favesList    = document.getElementById("verbFavesList");
+
+  // ── Render a verb ────────────────────────────────────────────────
+  function renderVerb(idx) {
+    const v = VERBS[idx];
+
+    // Animate card out then in
+    const card = document.getElementById("verbCard");
+    card.style.opacity = "0";
+    card.style.transform = "scale(0.97)";
+    setTimeout(() => {
+      card.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+      card.style.opacity = "1";
+      card.style.transform = "scale(1)";
+    }, 50);
+
+    emojiEl.textContent  = v.emoji;
+    infinEl.textContent  = v.verb.toUpperCase();
+    azEl.textContent     = v.az;
+    pronEl.textContent   = v.pron;
+    presEnEl.textContent = v.present.en;
+    presAzEl.textContent = v.present.az;
+    pastEnEl.textContent = v.past.en;
+    pastAzEl.textContent = v.past.az;
+    futEnEl.textContent  = v.future.en;
+    futAzEl.textContent  = v.future.az;
+    tipEl.textContent    = v.tip || TIPS_POOL[idx % TIPS_POOL.length];
+
+    // Badge & progress
+    const today = new Date();
+    badgeEl.textContent = today.toLocaleDateString("en-GB", { weekday:"long", day:"numeric", month:"long" });
+    progressEl.textContent = `Verb ${(idx % VERBS.length) + 1} of ${VERBS.length}`;
+
+    // Fave button state
+    updateFaveBtn();
+  }
+
+  function updateFaveBtn() {
+    const v = VERBS[currentIdx];
+    const saved = faves.includes(v.verb);
+    faveBtn.textContent = saved ? "❤️" : "🤍";
+    faveBtn.classList.toggle("saved", saved);
+    faveBtn.title = saved ? "Remove from favourites" : "Save to favourites";
+    renderFavesList();
+  }
+
+  function renderFavesList() {
+    if (!faves.length) { favesSection.style.display = "none"; return; }
+    favesSection.style.display = "block";
+    favesList.innerHTML = "";
+    faves.forEach(verbName => {
+      const v = VERBS.find(x => x.verb === verbName);
+      if (!v) return;
+      const chip = document.createElement("button");
+      chip.className = "verb-fave-chip";
+      chip.innerHTML = `${v.emoji} ${v.verb}`;
+      chip.addEventListener("click", () => {
+        currentIdx = VERBS.indexOf(v);
+        renderVerb(currentIdx);
+      });
+      favesList.appendChild(chip);
+    });
+  }
+
+  // ── Hear buttons ─────────────────────────────────────────────────
+  document.getElementById("verbHearWord").addEventListener("click", e => {
+    speakText(VERBS[currentIdx].verb, { btn: e.currentTarget });
+  });
+
+  document.querySelectorAll(".verb-hear-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const v   = VERBS[currentIdx];
+      const map = { present: v.present.en, past: v.past.en, future: v.future.en };
+      speakText(map[btn.dataset.tense], { btn });
+    });
+  });
+
+  // ── Hear all examples ────────────────────────────────────────────
+  document.getElementById("verbHearAll").addEventListener("click", function() {
+    const v = VERBS[currentIdx];
+    const sentences = [v.present.en, v.past.en, v.future.en];
+    let i = 0;
+    const btn = this;
+    btn.disabled = true; btn.style.opacity = "0.6";
+
+    function playNext() {
+      if (i >= sentences.length) { btn.disabled = false; btn.style.opacity = "1"; return; }
+      const u = new SpeechSynthesisUtterance(sentences[i]);
+      u.lang = "en-GB"; u.pitch = 1;
+      const voice = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
+      if (voice) { u.voice = voice; u.lang = voice.lang || "en-GB"; }
+      u.rate = SPEED_PRESETS[VOICE_SETTINGS.speed] || SPEED_PRESETS.slow;
+      u.onend  = () => { i++; setTimeout(playNext, 700); };
+      u.onerror = () => { i++; setTimeout(playNext, 300); };
+      window.speechSynthesis.cancel();
+      setTimeout(() => window.speechSynthesis.speak(u), 100);
+    }
+    playNext();
+  });
+
+  // ── Next verb ────────────────────────────────────────────────────
+  document.getElementById("verbNext").addEventListener("click", () => {
+    currentIdx = (currentIdx + 1) % VERBS.length;
+    renderVerb(currentIdx);
+  });
+
+  // ── Fave toggle ──────────────────────────────────────────────────
+  faveBtn.addEventListener("click", () => {
+    const verb = VERBS[currentIdx].verb;
+    if (faves.includes(verb)) {
+      faves = faves.filter(f => f !== verb);
+    } else {
+      faves.push(verb);
+    }
+    saveFaves();
+    updateFaveBtn();
+  });
+
+  // ── Init ─────────────────────────────────────────────────────────
+  loadFaves();
+  renderVerb(currentIdx);
+
 })();
 
 /* =========================================================
