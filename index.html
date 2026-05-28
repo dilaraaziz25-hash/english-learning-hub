@@ -103,8 +103,80 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
-   SPEAKING GAME
+   VOCABULARY LIST TAB
    ========================================================= */
+.vl-category-heading {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  padding: 20px 0 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+.vl-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.vl-row:hover { background: var(--bg-2); }
+.vl-row:active { background: var(--bg-3); }
+.vl-en {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text);
+  min-width: 130px;
+  flex: 1;
+}
+.vl-pron {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  min-width: 80px;
+}
+.vl-az {
+  font-size: 15px;
+  color: var(--accent);
+  flex: 1;
+}
+.vl-level {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: var(--bg-3);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.vl-speak {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.vl-speak:hover { opacity: 1; }
+#vlSearch:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+body.large-text .vl-en { font-size: 19px; }
+body.large-text .vl-az { font-size: 18px; }
+body.large-text .vl-pron { font-size: 14px; }
+@media (max-width: 480px) {
+  .vl-pron { display: none; }
+  .vl-en { min-width: 100px; }
+}
 .sg-rate {
   min-width: 140px;
   font-weight: 600;
@@ -1132,6 +1204,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="notes"><span data-i18n="tab_notes">📝 Notes</span></button>
     <button class="tab" data-tab="streak"><span data-i18n="tab_streak">⚡ Word Streak</span></button>
     <button class="tab" data-tab="speakgame"><span data-i18n="tab_speakgame">🎤 Speaking Game</span></button>
+    <button class="tab" data-tab="vocablist"><span data-i18n="tab_vocablist">📖 Word List</span></button>
   </nav>
 
   <!-- =========================================================
@@ -1698,6 +1771,54 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       VOCABULARY LIST
+       ========================================================= -->
+  <section class="panel" id="panel-vocablist">
+    <div class="card">
+      <h2 data-i18n="vocablist_title">📖 Full Word List</h2>
+      <p class="subtitle" data-i18n="vocablist_subtitle">Browse all vocabulary by category. Tap a word to hear it.</p>
+
+      <!-- Filter & search row -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
+        <select id="vlCategory" style="background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);border-radius:12px;padding:10px 14px;font-size:14px;cursor:pointer;flex:1;min-width:180px;">
+          <option value="all" data-i18n="cat_all">📚 All words</option>
+          <option value="personal"   data-i18n="cat_personal">🪪 Personal info</option>
+          <option value="family"     data-i18n="cat_family">👨‍👩‍👧 Family</option>
+          <option value="numbers"    data-i18n="cat_numbers">🔢 Numbers</option>
+          <option value="days"       data-i18n="cat_days">📅 Days of the week</option>
+          <option value="months"     data-i18n="cat_months">🗓️ Months</option>
+          <option value="seasons"    data-i18n="cat_seasons">🌦️ Seasons &amp; weather</option>
+          <option value="colours"    data-i18n="cat_colours">🎨 Colours</option>
+          <option value="adjectives" data-i18n="cat_adjectives">💬 Adjectives</option>
+          <option value="daily"      data-i18n="cat_daily">☀️ Daily routine</option>
+          <option value="home"       data-i18n="cat_home">🏠 Home &amp; city</option>
+          <option value="food"       data-i18n="cat_food">🍽️ Food &amp; drink</option>
+          <option value="travel"     data-i18n="cat_travel">✈️ Travel &amp; airport</option>
+          <option value="transport"  data-i18n="cat_transport">🚌 Transport</option>
+          <option value="uk"         data-i18n="cat_uk">🇬🇧 UK arrival</option>
+          <option value="visa"       data-i18n="cat_visa">🛂 Visa / Interview</option>
+          <option value="work"       data-i18n="cat_work">💼 Work &amp; business</option>
+          <option value="education"  data-i18n="cat_education">📘 Education</option>
+          <option value="health"     data-i18n="cat_health">🏥 Health</option>
+          <option value="phone"      data-i18n="cat_phone">💬 Conversation</option>
+          <option value="hobbies"    data-i18n="cat_hobbies">🎯 Hobbies</option>
+        </select>
+        <input id="vlSearch" type="search" data-i18n-ph="vocablist_search" placeholder="Search words..." style="
+          background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);
+          border-radius:12px;padding:10px 14px;font-size:14px;flex:1;min-width:140px;
+          font-family:inherit;
+        ">
+      </div>
+
+      <!-- Word count -->
+      <div id="vlCount" style="font-size:13px;color:var(--text-dim);margin-bottom:14px;"></div>
+
+      <!-- The list -->
+      <div id="vlList"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -1728,6 +1849,7 @@ const I18N = {
     tab_notes: "📝 Notes",
     tab_streak: "⚡ Word Streak",
     tab_speakgame: "🎤 Speaking Game",
+    tab_vocablist: "📖 Word List",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -1877,6 +1999,10 @@ const I18N = {
     streak_result_keep_going: "📚 Keep practising!",
     streak_result_sub: "You got {s} correct out of {t} words.",
     streak_missed_title: "Words to review:",
+    vocablist_title: "📖 Full Word List",
+    vocablist_subtitle: "Browse all vocabulary by category. Tap a word to hear it.",
+    vocablist_search: "Search words...",
+    vocablist_count: "{n} words",
 
     sg_title: "🎤 Speaking Game",
     sg_subtitle: "Answer real visa-style questions. Speak aloud or type — then see the model answer.",
@@ -1924,6 +2050,7 @@ const I18N = {
     tab_notes: "📝 Qeydlər",
     tab_streak: "⚡ Söz Sürüşməsi",
     tab_speakgame: "🎤 Danışıq Oyunu",
+    tab_vocablist: "📖 Söz Siyahısı",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -2073,6 +2200,10 @@ const I18N = {
     streak_result_keep_going: "📚 Məşq etməyə davam et!",
     streak_result_sub: "{t} sözdən {s}-ni doğru etdin.",
     streak_missed_title: "Baxılacaq sözlər:",
+    vocablist_title: "📖 Tam Söz Siyahısı",
+    vocablist_subtitle: "Bütün sözlərə kateqoriyaya görə baxın. Sözü eşitmək üçün üzərinə toxunun.",
+    vocablist_search: "Söz axtar...",
+    vocablist_count: "{n} söz",
 
     sg_title: "🎤 Danışıq Oyunu",
     sg_subtitle: "Real viza tipli suallara cavab ver. Ucadan danış və ya yaz — sonra nümunə cavabı gör.",
@@ -3834,6 +3965,105 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   VOCABULARY LIST TAB
+   ========================================================= */
+(function vocabList() {
+  const vlCat    = document.getElementById("vlCategory");
+  const vlSearch = document.getElementById("vlSearch");
+  const vlList   = document.getElementById("vlList");
+  const vlCount  = document.getElementById("vlCount");
+
+  // Category display names (emoji + label) — pulled from i18n at render time
+  const CAT_ORDER = [
+    "personal","family","numbers","days","months","seasons","colours",
+    "adjectives","daily","home","food","travel","transport","uk","visa",
+    "work","education","health","phone","hobbies"
+  ];
+
+  const CAT_EMOJI = {
+    personal:"🪪", family:"👨‍👩‍👧", numbers:"🔢", days:"📅", months:"🗓️",
+    seasons:"🌦️", colours:"🎨", adjectives:"💬", daily:"☀️", home:"🏠",
+    food:"🍽️", travel:"✈️", transport:"🚌", uk:"🇬🇧", visa:"🛂",
+    work:"💼", education:"📘", health:"🏥", phone:"💬", hobbies:"🎯"
+  };
+
+  function render() {
+    const cat    = vlCat.value;
+    const query  = vlSearch.value.trim().toLowerCase();
+    vlList.innerHTML = "";
+
+    // Filter vocab
+    let words = VOCAB.filter(w => w.cat !== "—");
+    if (cat !== "all") words = words.filter(w => w.cat === cat);
+    if (query) words = words.filter(w =>
+      w.en.toLowerCase().includes(query) ||
+      w.az.toLowerCase().includes(query)
+    );
+
+    // Update count
+    vlCount.textContent = t("vocablist_count").replace("{n}", words.length);
+
+    if (!words.length) {
+      vlList.innerHTML = `<div style="text-align:center;color:var(--text-dim);padding:40px 0;font-size:15px;">No words found.</div>`;
+      return;
+    }
+
+    // Group by category (respecting CAT_ORDER) when showing all
+    if (cat === "all" && !query) {
+      CAT_ORDER.forEach(c => {
+        const group = words.filter(w => w.cat === c);
+        if (!group.length) return;
+        // Category heading
+        const heading = document.createElement("div");
+        heading.className = "vl-category-heading";
+        heading.textContent = (CAT_EMOJI[c] || "") + " " + (t("cat_" + c) || c).replace(/^[^\s]+\s/, "");
+        vlList.appendChild(heading);
+        group.forEach(w => vlList.appendChild(makeRow(w)));
+      });
+    } else {
+      words.forEach(w => vlList.appendChild(makeRow(w)));
+    }
+  }
+
+  function makeRow(w) {
+    const row = document.createElement("div");
+    row.className = "vl-row";
+    row.innerHTML = `
+      <button class="vl-speak" title="Listen" aria-label="Listen to ${w.en}">🔊</button>
+      <div class="vl-en">${w.en}</div>
+      <div class="vl-pron">${w.pron || ""}</div>
+      <div class="vl-az">${w.az}</div>
+      <div class="vl-level">${w.level || ""}</div>
+    `;
+    // Tap row to hear word
+    row.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("vl-speak")) {
+        speakText(w.en);
+      }
+    });
+    // Speak button
+    row.querySelector(".vl-speak").addEventListener("click", (e) => {
+      e.stopPropagation();
+      speakText(w.en, { btn: e.currentTarget });
+    });
+    return row;
+  }
+
+  vlCat.addEventListener("change", render);
+  vlSearch.addEventListener("input", render);
+
+  // Re-render when tab becomes visible
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      if (tab.dataset.tab === "vocablist") render();
+    });
+  });
+
+  // Initial render
+  render();
 })();
 
 /* =========================================================
