@@ -1294,11 +1294,12 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
       <h2 data-i18n="plan_title">📅 Your 15-Minute Daily Plan</h2>
       <p class="subtitle" data-i18n="plan_subtitle">A small amount every day is better than a lot once a week.</p>
       <ul class="plan-list">
-        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item1">Review 5 vocabulary flashcards 🃏</span></li>
-        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item2">Read 1 grammar rule 📘</span></li>
-        <li><span class="time">4 <span data-i18n="min">min</span></span> <span data-i18n="plan_item3">Answer 3 speaking questions aloud 🎤</span></li>
-        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item4">Watch a short BBC / British Council clip 🎧</span></li>
-        <li><span class="time">2 <span data-i18n="min">min</span></span> <span data-i18n="plan_item5">Take a quick quiz 🧠</span></li>
+        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item1">Practice 10 flashcards from a new category 🃏</span></li>
+        <li><span class="time">2 <span data-i18n="min">min</span></span> <span data-i18n="plan_item2">Study 1 letter sound and say the examples aloud 🔤</span></li>
+        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item3">Answer 3 visa interview questions in the Speaking Game 🎤</span></li>
+        <li><span class="time">3 <span data-i18n="min">min</span></span> <span data-i18n="plan_item4">Play Word Streak and try to beat your best score ⚡</span></li>
+        <li><span class="time">2 <span data-i18n="min">min</span></span> <span data-i18n="plan_item5">Take the quiz — aim for 5 correct in a row 🧠</span></li>
+        <li><span class="time">2 <span data-i18n="min">min</span></span> <span data-i18n="plan_item6">Browse the Word List and read 10 new words 📖</span></li>
       </ul>
       <div class="encourage" data-i18n-html="encourage_html">
         💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.
@@ -1352,6 +1353,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <option value="health"     data-i18n="cat_health">🏥 Health</option>
           <option value="phone"      data-i18n="cat_phone">💬 Conversation</option>
           <option value="hobbies"    data-i18n="cat_hobbies">🎯 Hobbies</option>
+          <option value="animals"    data-i18n="cat_animals">🐘 Animals</option>
           <option value="difficult"  data-i18n="cat_difficult">⭐ My difficult cards</option>
         </select>
         <button class="btn small" id="flashShuffle" data-i18n="shuffle">🔀 Shuffle</button>
@@ -1863,6 +1865,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <option value="health"     data-i18n="cat_health">🏥 Health</option>
           <option value="phone"      data-i18n="cat_phone">💬 Conversation</option>
           <option value="hobbies"    data-i18n="cat_hobbies">🎯 Hobbies</option>
+          <option value="animals"    data-i18n="cat_animals">🐘 Animals</option>
         </select>
         <input id="vlSearch" type="search" data-i18n-ph="vocablist_search" placeholder="Search words..." style="
           background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);
@@ -1947,11 +1950,12 @@ const I18N = {
     plan_title: "📅 Your 15-Minute Daily Plan",
     plan_subtitle: "A small amount every day is better than a lot once a week.",
     min: "min",
-    plan_item1: "Review 5 vocabulary flashcards 🃏",
-    plan_item2: "Read 1 grammar rule 📘",
-    plan_item3: "Answer 3 speaking questions aloud 🎤",
-    plan_item4: "Watch a short BBC / British Council clip 🎧",
-    plan_item5: "Take a quick quiz 🧠",
+    plan_item1: "Practice 10 flashcards from a new category 🃏",
+    plan_item2: "Study 1 letter sound and say the examples aloud 🔤",
+    plan_item3: "Answer 3 visa interview questions in the Speaking Game 🎤",
+    plan_item4: "Play Word Streak and try to beat your best score ⚡",
+    plan_item5: "Take the quiz — aim for 5 correct in a row 🧠",
+    plan_item6: "Browse the Word List and read 10 new words 📖",
     encourage_html: "💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.",
     name_tip_title: "How to say your name in English",
     name_tip_body: "Your name <strong>Elxan</strong> is often mispronounced in English. British people may say <em>\"Elk-san\"</em> — but the correct pronunciation is closer to <strong>\"El-khan\"</strong> (like \"khan\" in Genghis Khan).<br><br>You can say: <em>\"My name is Elxan — it's pronounced El-khan.\"</em> 🗣️",
@@ -2001,6 +2005,7 @@ const I18N = {
     cat_weather: "🌦️ Weather",
     cat_phone: "💬 Conversation",
     cat_hobbies: "🎯 Hobbies",
+    cat_animals: "🐘 Animals",
     cat_difficult: "⭐ My difficult cards",
     shuffle: "🔀 Shuffle",
     random: "🎲 Random",
@@ -2154,11 +2159,12 @@ const I18N = {
     plan_title: "📅 Sənin 15 dəqiqəlik gündəlik planın",
     plan_subtitle: "Hər gün az, amma davamlı — həftədə bir dəfə çox işləməkdən yaxşıdır.",
     min: "dəq",
-    plan_item1: "5 söz kartını təkrarla 🃏",
-    plan_item2: "1 qrammatika qaydasını oxu 📘",
-    plan_item3: "3 danışıq sualını ucadan cavablandır 🎤",
-    plan_item4: "BBC / British Council qısa videosuna bax 🎧",
-    plan_item5: "Qısa test həll et 🧠",
+    plan_item1: "Yeni kateqoriyadan 10 söz kartını məşq et 🃏",
+    plan_item2: "1 hərf səsini öyrən və nümunələri ucadan de 🔤",
+    plan_item3: "Danışıq Oyununda 3 viza müsahibəsi sualını cavabla 🎤",
+    plan_item4: "Söz Sürüşməsini oyna və rekordunu keç ⚡",
+    plan_item5: "Testi həll et — ardıcıl 5 düzgün cavab ver 🧠",
+    plan_item6: "Söz Siyahısına bax və 10 yeni söz oxu 📖",
     encourage_html: "💛 <strong>Sən bacarırsan.</strong> Hər gün məşq etdikcə daha yaxınlaşırsan. Səhvlərdən qorxma — səhvlər öyrənməyin bir hissəsidir.",
     name_tip_title: "İngiliscədə adını necə söyləmək olar",
     name_tip_body: "Sənin adın <strong>Elxan</strong> ingiliscədə tez-tez yanlış tələffüz edilir. Britaniyalılar <em>\"Elk-san\"</em> deyə bilər — amma düzgün tələffüz <strong>\"El-xan\"</strong> kimidir (Çingiz xandakı \"xan\" kimi).<br><br>Deyə bilərsən: <em>\"Mənim adım Elxandır — El-xan kimi tələffüz olunur.\"</em> 🗣️",
@@ -2208,6 +2214,7 @@ const I18N = {
     cat_weather: "🌦️ Hava",
     cat_phone: "💬 Söhbət",
     cat_hobbies: "🎯 Hobbilər",
+    cat_animals: "🐘 Heyvanlar",
     cat_difficult: "⭐ Çətin kartlarım",
     shuffle: "🔀 Qarışdır",
     random: "🎲 Təsadüfi",
@@ -2709,7 +2716,39 @@ const VOCAB = [
   { cat: "hobbies",    level: "A2", en: "nature",           az: "təbiət",                pron: "ˈneɪtʃə",           ex: "I love spending time in nature.",   exAz: "Təbiətdə vaxt keçirməyi sevirəm." },
   { cat: "hobbies",    level: "A2", en: "agriculture",      az: "kənd təsərrüfatı",      pron: "ˈæɡrɪkʌltʃə",       ex: "I am passionate about agriculture.",exAz: "Kənd təsərrüfatına həvəsim var." },
   { cat: "hobbies",    level: "A2", en: "to grow",          az: "yetişdirmək",           pron: "ɡrəʊ",              ex: "I grow vegetables in my garden.",   exAz: "Bağımda tərəvəz yetişdirirəm." },
-  { cat: "hobbies",    level: "A2", en: "interest",         az: "maraq",                 pron: "ˈɪntrəst",          ex: "I have many interests.",            exAz: "Çox marağım var." }
+  { cat: "hobbies",    level: "A2", en: "interest",         az: "maraq",                 pron: "ˈɪntrəst",          ex: "I have many interests.",            exAz: "Çox marağım var." },
+
+  // =============== ANIMALS ===============
+  { cat: "animals",    level: "A1", en: "elephant",         az: "fil",                   pron: "ˈelɪfənt",          ex: "The elephant is very big.",         exAz: "Fil çox böyükdür." },
+  { cat: "animals",    level: "A1", en: "lion",             az: "aslan",                 pron: "ˈlaɪən",            ex: "The lion is the king of animals.",  exAz: "Aslan heyvanların kralıdır." },
+  { cat: "animals",    level: "A1", en: "tiger",            az: "pələng",                pron: "ˈtaɪɡə",            ex: "Tigers are fast and strong.",       exAz: "Pələnglər sürətli və güclüdür." },
+  { cat: "animals",    level: "A1", en: "bear",             az: "ayı",                   pron: "beə",               ex: "Bears sleep in winter.",            exAz: "Ayılar qışda yatır." },
+  { cat: "animals",    level: "A1", en: "horse",            az: "at",                    pron: "hɔːs",              ex: "I love horses.",                    exAz: "Atları sevirəm." },
+  { cat: "animals",    level: "A1", en: "cow",              az: "inək",                  pron: "kaʊ",               ex: "The cow gives us milk.",            exAz: "İnək bizə süd verir." },
+  { cat: "animals",    level: "A1", en: "sheep",            az: "qoyun",                 pron: "ʃiːp",              ex: "Sheep live on farms.",              exAz: "Qoyunlar fermada yaşayır." },
+  { cat: "animals",    level: "A1", en: "goat",             az: "keçi",                  pron: "ɡəʊt",              ex: "We have goats in the village.",     exAz: "Kənddə keçilərimiz var." },
+  { cat: "animals",    level: "A1", en: "chicken",          az: "toyuq",                 pron: "ˈtʃɪkɪn",           ex: "The chicken lays eggs.",            exAz: "Toyuq yumurta qoyur." },
+  { cat: "animals",    level: "A1", en: "fish",             az: "balıq",                 pron: "fɪʃ",               ex: "There are many fish in the sea.",   exAz: "Dənizdə çoxlu balıq var." },
+  { cat: "animals",    level: "A1", en: "dog",              az: "it",                    pron: "dɒɡ",               ex: "Dogs are friendly animals.",        exAz: "İtlər mehriban heyvanlardır." },
+  { cat: "animals",    level: "A1", en: "cat",              az: "pişik",                 pron: "kæt",               ex: "The cat is sleeping.",              exAz: "Pişik yatır." },
+  { cat: "animals",    level: "A1", en: "rabbit",           az: "dovşan",                pron: "ˈræbɪt",            ex: "Rabbits eat vegetables.",           exAz: "Dovşanlar tərəvəz yeyir." },
+  { cat: "animals",    level: "A1", en: "bird",             az: "quş",                   pron: "bɜːd",              ex: "Birds sing in the morning.",        exAz: "Quşlar səhər oxuyur." },
+  { cat: "animals",    level: "A1", en: "fox",              az: "tülkü",                 pron: "fɒks",              ex: "The fox is clever.",                exAz: "Tülkü ağıllıdır." },
+  { cat: "animals",    level: "A1", en: "wolf",             az: "canavar",               pron: "wʊlf",              ex: "Wolves live in forests.",           exAz: "Canavarlar meşədə yaşayır." },
+  { cat: "animals",    level: "A2", en: "eagle",            az: "qartal",                pron: "ˈiːɡəl",            ex: "The eagle flies very high.",        exAz: "Qartal çox yüksəkdə uçur." },
+  { cat: "animals",    level: "A2", en: "owl",              az: "bayquş",                pron: "aʊl",               ex: "Owls sleep during the day.",        exAz: "Bayquşlar gündüz yatır." },
+  { cat: "animals",    level: "A2", en: "butterfly",        az: "kəpənək",               pron: "ˈbʌtəflaɪ",         ex: "Butterflies are beautiful.",        exAz: "Kəpənəklər gözəldir." },
+  { cat: "animals",    level: "A2", en: "bee",              az: "arı",                   pron: "biː",               ex: "Bees make honey.",                  exAz: "Arılar bal hazırlayır." },
+  { cat: "animals",    level: "A2", en: "frog",             az: "qurbağa",               pron: "frɒɡ",              ex: "Frogs live near water.",            exAz: "Qurbağalar suyun yanında yaşayır." },
+  { cat: "animals",    level: "A2", en: "snake",            az: "ilan",                  pron: "sneɪk",             ex: "Some snakes are dangerous.",        exAz: "Bəzi ilanlar təhlükəlidir." },
+  { cat: "animals",    level: "A2", en: "turtle",           az: "tısbağa",               pron: "ˈtɜːtl",            ex: "Turtles move very slowly.",         exAz: "Tısbağalar çox yavaş hərəkət edir." },
+  { cat: "animals",    level: "A2", en: "dolphin",          az: "delfin",                pron: "ˈdɒlfɪn",           ex: "Dolphins are very intelligent.",    exAz: "Delfin çox ağıllıdır." },
+  { cat: "animals",    level: "A2", en: "giraffe",          az: "zürafə",                pron: "dʒɪˈrɑːf",          ex: "The giraffe has a long neck.",      exAz: "Zürafənin uzun boynu var." },
+  { cat: "animals",    level: "A2", en: "camel",            az: "dəvə",                  pron: "ˈkæməl",            ex: "Camels live in the desert.",        exAz: "Dəvələr səhrada yaşayır." },
+  { cat: "animals",    level: "A2", en: "penguin",          az: "pinqvin",               pron: "ˈpeŋɡwɪn",          ex: "Penguins cannot fly.",              exAz: "Pinqvinlər uça bilmir." },
+  { cat: "animals",    level: "A2", en: "parrot",           az: "tutuquşu",              pron: "ˈpærət",            ex: "Parrots can talk.",                 exAz: "Tutuquşular danışa bilir." },
+  { cat: "animals",    level: "A2", en: "shark",            az: "köpək balığı",          pron: "ʃɑːk",              ex: "Sharks live in the ocean.",         exAz: "Köpək balıqları okeanda yaşayır." },
+  { cat: "animals",    level: "A2", en: "crocodile",        az: "timsah",                pron: "ˈkrɒkədaɪl",        ex: "Crocodiles are very dangerous.",    exAz: "Timsahlar çox təhlükəlidir." }
 
 ];
 // ---------- SPEAKING QUESTIONS ----------
@@ -2781,65 +2820,87 @@ const SPEAKING_QUESTIONS = [
 // ---------- QUIZ ----------
 // Many of these use Elkhan's own life so practising the quiz also rehearses real answers.
 const QUIZ = [
-  // Grammar — basics
-  { q: "I ___ from Azerbaijan.",                            opts: ["am", "is", "are", "be"],                                a: 0 },
-  { q: "She ___ a teacher.",                                 opts: ["am", "is", "are", "have"],                              a: 1 },
-  { q: "We ___ married for many years.",                     opts: ["is", "has", "have been", "are been"],                   a: 2 },
-  { q: "Where ___ you live?",                                opts: ["does", "is", "do", "are"],                              a: 2 },
-  { q: "Pick the question form:",                            opts: ["You live where?", "Where do you live?", "Where you live?", "Live where you?"], a: 1 },
-  { q: "'I ___ English every day.'",                         opts: ["study", "studies", "studying", "am study"],             a: 0 },
-  { q: "Choose the correct sentence:",                       opts: ["He live in London.", "He lives in London.", "He living in London.", "He is live in London."], a: 1 },
+  // ── GRAMMAR ───────────────────────────────────────────────────────────────
+  { q: "I ___ from Azerbaijan.",                              opts: ["am","is","are","be"],                                                          a: 0 },
+  { q: "She ___ a teacher.",                                  opts: ["am","is","are","have"],                                                        a: 1 },
+  { q: "We ___ married for many years.",                      opts: ["is","has","have been","are been"],                                             a: 2 },
+  { q: "Where ___ you live?",                                 opts: ["does","is","do","are"],                                                        a: 2 },
+  { q: "Choose the correct question:",                        opts: ["You live where?","Where do you live?","Where you live?","Live where you?"],     a: 1 },
+  { q: "'I ___ English every day.'",                          opts: ["study","studies","studying","am study"],                                       a: 0 },
+  { q: "Choose the correct sentence:",                        opts: ["He live in London.","He lives in London.","He living in London.","He is live in London."], a: 1 },
+  { q: "I ___ to the UK to be with my wife.",                 opts: ["moving","am moving","move","am move"],                                         a: 1 },
+  { q: "'___ you speak English?' — 'A little.'",              opts: ["Does","Do","Are","Have"],                                                      a: 1 },
+  { q: "She has lived in London ___ 24 years.",               opts: ["since","for","from","in"],                                                     a: 1 },
+  { q: "I ___ an engineer before I started my business.",     opts: ["was","were","am","be"],                                                        a: 0 },
+  { q: "Choose the correct sentence:",                        opts: ["He don't have a car.","He doesn't have a car.","He not have a car.","He haven't a car."], a: 1 },
+  { q: "My wife ___ in London since 2001.",                   opts: ["live","lives","has lived","living"],                                           a: 2 },
+  { q: "I am looking forward ___ my wife in London.",         opts: ["see","to see","seeing","to seeing"],                                           a: 3 },
 
-  // Personalised — Elkhan's life (answer with HIS real answer)
-  { q: "Complete: 'My name is ___ Eminov.'",                 opts: ["Elkhan", "Elnur", "Anar", "Rashad"],                    a: 0 },
-  { q: "Complete: 'I am ___ years old.'",                    opts: ["35", "45", "55", "65"],                                 a: 2 },
-  { q: "Complete: 'I was born on ___ June 1971.'",           opts: ["5", "15", "25", "30"],                                  a: 2 },
-  { q: "Complete: 'I studied at the State ___ Academy.'",    opts: ["Music", "Oil", "Sport", "Medical"],                     a: 1 },
-  { q: "Complete: 'I am very good at ___ and physics.'",     opts: ["English", "music", "maths", "sport"],                   a: 2 },
-  { q: "Complete: 'I worked as an ___.'",                    opts: ["actor", "engineer", "artist", "teacher"],               a: 1 },
-  { q: "Complete: 'I own a ___ business.'",                  opts: ["small shop", "wholesale", "factory", "hotel"],          a: 1 },
-  { q: "My son is a ___.",                                   opts: ["teacher", "driver", "doctor", "farmer"],                a: 2 },
-  { q: "My daughter lives in ___.",                          opts: ["London", "Moscow", "Baku", "Istanbul"],                 a: 1 },
-  { q: "My mother is ___ years old.",                        opts: ["66", "76", "86", "96"],                                 a: 2 },
-  { q: "How many brothers do you have?",                     opts: ["one", "two", "three", "four"],                          a: 1 },
-  { q: "How many sisters do you have?",                      opts: ["one", "two", "three", "four"],                          a: 1 },
-  { q: "Where do your brothers live?",                       opts: ["in a village", "in Baku", "in Moscow", "in London"],    a: 1 },
-  { q: "Where do your sisters live?",                        opts: ["in a village", "in Baku", "in Moscow", "in London"],    a: 0 },
-  { q: "Our anniversary is in ___.",                         opts: ["June", "August", "October", "December"],                a: 2 },
-  { q: "Which food does Elkhan love?",                       opts: ["fish", "potatoes", "rice", "bread"],                    a: 1 },
-  { q: "Do you have grandchildren?",                         opts: ["Yes, two.", "Yes, three.", "Not yet.", "Yes, four."],   a: 2 },
+  // ── VOCABULARY — EN → AZ ──────────────────────────────────────────────────
+  { q: "What does 'passport' mean in Azerbaijani?",           opts: ["bilet","pasport","viza","sənəd"],                                              a: 1 },
+  { q: "What does 'weather' mean?",                           opts: ["hava","su","torpaq","od"],                                                     a: 0 },
+  { q: "What does 'neighbour' mean?",                         opts: ["qardaş","dostum","qonşu","əmi"],                                               a: 2 },
+  { q: "What does 'journey' mean?",                           opts: ["yemək","səyahət","ev","iş"],                                                   a: 1 },
+  { q: "What does 'comfortable' mean?",                       opts: ["ucuz","bahalı","rahat","çətin"],                                               a: 2 },
+  { q: "What does 'community' mean?",                         opts: ["ailə","icma","dostlar","şirkət"],                                              a: 1 },
+  { q: "What does 'degree' mean in education?",               opts: ["dərs","imtahan","diploma","sertifikat"],                                       a: 2 },
+  { q: "What does 'agriculture' mean?",                       opts: ["sənaye","kənd təsərrüfatı","ticarət","mühəndislik"],                           a: 1 },
+  { q: "What does 'fortnight' mean?",                         opts: ["bir həftə","iki həftə","bir ay","bir gün"],                                    a: 1 },
+  { q: "What does 'platform' mean at a train station?",       opts: ["bilet","növbə","platforma","qatar"],                                           a: 2 },
 
-  // Vocabulary meaning (EN ⇄ AZ)
-  { q: "What is the Azerbaijani word for 'husband'?",        opts: ["arvad", "qardaş", "ər", "oğul"],                        a: 2 },
-  { q: "'My wife' in Azerbaijani is:",                       opts: ["arvadım", "qızım", "bacım", "anam"],                    a: 0 },
-  { q: "What does 'müsahibə' mean in English?",              opts: ["passport", "interview", "appointment", "marriage"],     a: 1 },
-  { q: "What does 'həkim' mean in English?",                 opts: ["doctor", "engineer", "teacher", "driver"],              a: 0 },
-  { q: "'Topdansatış' in English is:",                       opts: ["retail", "wholesale", "market", "delivery"],            a: 1 },
-  { q: "'Mühəndis' in English is:",                          opts: ["engineer", "manager", "owner", "officer"],              a: 0 },
-  { q: "'Nəvə' in English is:",                              opts: ["grandchild", "child", "nephew", "cousin"],              a: 0 },
-  { q: "'Kartof' in English is:",                            opts: ["tomato", "carrot", "potato", "onion"],                  a: 2 },
-  { q: "'Yağış' in English is:",                             opts: ["snow", "wind", "rain", "sun"],                          a: 2 },
-  { q: "'Səhər yeməyi' in English is:",                      opts: ["dinner", "lunch", "supper", "breakfast"],               a: 3 },
+  // ── VOCABULARY — AZ → EN ──────────────────────────────────────────────────
+  { q: "'Müsahibə' in English is:",                           opts: ["passport","interview","appointment","marriage"],                               a: 1 },
+  { q: "'Topdansatış' in English is:",                        opts: ["retail","wholesale","market","delivery"],                                      a: 1 },
+  { q: "'Kənd təsərrüfatı' in English is:",                   opts: ["engineering","agriculture","gardening","business"],                            a: 1 },
+  { q: "'Bağçılıq' in English is:",                           opts: ["fishing","cooking","gardening","walking"],                                     a: 2 },
+  { q: "'Məskunlaşmaq' in English is:",                       opts: ["to travel","to settle","to study","to work"],                                  a: 1 },
+  { q: "'Gömrük' in English is:",                             opts: ["arrivals","luggage","customs","border"],                                       a: 2 },
+  { q: "'Hərarət' in English is:",                            opts: ["weather","cold","temperature","forecast"],                                     a: 2 },
+  { q: "'Magistratura' in English is:",                       opts: ["degree","Master's degree","university","subject"],                             a: 1 },
+  { q: "'Kəpənək' in English is:",                            opts: ["bee","butterfly","worm","frog"],                                               a: 1 },
+  { q: "'Tısbağa' in English is:",                            opts: ["frog","snake","turtle","crocodile"],                                           a: 2 },
 
-  // Family relationships
-  { q: "My mother's husband is my ___.",                     opts: ["uncle", "father", "brother", "cousin"],                 a: 1 },
-  { q: "My son's wife is my ___.",                           opts: ["daughter", "daughter-in-law", "sister", "niece"],       a: 1 },
-  { q: "My wife's mother is my ___.",                        opts: ["mother-in-law", "aunt", "grandmother", "sister"],       a: 0 },
-  { q: "My brother's daughter is my ___.",                   opts: ["niece", "cousin", "sister", "daughter"],                a: 0 },
+  // ── LETTER SOUNDS ─────────────────────────────────────────────────────────
+  { q: "How is 'ph' pronounced in 'phone'?",                  opts: ["p","ph","f","v"],                                                             a: 2 },
+  { q: "The 'c' in 'city' sounds like:",                      opts: ["k","s","ch","sh"],                                                            a: 1 },
+  { q: "The 'c' in 'cat' sounds like:",                       opts: ["s","sh","k","ch"],                                                            a: 2 },
+  { q: "How is '-tion' pronounced in 'station'?",             opts: ["tee-on","t-ion","shun","t-on"],                                               a: 2 },
+  { q: "The 'gh' in 'night' is:",                             opts: ["pronounced as g","pronounced as f","silent","pronounced as gh"],              a: 2 },
+  { q: "Which word has the /iː/ long sound?",                 opts: ["sit","bit","see","it"],                                                       a: 2 },
+  { q: "Which word rhymes with 'cake'?",                      opts: ["back","lack","make","pack"],                                                   a: 2 },
+  { q: "The 'dge' in 'edge' sounds like:",                    opts: ["d","g","j","dg"],                                                             a: 2 },
+  { q: "Which word has the same vowel sound as 'tea'?",       opts: ["ten","bed","meat","get"],                                                     a: 2 },
+  { q: "How is 'wh' pronounced in 'where'?",                  opts: ["v","wh","w","h"],                                                             a: 2 },
 
-  // Listening / comprehension style — answer based on hearing the sentence
-  { q: "'I have two grown-up children.' How many children?", opts: ["one", "two", "three", "four"],                          a: 1 },
-  { q: "'My daughter lives in Moscow.' Where?",              opts: ["London", "Baku", "Moscow", "Paris"],                    a: 2 },
-  { q: "'I worked at an oil company.' What job?",            opts: ["doctor", "engineer at an oil company", "teacher", "driver"], a: 1 },
+  // ── UK LIFE & VISA ────────────────────────────────────────────────────────
+  { q: "What is the emergency number in the UK?",             opts: ["911","112","999","000"],                                                       a: 2 },
+  { q: "What is the NHS?",                                    opts: ["A bank","National Health Service","A transport company","A school"],           a: 1 },
+  { q: "What is an Oyster card used for?",                    opts: ["Shopping","Paying bills","London transport","ID"],                             a: 2 },
+  { q: "What does 'GP' stand for in the UK?",                 opts: ["General Park","General Passport","General Practitioner","General Police"],     a: 2 },
+  { q: "Why is Elkhan moving to the UK?",                     opts: ["For work","For holiday","To live with his wife","To study"],                   a: 2 },
+  { q: "Has Elkhan been to the UK before?",                   opts: ["Yes, many times","Yes, once","No, it is his first time","Yes, twice"],         a: 2 },
+  { q: "Where does Elkhan's wife live?",                      opts: ["Baku","Moscow","London","Istanbul"],                                           a: 2 },
+  { q: "What is a spouse visa?",                              opts: ["A work visa","A student visa","A visa to live with your partner","A tourist visa"], a: 2 },
+  { q: "What does 'council tax' pay for?",                    opts: ["Food","Local services","Transport only","Schools only"],                       a: 1 },
+  { q: "What is a 'fortnight' in British English?",           opts: ["One week","Two weeks","One month","Three days"],                               a: 1 },
 
-  // Conversation
-  { q: "How do you answer: 'How are you?'",                  opts: ["I am Baku.", "I am fine, thank you.", "Yes, I have.", "My name is Ali."], a: 1 },
-  { q: "How do you ask someone to repeat?",                  opts: ["Repeat!", "Again now.", "Can you repeat that, please?", "Say one more."], a: 2 },
-  { q: "How do you say goodbye politely?",                   opts: ["Out!", "Goodbye, see you soon.", "Finish.", "Stop now."], a: 1 },
+  // ── ANIMALS ───────────────────────────────────────────────────────────────
+  { q: "What is an 'elephant' in Azerbaijani?",               opts: ["aslan","pələng","fil","ayı"],                                                  a: 2 },
+  { q: "Which animal makes honey?",                           opts: ["butterfly","bee","parrot","frog"],                                             a: 1 },
+  { q: "What is a 'qartal' in English?",                      opts: ["owl","parrot","eagle","penguin"],                                              a: 2 },
+  { q: "Which animal cannot fly?",                            opts: ["eagle","owl","parrot","penguin"],                                              a: 3 },
+  { q: "What is a 'kəpənək' in English?",                     opts: ["bee","butterfly","worm","frog"],                                               a: 1 },
+  { q: "Which animal is known for being very slow?",          opts: ["horse","eagle","turtle","lion"],                                               a: 2 },
+  { q: "What is a 'zürafə' in English?",                      opts: ["zebra","hippo","giraffe","camel"],                                             a: 2 },
+  { q: "Which animal lives in the desert?",                   opts: ["dolphin","penguin","camel","frog"],                                            a: 2 },
 
-  // UK / visa
-  { q: "Why do you want to come to the UK?",                 opts: ["To work in oil.", "To live with my wife.", "For holiday.", "To study at school."], a: 1 },
-  { q: "Where does your wife live?",                         opts: ["Baku", "Moscow", "the UK", "a village"],                a: 2 }
+  // ── CONVERSATION & POLITENESS ─────────────────────────────────────────────
+  { q: "How do you politely ask someone to repeat?",          opts: ["Repeat!","Again now.","Could you repeat that, please?","Say one more."],       a: 2 },
+  { q: "How do you answer 'How are you?'",                    opts: ["I am Baku.","I am fine, thank you.","Yes, I have.","My name is Elkhan."],      a: 1 },
+  { q: "How do you say goodbye politely?",                    opts: ["Out!","Goodbye, see you soon.","Finish.","Stop now."],                         a: 1 },
+  { q: "How do you ask for slower speech?",                   opts: ["Speak slow!","More slow please!","Could you speak more slowly, please?","Slowly!"], a: 2 },
+  { q: "Which is the most polite way to ask for help?",       opts: ["Help me now!","I need help!","Could you help me, please?","Help!"],            a: 2 },
+  { q: "How do you introduce yourself?",                      opts: ["I am called Elkhan.","My name is Elkhan Eminov.","Elkhan Eminov is me.","They call me Elkhan."], a: 1 }
 ];
 
 /* =========================================================
@@ -4211,14 +4272,14 @@ applyLanguage(LANG);
   const CAT_ORDER = [
     "personal","family","numbers","days","months","seasons","colours",
     "adjectives","daily","home","food","travel","transport","uk","visa",
-    "work","education","health","phone","hobbies"
+    "work","education","health","phone","hobbies","animals"
   ];
 
   const CAT_EMOJI = {
     personal:"🪪", family:"👨‍👩‍👧", numbers:"🔢", days:"📅", months:"🗓️",
     seasons:"🌦️", colours:"🎨", adjectives:"💬", daily:"☀️", home:"🏠",
     food:"🍽️", travel:"✈️", transport:"🚌", uk:"🇬🇧", visa:"🛂",
-    work:"💼", education:"📘", health:"🏥", phone:"💬", hobbies:"🎯"
+    work:"💼", education:"📘", health:"🏥", phone:"💬", hobbies:"🎯", animals:"🐘"
   };
 
   function render() {
