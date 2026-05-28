@@ -103,6 +103,77 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   VERB TABLE
+   ========================================================= */
+.vt-group-heading {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--accent);
+  padding: 18px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.vt-row {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 12px 4px;
+  transition: background 0.12s;
+}
+.vt-row:hover { background: var(--bg-2); border-radius: 10px; }
+.vt-verb-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px; flex-wrap: wrap;
+}
+.vt-verb-name {
+  font-size: 20px; font-weight: 900; color: var(--text); flex: 1;
+}
+.vt-verb-az {
+  font-size: 14px; color: var(--accent); font-weight: 600;
+}
+.vt-verb-pron {
+  font-size: 12px; color: var(--text-muted); font-style: italic;
+}
+.vt-badge {
+  font-size: 11px; font-weight: 700; padding: 2px 8px;
+  border-radius: 20px; white-space: nowrap;
+}
+.vt-badge.regular   { background: rgba(110,231,185,0.15); color: var(--success); border: 1px solid rgba(110,231,185,0.3); }
+.vt-badge.irregular { background: rgba(255,196,136,0.15); color: var(--warn);    border: 1px solid rgba(255,196,136,0.3); }
+.vt-badge.a1 { background: rgba(124,156,255,0.12); color: var(--accent); border: 1px solid rgba(124,156,255,0.3); }
+.vt-badge.a2 { background: rgba(176,138,255,0.12); color: #b08aff;       border: 1px solid rgba(176,138,255,0.3); }
+.vt-tenses {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.vt-tense-cell {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.vt-tense-cell:hover { border-color: var(--accent); background: rgba(124,156,255,0.08); }
+.vt-tense-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text-muted); font-weight: 700; margin-bottom: 4px;
+}
+.vt-tense-word {
+  font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 3px;
+}
+.vt-tense-example {
+  font-size: 12px; color: var(--text-dim); line-height: 1.4;
+}
+#vtSearch:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+body.large-text .vt-verb-name { font-size: 22px; }
+body.large-text .vt-tense-word { font-size: 17px; }
+body.large-text .vt-tense-example { font-size: 14px; }
+@media (max-width: 520px) {
+  .vt-tenses { grid-template-columns: 1fr; }
+  .vt-tense-cell { display: flex; align-items: flex-start; gap: 10px; }
+  .vt-tense-label { min-width: 56px; margin-bottom: 0; margin-top: 2px; }
+}
+
+/* =========================================================
    VERB UNIVERSE
    ========================================================= */
 @keyframes verbCardIn {
@@ -1408,6 +1479,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="animals"><span data-i18n="tab_animals">🐘 Animals</span></button>
     <button class="tab" data-tab="builder"><span data-i18n="tab_builder">🧩 Sentence Builder</span></button>
     <button class="tab" data-tab="verbs"><span data-i18n="tab_verbs">🌍 Verb Universe</span></button>
+    <button class="tab" data-tab="verbtable"><span data-i18n="tab_verbtable">📋 Verb Table</span></button>
   </nav>
 
   <!-- =========================================================
@@ -2281,6 +2353,37 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       VERB TABLE
+       ========================================================= -->
+  <section class="panel" id="panel-verbtable">
+    <div class="card">
+      <h2 data-i18n="verbtable_title">📋 Verb Table</h2>
+      <p class="subtitle" data-i18n="verbtable_subtitle">Browse verbs in all three tenses. Tap any word to hear it.</p>
+
+      <!-- Filter row -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center;">
+        <select id="vtFilter" style="background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);border-radius:12px;padding:10px 14px;font-size:14px;cursor:pointer;flex:1;min-width:160px;">
+          <option value="all"       data-i18n="vt_filter_all">All verbs</option>
+          <option value="regular"   data-i18n="vt_filter_regular">✅ Regular verbs</option>
+          <option value="irregular" data-i18n="vt_filter_irregular">⚡ Irregular verbs</option>
+          <option value="a1"        data-i18n="vt_filter_a1">🟢 A1 level</option>
+          <option value="a2"        data-i18n="vt_filter_a2">🔵 A2 level</option>
+        </select>
+        <input id="vtSearch" type="search" data-i18n-ph="vt_search_ph" placeholder="Search verbs..." style="
+          background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);
+          border-radius:12px;padding:10px 14px;font-size:14px;flex:1;min-width:140px;font-family:inherit;
+        ">
+      </div>
+
+      <!-- Count -->
+      <div id="vtCount" style="font-size:13px;color:var(--text-dim);margin-bottom:16px;"></div>
+
+      <!-- Table -->
+      <div id="vtTableWrap"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -2316,6 +2419,7 @@ const I18N = {
     tab_animals: "🐘 Animals",
     tab_builder: "🧩 Sentence Builder",
     tab_verbs: "🌍 Verb Universe",
+    tab_verbtable: "📋 Verb Table",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -2363,6 +2467,20 @@ const I18N = {
     verbs_hear_all: "Hear all examples",
     verbs_next: "Next verb",
     verbs_faves_title: "❤️ Saved favourites",
+    verbtable_title: "📋 Verb Table",
+    verbtable_subtitle: "Browse verbs in all three tenses. Tap any cell to hear it.",
+    vt_filter_all: "All verbs",
+    vt_filter_regular: "✅ Regular verbs",
+    vt_filter_irregular: "⚡ Irregular verbs",
+    vt_filter_a1: "🟢 A1 level",
+    vt_filter_a2: "🔵 A2 level",
+    vt_search_ph: "Search verbs...",
+    vt_count: "{n} verbs",
+    vt_present: "Present",
+    vt_past: "Past",
+    vt_future: "Future",
+    vt_regular: "regular",
+    vt_irregular: "irregular",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -2554,6 +2672,7 @@ const I18N = {
     tab_animals: "🐘 Heyvanlar",
     tab_builder: "🧩 Cümlə Qurucusu",
     tab_verbs: "🌍 Fel Kainatı",
+    tab_verbtable: "📋 Fel Cədvəli",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -2601,6 +2720,20 @@ const I18N = {
     verbs_hear_all: "Bütün nümunələri dinlə",
     verbs_next: "Növbəti fel",
     verbs_faves_title: "❤️ Seçilmişlər",
+    verbtable_title: "📋 Fel Cədvəli",
+    verbtable_subtitle: "Bütün felləri üç zamanda gör. Dinləmək üçün xanaya toxun.",
+    vt_filter_all: "Bütün fellər",
+    vt_filter_regular: "✅ Düzgün fellər",
+    vt_filter_irregular: "⚡ Qeyri-düzgün fellər",
+    vt_filter_a1: "🟢 A1 səviyyə",
+    vt_filter_a2: "🔵 A2 səviyyə",
+    vt_search_ph: "Fel axtar...",
+    vt_count: "{n} fel",
+    vt_present: "İndiki",
+    vt_past: "Keçmiş",
+    vt_future: "Gələcək",
+    vt_regular: "düzgün",
+    vt_irregular: "qeyri-düzgün",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -4556,6 +4689,259 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   VERB TABLE
+   ========================================================= */
+(function verbTable() {
+
+  // Full verb dataset — present (base/3rd person), past simple, future will
+  // type: regular | irregular   level: a1 | a2
+  const VT_VERBS = [
+    // ── A1 Regular ────────────────────────────────────────────────
+    { emoji:"💼", verb:"work",    az:"işləmək",        pron:"/wɜːk/",     type:"regular",   level:"a1",
+      present:{ word:"work / works",   ex:"I work every day." },
+      past:   { word:"worked",         ex:"I worked as an engineer." },
+      future: { word:"will work",      ex:"I will work in London." } },
+    { emoji:"🌱", verb:"grow",    az:"yetişdirmək",    pron:"/ɡrəʊ/",     type:"irregular", level:"a1",
+      present:{ word:"grow / grows",   ex:"I grow vegetables." },
+      past:   { word:"grew",           ex:"I grew tomatoes last year." },
+      future: { word:"will grow",      ex:"I will grow a garden." } },
+    { emoji:"❤️", verb:"love",    az:"sevmək",         pron:"/lʌv/",      type:"regular",   level:"a1",
+      present:{ word:"love / loves",   ex:"I love my wife." },
+      past:   { word:"loved",          ex:"I loved her since day one." },
+      future: { word:"will love",      ex:"I will love her always." } },
+    { emoji:"🏡", verb:"live",    az:"yaşamaq",        pron:"/lɪv/",      type:"regular",   level:"a1",
+      present:{ word:"live / lives",   ex:"I live in Baku." },
+      past:   { word:"lived",          ex:"I lived here for years." },
+      future: { word:"will live",      ex:"I will live in London." } },
+    { emoji:"📞", verb:"call",    az:"zəng etmək",     pron:"/kɔːl/",     type:"regular",   level:"a1",
+      present:{ word:"call / calls",   ex:"I call her every day." },
+      past:   { word:"called",         ex:"I called her this morning." },
+      future: { word:"will call",      ex:"I will call her tonight." } },
+    { emoji:"🌳", verb:"walk",    az:"gəzmək",         pron:"/wɔːk/",     type:"regular",   level:"a1",
+      present:{ word:"walk / walks",   ex:"I walk in the park." },
+      past:   { word:"walked",         ex:"I walked for an hour." },
+      future: { word:"will walk",      ex:"I will walk by the Thames." } },
+    { emoji:"😂", verb:"laugh",   az:"gülmək",         pron:"/lɑːf/",     type:"regular",   level:"a1",
+      present:{ word:"laugh / laughs", ex:"I laugh every day." },
+      past:   { word:"laughed",        ex:"I laughed a lot." },
+      future: { word:"will laugh",     ex:"We will laugh together." } },
+    { emoji:"🙏", verb:"want",    az:"istəmək",        pron:"/wɒnt/",     type:"regular",   level:"a1",
+      present:{ word:"want / wants",   ex:"I want to speak English." },
+      past:   { word:"wanted",         ex:"I always wanted to move." },
+      future: { word:"will want",      ex:"I will want to explore London." } },
+    { emoji:"📖", verb:"study",   az:"oxumaq",         pron:"/ˈstʌdi/",   type:"regular",   level:"a1",
+      present:{ word:"study / studies",ex:"I study every day." },
+      past:   { word:"studied",        ex:"I studied engineering." },
+      future: { word:"will study",     ex:"I will study for a Master's." } },
+    { emoji:"🏆", verb:"learn",   az:"öyrənmək",       pron:"/lɜːn/",     type:"regular",   level:"a1",
+      present:{ word:"learn / learns", ex:"I learn new words daily." },
+      past:   { word:"learned",        ex:"I learned ten words today." },
+      future: { word:"will learn",     ex:"I will learn English well." } },
+    { emoji:"🧳", verb:"travel",  az:"səyahət etmək",  pron:"/ˈtrævəl/",  type:"regular",   level:"a1",
+      present:{ word:"travel / travels",ex:"I travel for business." },
+      past:   { word:"travelled",      ex:"I travelled to many places." },
+      future: { word:"will travel",    ex:"I will travel to the UK." } },
+    { emoji:"😊", verb:"like",    az:"bəyənmək/xoşlamaq",pron:"/laɪk/",   type:"regular",   level:"a1",
+      present:{ word:"like / likes",   ex:"I like British weather." },
+      past:   { word:"liked",          ex:"I liked the city very much." },
+      future: { word:"will like",      ex:"I will like London." } },
+    { emoji:"🎯", verb:"need",    az:"ehtiyacı olmaq", pron:"/niːd/",     type:"regular",   level:"a1",
+      present:{ word:"need / needs",   ex:"I need to practise English." },
+      past:   { word:"needed",         ex:"I needed more time." },
+      future: { word:"will need",      ex:"I will need a bank account." } },
+    { emoji:"🔎", verb:"look",    az:"baxmaq",         pron:"/lʊk/",      type:"regular",   level:"a1",
+      present:{ word:"look / looks",   ex:"I look at new vocabulary." },
+      past:   { word:"looked",         ex:"I looked out of the window." },
+      future: { word:"will look",      ex:"I will look for work later." } },
+    { emoji:"💬", verb:"ask",     az:"soruşmaq",       pron:"/ɑːsk/",     type:"regular",   level:"a1",
+      present:{ word:"ask / asks",     ex:"I ask questions in class." },
+      past:   { word:"asked",          ex:"I asked for directions." },
+      future: { word:"will ask",       ex:"I will ask the doctor." } },
+    { emoji:"👂", verb:"listen",  az:"dinləmək",       pron:"/ˈlɪsən/",   type:"regular",   level:"a1",
+      present:{ word:"listen / listens",ex:"I listen to the teacher." },
+      past:   { word:"listened",       ex:"I listened carefully." },
+      future: { word:"will listen",    ex:"I will listen to the news." } },
+    { emoji:"📝", verb:"write",   az:"yazmaq",         pron:"/raɪt/",     type:"irregular", level:"a1",
+      present:{ word:"write / writes", ex:"I write notes every day." },
+      past:   { word:"wrote",          ex:"I wrote a letter." },
+      future: { word:"will write",     ex:"I will write in English." } },
+    // ── A1 Irregular ──────────────────────────────────────────────
+    { emoji:"🍎", verb:"eat",     az:"yemək",          pron:"/iːt/",      type:"irregular", level:"a1",
+      present:{ word:"eat / eats",     ex:"I eat breakfast every day." },
+      past:   { word:"ate",            ex:"I ate a delicious meal." },
+      future: { word:"will eat",       ex:"I will eat dinner tonight." } },
+    { emoji:"🚶", verb:"go",      az:"getmək",         pron:"/ɡəʊ/",      type:"irregular", level:"a1",
+      present:{ word:"go / goes",      ex:"I go to work every day." },
+      past:   { word:"went",           ex:"I went to London." },
+      future: { word:"will go",        ex:"I will go to the UK." } },
+    { emoji:"🏠", verb:"come",    az:"gəlmək",         pron:"/kʌm/",      type:"irregular", level:"a1",
+      present:{ word:"come / comes",   ex:"I come home at six." },
+      past:   { word:"came",           ex:"I came to England." },
+      future: { word:"will come",      ex:"I will come to London." } },
+    { emoji:"☕", verb:"drink",   az:"içmək",          pron:"/drɪŋk/",    type:"irregular", level:"a1",
+      present:{ word:"drink / drinks", ex:"I drink tea every morning." },
+      past:   { word:"drank",          ex:"I drank a cup of tea." },
+      future: { word:"will drink",     ex:"I will drink coffee." } },
+    { emoji:"😴", verb:"sleep",   az:"yatmaq",         pron:"/sliːp/",    type:"irregular", level:"a1",
+      present:{ word:"sleep / sleeps", ex:"I sleep eight hours." },
+      past:   { word:"slept",          ex:"I slept very well." },
+      future: { word:"will sleep",     ex:"I will sleep early tonight." } },
+    { emoji:"🗣️", verb:"speak",  az:"danışmaq",       pron:"/spiːk/",    type:"irregular", level:"a1",
+      present:{ word:"speak / speaks", ex:"I speak Azerbaijani." },
+      past:   { word:"spoke",          ex:"I spoke to my wife." },
+      future: { word:"will speak",     ex:"I will speak English well." } },
+    { emoji:"🤝", verb:"meet",    az:"görüşmək",       pron:"/miːt/",     type:"irregular", level:"a1",
+      present:{ word:"meet / meets",   ex:"I meet new people." },
+      past:   { word:"met",            ex:"I met my wife at university." },
+      future: { word:"will meet",      ex:"I will meet her family." } },
+    { emoji:"💡", verb:"know",    az:"bilmək",         pron:"/nəʊ/",      type:"irregular", level:"a1",
+      present:{ word:"know / knows",   ex:"I know some English words." },
+      past:   { word:"knew",           ex:"I knew it was the right answer." },
+      future: { word:"will know",      ex:"I will know English fluently." } },
+    { emoji:"👁️", verb:"see",    az:"görmək",         pron:"/siː/",      type:"irregular", level:"a1",
+      present:{ word:"see / sees",     ex:"I see my wife on video call." },
+      past:   { word:"saw",            ex:"I saw a beautiful park." },
+      future: { word:"will see",       ex:"I will see her very soon." } },
+    { emoji:"💭", verb:"think",   az:"düşünmək",       pron:"/θɪŋk/",     type:"irregular", level:"a1",
+      present:{ word:"think / thinks", ex:"I think English is fun." },
+      past:   { word:"thought",        ex:"I thought about my future." },
+      future: { word:"will think",     ex:"I will think carefully." } },
+    { emoji:"😊", verb:"feel",    az:"hiss etmək",     pron:"/fiːl/",     type:"irregular", level:"a1",
+      present:{ word:"feel / feels",   ex:"I feel happy today." },
+      past:   { word:"felt",           ex:"I felt nervous at the interview." },
+      future: { word:"will feel",      ex:"I will feel at home in London." } },
+    { emoji:"🎤", verb:"say",     az:"deмəк",          pron:"/seɪ/",      type:"irregular", level:"a1",
+      present:{ word:"say / says",     ex:"I say hello to my neighbours." },
+      past:   { word:"said",           ex:"I said thank you." },
+      future: { word:"will say",       ex:"I will say it in English." } },
+    // ── A2 Regular ────────────────────────────────────────────────
+    { emoji:"📢", verb:"explain", az:"izah etmək",     pron:"/ɪkˈspleɪn/",type:"regular",   level:"a2",
+      present:{ word:"explain / explains",ex:"I explain my situation." },
+      past:   { word:"explained",      ex:"I explained why I moved." },
+      future: { word:"will explain",   ex:"I will explain at the interview." } },
+    { emoji:"🏃", verb:"move",    az:"köçmək",         pron:"/muːv/",     type:"regular",   level:"a2",
+      present:{ word:"move / moves",   ex:"I move to a new city." },
+      past:   { word:"moved",          ex:"She moved to London." },
+      future: { word:"will move",      ex:"I will move to the UK." } },
+    { emoji:"🔄", verb:"change",  az:"dəyişmək",       pron:"/tʃeɪndʒ/",  type:"regular",   level:"a2",
+      present:{ word:"change / changes",ex:"Life changes every day." },
+      past:   { word:"changed",        ex:"My life changed completely." },
+      future: { word:"will change",    ex:"Everything will change for better." } },
+    { emoji:"🧹", verb:"clean",   az:"təmizləmək",     pron:"/kliːn/",    type:"regular",   level:"a2",
+      present:{ word:"clean / cleans", ex:"I clean the house." },
+      past:   { word:"cleaned",        ex:"I cleaned the kitchen." },
+      future: { word:"will clean",     ex:"I will clean the garden." } },
+    { emoji:"🍳", verb:"cook",    az:"bişirmək",       pron:"/kʊk/",      type:"regular",   level:"a2",
+      present:{ word:"cook / cooks",   ex:"I cook dinner every evening." },
+      past:   { word:"cooked",         ex:"I cooked a traditional meal." },
+      future: { word:"will cook",      ex:"I will cook for my wife." } },
+    { emoji:"📋", verb:"plan",    az:"planlaşdırmaq",  pron:"/plæn/",     type:"regular",   level:"a2",
+      present:{ word:"plan / plans",   ex:"I plan my week on Sunday." },
+      past:   { word:"planned",        ex:"I planned my trip carefully." },
+      future: { word:"will plan",      ex:"I will plan our new life." } },
+    { emoji:"🌍", verb:"settle",  az:"məskunlaşmaq",   pron:"/ˈsetl/",    type:"regular",   level:"a2",
+      present:{ word:"settle / settles",ex:"I settle in my new home." },
+      past:   { word:"settled",        ex:"She settled in London." },
+      future: { word:"will settle",    ex:"I will settle in the UK." } },
+    // ── A2 Irregular ──────────────────────────────────────────────
+    { emoji:"🎓", verb:"teach",   az:"öyrətmək",       pron:"/tiːtʃ/",    type:"irregular", level:"a2",
+      present:{ word:"teach / teaches",ex:"I teach myself English." },
+      past:   { word:"taught",         ex:"She taught me patience." },
+      future: { word:"will teach",     ex:"I will teach my children English." } },
+    { emoji:"🏗️", verb:"build",  az:"qurmaq",         pron:"/bɪld/",     type:"irregular", level:"a2",
+      present:{ word:"build / builds", ex:"I build my future step by step." },
+      past:   { word:"built",          ex:"I built my own business." },
+      future: { word:"will build",     ex:"I will build a new life in the UK." } },
+    { emoji:"🤲", verb:"bring",   az:"gətirmək",       pron:"/brɪŋ/",     type:"irregular", level:"a2",
+      present:{ word:"bring / brings", ex:"I bring happiness to my family." },
+      past:   { word:"brought",        ex:"I brought documents to the interview." },
+      future: { word:"will bring",     ex:"I will bring my skills to the UK." } },
+    { emoji:"🏅", verb:"win",     az:"qazanmaq",       pron:"/wɪn/",      type:"irregular", level:"a2",
+      present:{ word:"win / wins",     ex:"I win when I work hard." },
+      past:   { word:"won",            ex:"I won the chess game." },
+      future: { word:"will win",       ex:"I will win my visa interview." } },
+  ];
+
+  // ── DOM ─────────────────────────────────────────────────────────
+  const filterEl = document.getElementById("vtFilter");
+  const searchEl = document.getElementById("vtSearch");
+  const countEl  = document.getElementById("vtCount");
+  const wrapEl   = document.getElementById("vtTableWrap");
+
+  function render() {
+    const filter = filterEl ? filterEl.value : "all";
+    const query  = searchEl ? searchEl.value.trim().toLowerCase() : "";
+
+    let list = VT_VERBS.filter(v => {
+      if (filter === "regular"   && v.type  !== "regular")   return false;
+      if (filter === "irregular" && v.type  !== "irregular") return false;
+      if (filter === "a1"        && v.level !== "a1")        return false;
+      if (filter === "a2"        && v.level !== "a2")        return false;
+      if (query && !v.verb.toLowerCase().includes(query) && !v.az.toLowerCase().includes(query)) return false;
+      return true;
+    });
+
+    if (countEl) countEl.textContent = `${list.length} verb${list.length !== 1 ? "s" : ""}`;
+    if (!wrapEl) return;
+    wrapEl.innerHTML = "";
+
+    if (!list.length) {
+      wrapEl.innerHTML = `<div style="text-align:center;color:var(--text-dim);padding:40px 0;font-size:15px;">No verbs found.</div>`;
+      return;
+    }
+
+    list.forEach((v, i) => {
+      const row = document.createElement("div");
+      row.className = "vt-row";
+      row.innerHTML = `
+        <div class="vt-verb-header">
+          <span style="font-size:22px;">${v.emoji}</span>
+          <span class="vt-verb-name">${v.verb}</span>
+          <span class="vt-verb-az">${v.az}</span>
+          <span class="vt-verb-pron">${v.pron}</span>
+          <span class="vt-badge ${v.type}">${v.type}</span>
+          <span class="vt-badge ${v.level}">${v.level.toUpperCase()}</span>
+        </div>
+        <div class="vt-tenses">
+          <div class="vt-tense-cell" data-speak="${v.present.ex}">
+            <div class="vt-tense-label">⏱ Present</div>
+            <div class="vt-tense-word">${v.present.word}</div>
+            <div class="vt-tense-example">${v.present.ex}</div>
+          </div>
+          <div class="vt-tense-cell" data-speak="${v.past.ex}">
+            <div class="vt-tense-label">⏮ Past</div>
+            <div class="vt-tense-word">${v.past.word}</div>
+            <div class="vt-tense-example">${v.past.ex}</div>
+          </div>
+          <div class="vt-tense-cell" data-speak="${v.future.ex}">
+            <div class="vt-tense-label">⏭ Future</div>
+            <div class="vt-tense-word">${v.future.word}</div>
+            <div class="vt-tense-example">${v.future.ex}</div>
+          </div>
+        </div>
+      `;
+
+      // Tap any tense cell to hear the example
+      row.querySelectorAll(".vt-tense-cell").forEach(cell => {
+        cell.addEventListener("click", () => speakText(cell.dataset.speak, { btn: cell }));
+      });
+
+      wrapEl.appendChild(row);
+    });
+  }
+
+  if (filterEl) filterEl.addEventListener("change", render);
+  if (searchEl) searchEl.addEventListener("input",  render);
+
+  // Render when tab opens
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => { if (tab.dataset.tab === "verbtable") render(); });
+  });
+
+  render();
 })();
 
 /* =========================================================
