@@ -103,6 +103,46 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   AI TUTOR
+   ========================================================= */
+@keyframes dotPulse { 0%,80%,100%{transform:scale(0.6);opacity:0.4;}40%{transform:scale(1);opacity:1;} }
+@keyframes msgIn { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);} }
+.tutor-chip {
+  background:var(--bg-2);border:1.5px solid var(--border-strong);border-radius:20px;
+  padding:7px 14px;font-size:13px;font-weight:600;color:var(--text-dim);
+  cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;white-space:nowrap;
+}
+.tutor-chip:hover { background:rgba(124,156,255,0.15);color:var(--accent);border-color:var(--accent); }
+.tutor-dot-pulse { display:flex;gap:4px;align-items:center; }
+.tutor-dot-pulse::before,.tutor-dot-pulse::after {
+  content:"";display:block;width:7px;height:7px;border-radius:50%;
+  background:var(--accent);animation:dotPulse 1.4s ease-in-out infinite;
+}
+.tutor-dot-pulse::after { animation-delay:0.2s; }
+.tutor-msg { display:flex;gap:10px;align-items:flex-end;animation:msgIn 0.3s ease both;max-width:88%; }
+.tutor-msg.user  { align-self:flex-end;flex-direction:row-reverse; }
+.tutor-msg.tutor { align-self:flex-start; }
+.tutor-avatar { width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px; }
+.tutor-msg.tutor .tutor-avatar { background:linear-gradient(135deg,var(--accent),#b08aff); }
+.tutor-msg.user  .tutor-avatar { background:var(--bg-3);font-size:18px; }
+.tutor-bubble { padding:12px 16px;border-radius:18px;font-size:15px;line-height:1.6;white-space:pre-wrap;word-break:break-word; }
+.tutor-msg.tutor .tutor-bubble { background:var(--bg-2);border:1.5px solid var(--border-strong);border-bottom-left-radius:4px;color:var(--text); }
+.tutor-msg.user  .tutor-bubble { background:linear-gradient(135deg,rgba(124,156,255,0.2),rgba(176,138,255,0.2));border:1.5px solid rgba(124,156,255,0.35);border-bottom-right-radius:4px;color:var(--text); }
+.tutor-bubble-actions { display:flex;gap:8px;margin-top:8px;flex-wrap:wrap; }
+.tutor-bubble-btn { background:var(--bg-3);border:1px solid var(--border);border-radius:14px;padding:4px 11px;font-size:12px;color:var(--text-dim);cursor:pointer;transition:background 0.12s,color 0.12s; }
+.tutor-bubble-btn:hover { background:rgba(124,156,255,0.15);color:var(--accent); }
+.tutor-error { background:rgba(255,151,165,0.10);border:1.5px solid rgba(255,151,165,0.35);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--text);margin:8px 0; }
+#tutorInput:focus { outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent); }
+#tutorChat::-webkit-scrollbar { width:4px; }
+#tutorChat::-webkit-scrollbar-thumb { background:var(--border-strong);border-radius:4px; }
+#tutorSend:hover { opacity:0.85;transform:scale(1.05); }
+#tutorSend:active { transform:scale(0.97); }
+#tutorClear:hover { color:var(--danger); }
+body.large-text .tutor-bubble { font-size:17px; }
+body.large-text .tutor-chip   { font-size:15px; }
+@media (max-width:480px) { .tutor-msg{max-width:94%;} #tutorChat{height:320px;} }
+
+/* =========================================================
    VERB TABLE
    ========================================================= */
 .vt-group-heading {
@@ -1480,6 +1520,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="builder"><span data-i18n="tab_builder">🧩 Sentence Builder</span></button>
     <button class="tab" data-tab="verbs"><span data-i18n="tab_verbs">🌍 Verb Universe</span></button>
     <button class="tab" data-tab="verbtable"><span data-i18n="tab_verbtable">📋 Verb Table</span></button>
+    <button class="tab" data-tab="tutor"><span data-i18n="tab_tutor">🤖 AI Tutor</span></button>
   </nav>
 
   <!-- =========================================================
@@ -2384,6 +2425,111 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       AI TUTOR
+       ========================================================= -->
+  <section class="panel" id="panel-tutor">
+    <div class="card" style="padding-bottom:0;">
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;">
+        <div style="
+          width:48px;height:48px;border-radius:50%;flex-shrink:0;
+          background:linear-gradient(135deg,var(--accent),#b08aff);
+          display:flex;align-items:center;justify-content:center;
+          font-size:24px;
+        ">🎓</div>
+        <div>
+          <h2 style="margin:0;" data-i18n="tutor_title">AI English Tutor</h2>
+          <p style="margin:0;font-size:13px;color:var(--text-dim);" data-i18n="tutor_subtitle">Your personal British English tutor — patient, warm and always here.</p>
+        </div>
+      </div>
+
+      <!-- Status bar -->
+      <div id="tutorStatus" style="
+        display:flex;align-items:center;gap:8px;
+        font-size:13px;color:var(--success);
+        background:rgba(110,231,185,0.08);
+        border:1px solid rgba(110,231,185,0.2);
+        border-radius:10px;padding:8px 14px;
+        margin:14px 0;
+      ">
+        <span id="tutorStatusDot" style="width:8px;height:8px;border-radius:50%;background:var(--success);flex-shrink:0;"></span>
+        <span id="tutorStatusText" data-i18n="tutor_ready">Ready to help you practise English</span>
+      </div>
+
+      <!-- Quick start chips -->
+      <div id="tutorChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+        <div style="font-size:12px;color:var(--text-muted);width:100%;text-transform:uppercase;letter-spacing:0.8px;font-weight:700;" data-i18n="tutor_try">Try asking:</div>
+        <button class="tutor-chip" data-msg="Hello! Can we practice a simple conversation?">👋 Start a conversation</button>
+        <button class="tutor-chip" data-msg="Can you correct my English please? I will write a sentence.">✏️ Correct my English</button>
+        <button class="tutor-chip" data-msg="Let's practice a visa interview. You be the officer.">🛂 Visa interview roleplay</button>
+        <button class="tutor-chip" data-msg="Can you teach me 5 useful English phrases for daily life in London?">🇬🇧 London phrases</button>
+        <button class="tutor-chip" data-msg="What is the difference between 'I go' and 'I am going'?">❓ Grammar question</button>
+        <button class="tutor-chip" data-msg="Can we practice ordering food at a restaurant in English?">🍽️ Restaurant roleplay</button>
+      </div>
+
+      <!-- Chat window -->
+      <div id="tutorChat" style="
+        height:380px;
+        overflow-y:auto;
+        display:flex;
+        flex-direction:column;
+        gap:14px;
+        padding:16px 4px;
+        margin:0 -4px;
+        scroll-behavior:smooth;
+      "></div>
+
+      <!-- Typing indicator -->
+      <div id="tutorTyping" style="display:none;padding:8px 4px;">
+        <div style="display:inline-flex;align-items:center;gap:10px;background:var(--bg-2);border:1px solid var(--border);border-radius:18px 18px 18px 4px;padding:10px 16px;">
+          <div class="tutor-dot-pulse"></div>
+          <span style="font-size:13px;color:var(--text-dim);" data-i18n="tutor_typing">Tutor is typing…</span>
+        </div>
+      </div>
+
+      <!-- Input area -->
+      <div style="
+        position:sticky;bottom:0;
+        background:var(--bg-1);
+        padding:14px 0 18px;
+        margin-top:8px;
+        border-top:1px solid var(--border);
+      ">
+        <div style="display:flex;gap:10px;align-items:flex-end;">
+          <textarea id="tutorInput" rows="2" data-i18n-ph="tutor_placeholder" placeholder="Type your message in English or Azerbaijani…" style="
+            flex:1;
+            background:var(--bg-2);
+            color:var(--text);
+            border:1.5px solid var(--border-strong);
+            border-radius:16px;
+            padding:12px 16px;
+            font-size:15px;
+            font-family:inherit;
+            resize:none;
+            line-height:1.5;
+            transition:border-color 0.15s;
+          "></textarea>
+          <button id="tutorSend" style="
+            width:48px;height:48px;border-radius:50%;flex-shrink:0;
+            background:linear-gradient(135deg,var(--accent),#b08aff);
+            border:none;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;
+            font-size:20px;
+            transition:opacity 0.15s, transform 0.1s;
+            color:#fff;
+          ">➤</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:0 4px;">
+          <span style="font-size:12px;color:var(--text-muted);" data-i18n="tutor_hint">Press Enter to send · Shift+Enter for new line</span>
+          <button id="tutorClear" style="font-size:12px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px;transition:color 0.12s;" data-i18n="tutor_clear_chat">🗑 Clear chat</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -2420,6 +2566,7 @@ const I18N = {
     tab_builder: "🧩 Sentence Builder",
     tab_verbs: "🌍 Verb Universe",
     tab_verbtable: "📋 Verb Table",
+    tab_tutor: "🤖 AI Tutor",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -2481,6 +2628,16 @@ const I18N = {
     vt_future: "Future",
     vt_regular: "regular",
     vt_irregular: "irregular",
+    tutor_title: "AI English Tutor",
+    tutor_subtitle: "Your personal British English tutor — patient, warm and always here.",
+    tutor_ready: "Ready to help you practise English",
+    tutor_try: "Try asking:",
+    tutor_typing: "Tutor is typing…",
+    tutor_placeholder: "Type your message in English or Azerbaijani…",
+    tutor_hint: "Press Enter to send · Shift+Enter for new line",
+    tutor_clear_chat: "🗑 Clear chat",
+    tutor_hear: "🔊 Hear this",
+    tutor_welcome: "Hello Elkhan! I am your personal English tutor. 🎓\n\nI am here to help you practise English at your own pace — no rush, no pressure. You can chat with me in English or Azerbaijani, ask me grammar questions, practise conversations, or do a visa interview roleplay.\n\nWhat would you like to practise today?",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -2673,6 +2830,7 @@ const I18N = {
     tab_builder: "🧩 Cümlə Qurucusu",
     tab_verbs: "🌍 Fel Kainatı",
     tab_verbtable: "📋 Fel Cədvəli",
+    tab_tutor: "🤖 AI Müəllim",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -2734,6 +2892,16 @@ const I18N = {
     vt_future: "Gələcək",
     vt_regular: "düzgün",
     vt_irregular: "qeyri-düzgün",
+    tutor_title: "AI İngilis Müəllimi",
+    tutor_subtitle: "Şəxsi britaniyalı ingilis müəllimin — səbirli, mehriban və həmişə burada.",
+    tutor_ready: "İngilis dili məşq etməyə kömək etməyə hazıram",
+    tutor_try: "Sormağa çalış:",
+    tutor_typing: "Müəllim yazır…",
+    tutor_placeholder: "İngiliscə və ya Azərbaycanca mesajını yaz…",
+    tutor_hint: "Göndərmək üçün Enter · Yeni sətir üçün Shift+Enter",
+    tutor_clear_chat: "🗑 Söhbəti sil",
+    tutor_hear: "🔊 Dinlə",
+    tutor_welcome: "Salam Elxan! Mən sənin şəxsi ingilis müəlliminim. 🎓\n\nÖz sürətinlə ingilis dilini məşq etməyə kömək etmək üçün burdayam — tələsmə, təzyiq yoxdur. Mənimlə ingiliscə və ya azərbaycanca danışa bilərsən, qrammatika sualları verə bilərsən, söhbət məşq edə bilərsən.\n\nBu gün nə məşq etmək istəyirsən?",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -4689,6 +4857,214 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   AI TUTOR
+   ========================================================= */
+(function aiTutor() {
+
+  const TUTOR_SYSTEM_PROMPT = `You are a warm, patient and encouraging British English tutor helping Elkhan Eminov, a 55-year-old Azerbaijani man who is learning English at A1/A2 level. He is preparing for a UK spouse visa interview so he can move to London to live with his wife Dilara, who created this app specially for him as a gift.
+
+About Elkhan:
+- Native language: Azerbaijani
+- Currently lives in Baku, Azerbaijan
+- Has an honours degree in engineering from the State Oil Academy
+- Previously worked as an engineer at the Oil Company of Azerbaijan
+- Now owns a wholesale business
+- Very intelligent — good at maths and physics
+- Plans to do a Master's degree in the UK
+- Passionate about gardening and agriculture
+- Married to Dilara, a British IT Consultant who has lived in London for 24 years
+
+Your role:
+- Speak in simple, clear A1/A2 English — short sentences, common words
+- Be warm, encouraging and patient — never make him feel embarrassed
+- Gently correct mistakes by showing the right way naturally (not harshly)
+- Celebrate his progress genuinely
+- When he writes in Azerbaijani, understand it and respond in both English and Azerbaijani
+- Keep responses concise — this is a mobile app, not an essay
+- For roleplay scenarios, stay in character but gently guide him
+- Focus on practical English he will actually use in daily UK life and his visa interview
+- Occasionally use a British phrase or cultural reference to make it feel authentic
+- Always end with encouragement or a question to keep the conversation going
+- If he makes a grammar mistake, correct it like this: "Great try! We would say: 'I have lived' not 'I lived' — but your meaning was perfect!"
+- Keep the tone like a friendly tutor having a cup of tea together, not a formal classroom`;
+
+  // ── State ────────────────────────────────────────────────────────
+  let history    = [];  // [{role, content}]
+  let isLoading  = false;
+  let initialised = false;
+
+  // ── DOM ──────────────────────────────────────────────────────────
+  const chatEl   = document.getElementById("tutorChat");
+  const inputEl  = document.getElementById("tutorInput");
+  const sendBtn  = document.getElementById("tutorSend");
+  const typingEl = document.getElementById("tutorTyping");
+  const chipsEl  = document.getElementById("tutorChips");
+  const clearBtn = document.getElementById("tutorClear");
+  const statusEl = document.getElementById("tutorStatusText");
+
+  // ── Render a message bubble ──────────────────────────────────────
+  function addMessage(role, text, opts) {
+    opts = opts || {};
+    const wrap = document.createElement("div");
+    wrap.className = `tutor-msg ${role}`;
+
+    const avatar = document.createElement("div");
+    avatar.className = "tutor-avatar";
+    avatar.textContent = role === "tutor" ? "🎓" : "👨";
+
+    const bubble = document.createElement("div");
+    bubble.className = "tutor-bubble";
+    bubble.textContent = text;
+
+    // Action buttons under tutor messages
+    if (role === "tutor" && !opts.noActions) {
+      const actions = document.createElement("div");
+      actions.className = "tutor-bubble-actions";
+
+      const hearBtn = document.createElement("button");
+      hearBtn.className = "tutor-bubble-btn";
+      hearBtn.textContent = "🔊 Hear this";
+      hearBtn.addEventListener("click", () => speakText(text, { btn: hearBtn }));
+      actions.appendChild(hearBtn);
+
+      const slowBtn = document.createElement("button");
+      slowBtn.className = "tutor-bubble-btn";
+      slowBtn.textContent = "🐢 Slowly";
+      slowBtn.addEventListener("click", () => speakText(text, { rate: REPEAT_SLOW_RATE, btn: slowBtn }));
+      actions.appendChild(slowBtn);
+
+      bubble.appendChild(actions);
+    }
+
+    wrap.appendChild(avatar);
+    wrap.appendChild(bubble);
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+    return wrap;
+  }
+
+  function setLoading(on) {
+    isLoading = on;
+    typingEl.style.display = on ? "block" : "none";
+    sendBtn.style.opacity  = on ? "0.5" : "1";
+    sendBtn.style.pointerEvents = on ? "none" : "auto";
+    inputEl.disabled = on;
+    if (on) chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function setStatus(text, colour) {
+    statusEl.textContent = text;
+    statusEl.parentElement.style.color = colour || "var(--success)";
+    statusEl.parentElement.style.borderColor = colour
+      ? colour.replace("var(--", "rgba(").replace(")", ",0.3)")
+      : "rgba(110,231,185,0.2)";
+  }
+
+  // ── Send a message to the API ────────────────────────────────────
+  async function sendMessage(userText) {
+    if (!userText.trim() || isLoading) return;
+
+    // Hide chips after first message
+    if (chipsEl) chipsEl.style.display = "none";
+
+    // Add user bubble
+    addMessage("user", userText.trim());
+    history.push({ role: "user", content: userText.trim() });
+    inputEl.value = "";
+
+    setLoading(true);
+    setStatus("Thinking…", "var(--accent)");
+
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 1000,
+          system: TUTOR_SYSTEM_PROMPT,
+          messages: history
+        })
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error?.message || `API error ${response.status}`);
+      }
+
+      const data = await response.json();
+      const replyText = (data.content || [])
+        .filter(b => b.type === "text")
+        .map(b => b.text)
+        .join("\n")
+        .trim();
+
+      history.push({ role: "assistant", content: replyText });
+      setLoading(false);
+      addMessage("tutor", replyText);
+      setStatus("Ready to help you practise English", "var(--success)");
+
+    } catch (err) {
+      setLoading(false);
+      setStatus("Connection issue — please try again", "var(--danger)");
+
+      const errWrap = document.createElement("div");
+      errWrap.className = "tutor-error";
+      errWrap.innerHTML = `⚠️ <strong>Something went wrong.</strong><br>${err.message || "Please check your connection and try again."}`;
+      chatEl.appendChild(errWrap);
+      chatEl.scrollTop = chatEl.scrollHeight;
+
+      // Remove failed message from history so retry works
+      history.pop();
+    }
+  }
+
+  // ── Init welcome message ─────────────────────────────────────────
+  function init() {
+    if (initialised) return;
+    initialised = true;
+    const welcome = t("tutor_welcome");
+    addMessage("tutor", welcome, { noActions: false });
+    history.push({ role: "assistant", content: welcome });
+  }
+
+  // ── Wire events ──────────────────────────────────────────────────
+  sendBtn.addEventListener("click", () => sendMessage(inputEl.value));
+
+  inputEl.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(inputEl.value);
+    }
+  });
+
+  // Quick start chips
+  document.querySelectorAll(".tutor-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      sendMessage(chip.dataset.msg);
+    });
+  });
+
+  // Clear chat
+  clearBtn.addEventListener("click", () => {
+    history = [];
+    chatEl.innerHTML = "";
+    if (chipsEl) chipsEl.style.display = "flex";
+    initialised = false;
+    init();
+    setStatus("Ready to help you practise English", "var(--success)");
+  });
+
+  // Init when tab is opened
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      if (tab.dataset.tab === "tutor") init();
+    });
+  });
+
 })();
 
 /* =========================================================
