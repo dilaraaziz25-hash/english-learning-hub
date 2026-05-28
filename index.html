@@ -103,6 +103,68 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   SENTENCE BUILDER
+   ========================================================= */
+@keyframes tileIn { from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);} }
+@keyframes answerWordIn { from{opacity:0;transform:translateY(-6px) scale(0.9);}to{opacity:1;transform:translateY(0) scale(1);} }
+@keyframes shakeAnswer { 0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);} }
+@keyframes correctPulse { 0%,100%{box-shadow:0 0 0 0 rgba(110,231,185,0);}50%{box-shadow:0 0 0 8px rgba(110,231,185,0.25);} }
+.sb-tile {
+  background:var(--bg-2); border:2px solid var(--border-strong); border-radius:12px;
+  padding:12px 18px; font-size:17px; font-weight:700; color:var(--text);
+  cursor:pointer; user-select:none;
+  transition:background 0.12s,border-color 0.12s,transform 0.1s,opacity 0.2s;
+  animation:tileIn 0.25s ease both; -webkit-tap-highlight-color:transparent; min-height:48px;
+}
+.sb-tile:hover:not(.used) { background:rgba(124,156,255,0.15);border-color:var(--accent);color:var(--accent);transform:translateY(-2px); }
+.sb-tile:active:not(.used) { transform:scale(0.96); }
+.sb-tile.used { opacity:0.22; pointer-events:none; transform:scale(0.93); }
+.sb-answer-word {
+  background:linear-gradient(135deg,rgba(124,156,255,0.18),rgba(176,138,255,0.18));
+  border:2px solid var(--accent); border-radius:10px;
+  padding:8px 14px; font-size:16px; font-weight:700; color:var(--text);
+  cursor:pointer; animation:answerWordIn 0.2s ease both;
+  -webkit-tap-highlight-color:transparent; transition:background 0.12s,transform 0.1s;
+}
+.sb-answer-word:hover { background:rgba(255,151,165,0.15); border-color:var(--danger); }
+.sb-answer-word:active { transform:scale(0.95); }
+#sbAnswerArea.correct { border-color:var(--success); animation:correctPulse 0.6s ease; border-style:solid; }
+#sbAnswerArea.wrong   { border-color:var(--danger);  animation:shakeAnswer 0.4s ease; border-style:solid; }
+#sbFeedback.correct { background:rgba(110,231,185,0.12);border:1.5px solid rgba(110,231,185,0.4);color:var(--success); }
+#sbFeedback.wrong   { background:rgba(255,151,165,0.10);border:1.5px solid rgba(255,151,165,0.35);color:var(--text); }
+body.large-text .sb-tile { font-size:19px; padding:14px 20px; }
+body.large-text .sb-answer-word { font-size:18px; }
+@media (max-width:480px) { .sb-tile{font-size:15px;padding:10px 14px;} .sb-answer-word{font-size:15px;} }
+
+/* =========================================================
+   TODAY'S CONVERSATION
+   ========================================================= */
+@keyframes convLineIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.conv-line { background:var(--bg-2); border:1.5px solid var(--border-strong); border-radius:16px; padding:14px 16px; animation:convLineIn 0.35s ease both; transition:border-color 0.15s; }
+.conv-line.speaker-a { border-left:4px solid var(--accent); }
+.conv-line.speaker-b { border-left:4px solid var(--success); }
+.conv-line-top { display:flex; align-items:flex-start; gap:10px; }
+.conv-avatar { font-size:22px; flex-shrink:0; line-height:1.3; }
+.conv-text-block { flex:1; }
+.conv-en { font-size:17px; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:4px; }
+.conv-az { font-size:14px; color:var(--text-dim); font-style:italic; line-height:1.4; }
+.conv-actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+.conv-btn {
+  background:var(--bg-3); border:1px solid var(--border); border-radius:20px;
+  padding:6px 14px; font-size:13px; font-weight:600; color:var(--text-dim);
+  cursor:pointer; transition:background 0.12s,color 0.12s,border-color 0.12s;
+  display:flex; align-items:center; gap:5px;
+}
+.conv-btn:hover { background:rgba(124,156,255,0.15); color:var(--accent); border-color:var(--accent); }
+.conv-btn.playing { color:var(--accent); border-color:var(--accent); background:rgba(124,156,255,0.12); }
+body.large-text .conv-en { font-size:19px; }
+body.large-text .conv-az { font-size:16px; }
+@media (max-width:480px) { .conv-en { font-size:16px; } }
+
+/* =========================================================
    LETTER SOUNDS
    ========================================================= */
 .sound-group { margin-bottom: 28px; }
@@ -1266,6 +1328,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="vocablist"><span data-i18n="tab_vocablist">📖 Word List</span></button>
     <button class="tab" data-tab="sounds"><span data-i18n="tab_sounds">🔤 Letter Sounds</span></button>
     <button class="tab" data-tab="animals"><span data-i18n="tab_animals">🐘 Animals</span></button>
+    <button class="tab" data-tab="builder"><span data-i18n="tab_builder">🧩 Sentence Builder</span></button>
   </nav>
 
   <!-- =========================================================
@@ -1318,6 +1381,58 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <span data-i18n-html="name_tip_body">Your name <strong>Elxan</strong> is often mispronounced in English. British people may say <em>"Elk-san"</em> — but the correct pronunciation is closer to <strong>"El-khan"</strong> (like "khan" in Genghis Khan).<br><br>
           You can say: <em>"My name is Elxan — it's pronounced El-khan."</em> 🗣️</span>
         </div>
+      </div>
+
+      <!-- ── TODAY'S CONVERSATION ───────────────────────────────── -->
+      <div id="todayConvSection" style="margin-top:22px;">
+
+        <!-- Header row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+          <div>
+            <div style="font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent);font-weight:700;margin-bottom:3px;" data-i18n="conv_label">Conversation of the day</div>
+            <div style="font-size:19px;font-weight:800;" data-i18n="conv_title">☀️ Today's Conversation</div>
+          </div>
+          <div id="convDayBadge" style="
+            background:linear-gradient(135deg,var(--accent),var(--purple,#b08aff));
+            color:#fff;font-size:12px;font-weight:700;
+            padding:5px 13px;border-radius:20px;white-space:nowrap;
+          "></div>
+        </div>
+
+        <!-- Topic chip -->
+        <div id="convTopic" style="
+          display:inline-flex;align-items:center;gap:6px;
+          background:rgba(124,156,255,0.12);border:1px solid rgba(124,156,255,0.3);
+          border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600;
+          color:var(--accent);margin-bottom:16px;
+        "></div>
+
+        <!-- Conversation lines -->
+        <div id="convLines" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+        <!-- Bottom action bar -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;justify-content:center;">
+          <button id="convPlayAll" class="btn primary" style="flex:1;min-width:140px;font-size:15px;padding:14px 18px;">
+            🔊 <span data-i18n="conv_play_all">Play all lines</span>
+          </button>
+          <button id="convPractice" class="btn" style="flex:1;min-width:140px;font-size:15px;padding:14px 18px;">
+            🔁 <span data-i18n="conv_practice">Repeat practice</span>
+          </button>
+        </div>
+
+        <!-- Encouraging tip -->
+        <div id="convTip" style="
+          margin-top:14px;
+          background:rgba(110,231,185,0.08);
+          border:1px solid rgba(110,231,185,0.20);
+          border-radius:12px;
+          padding:12px 16px;
+          font-size:13px;
+          color:var(--text-dim);
+          line-height:1.6;
+          text-align:center;
+        "></div>
+
       </div>
     </div>
   </section>
@@ -1906,6 +2021,96 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       SENTENCE BUILDER
+       ========================================================= -->
+  <section class="panel" id="panel-builder">
+    <div class="card">
+
+      <!-- Header -->
+      <h2 data-i18n="builder_title">🧩 Sentence Builder</h2>
+      <p class="subtitle" data-i18n="builder_subtitle">Read the Azerbaijani sentence. Tap the English words in the correct order to build the translation.</p>
+
+      <!-- Stats row -->
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+        <div class="stat" style="min-width:110px;">
+          <div class="label" data-i18n="builder_correct_today">✅ Correct today</div>
+          <div class="value" id="sbCorrectToday">0</div>
+        </div>
+        <div class="stat" style="min-width:110px;">
+          <div class="label" data-i18n="builder_total">🏆 All time</div>
+          <div class="value" id="sbTotalCorrect">0</div>
+        </div>
+        <div class="stat" style="min-width:110px;">
+          <div class="label" data-i18n="builder_streak">🔥 Streak</div>
+          <div class="value" id="sbStreak">0</div>
+        </div>
+      </div>
+      <div class="bar" style="margin-bottom:22px;"><span id="sbProgressBar" style="width:0%;transition:width 0.5s ease;"></span></div>
+
+      <!-- Prompt card -->
+      <div id="sbPromptCard" style="
+        background:linear-gradient(135deg,rgba(124,156,255,0.12),rgba(176,138,255,0.12));
+        border:2px solid var(--border-strong);
+        border-radius:var(--radius);
+        padding:24px 20px;
+        text-align:center;
+        margin-bottom:20px;
+      ">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:8px;" data-i18n="builder_translate">Translate this into English:</div>
+        <div id="sbAzSentence" style="font-size:26px;font-weight:800;color:var(--text);line-height:1.4;"></div>
+        <div id="sbHint" style="font-size:13px;color:var(--text-muted);margin-top:6px;font-style:italic;"></div>
+      </div>
+
+      <!-- Answer area -->
+      <div id="sbAnswerArea" style="
+        min-height:60px;
+        background:var(--bg-2);
+        border:2px dashed var(--border-strong);
+        border-radius:var(--radius);
+        padding:14px 16px;
+        display:flex;
+        flex-wrap:wrap;
+        gap:8px;
+        align-items:center;
+        margin-bottom:16px;
+        transition:border-color 0.3s;
+      ">
+        <span id="sbAnswerPlaceholder" style="color:var(--text-muted);font-size:15px;font-style:italic;" data-i18n="builder_tap_words">Tap words below to build your sentence…</span>
+      </div>
+
+      <!-- Feedback -->
+      <div id="sbFeedback" style="
+        display:none;
+        padding:14px 18px;
+        border-radius:var(--radius);
+        font-size:15px;
+        font-weight:600;
+        line-height:1.5;
+        margin-bottom:16px;
+        text-align:center;
+      "></div>
+
+      <!-- Word tiles -->
+      <div id="sbTiles" style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        margin-bottom:22px;
+        justify-content:center;
+      "></div>
+
+      <!-- Action buttons -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+        <button class="btn primary" id="sbCheck" data-i18n="builder_check">✓ Check</button>
+        <button class="btn" id="sbClear" data-i18n="builder_clear">✕ Clear</button>
+        <button class="btn" id="sbHear" data-i18n="builder_hear">🔊 Hear sentence</button>
+        <button class="btn" id="sbNext" data-i18n="builder_next" style="display:none;">→ Next</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -1939,6 +2144,7 @@ const I18N = {
     tab_vocablist: "📖 Word List",
     tab_sounds: "🔤 Letter Sounds",
     tab_animals: "🐘 Animals",
+    tab_builder: "🧩 Sentence Builder",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -1959,6 +2165,23 @@ const I18N = {
     encourage_html: "💛 <strong>You can do this.</strong> Every day you practise, you get closer. Don't worry about mistakes — mistakes are how we learn.",
     name_tip_title: "How to say your name in English",
     name_tip_body: "Your name <strong>Elxan</strong> is often mispronounced in English. British people may say <em>\"Elk-san\"</em> — but the correct pronunciation is closer to <strong>\"El-khan\"</strong> (like \"khan\" in Genghis Khan).<br><br>You can say: <em>\"My name is Elxan — it's pronounced El-khan.\"</em> 🗣️",
+    conv_label: "Conversation of the day",
+    conv_title: "☀️ Today's Conversation",
+    conv_play_all: "Play all lines",
+    conv_practice: "Repeat practice",
+    conv_listen: "🔊 Listen",
+    conv_repeat: "🔁 Repeat",
+    builder_title: "🧩 Sentence Builder",
+    builder_subtitle: "Read the Azerbaijani sentence. Tap the English words in the correct order to build the translation.",
+    builder_correct_today: "✅ Correct today",
+    builder_total: "🏆 All time",
+    builder_streak: "🔥 Streak",
+    builder_translate: "Translate this into English:",
+    builder_tap_words: "Tap words below to build your sentence…",
+    builder_check: "✓ Check",
+    builder_clear: "✕ Clear",
+    builder_hear: "🔊 Hear sentence",
+    builder_next: "→ Next",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -2148,6 +2371,7 @@ const I18N = {
     tab_vocablist: "📖 Söz Siyahısı",
     tab_sounds: "🔤 Hərf Səsləri",
     tab_animals: "🐘 Heyvanlar",
+    tab_builder: "🧩 Cümlə Qurucusu",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -2168,6 +2392,23 @@ const I18N = {
     encourage_html: "💛 <strong>Sən bacarırsan.</strong> Hər gün məşq etdikcə daha yaxınlaşırsan. Səhvlərdən qorxma — səhvlər öyrənməyin bir hissəsidir.",
     name_tip_title: "İngiliscədə adını necə söyləmək olar",
     name_tip_body: "Sənin adın <strong>Elxan</strong> ingiliscədə tez-tez yanlış tələffüz edilir. Britaniyalılar <em>\"Elk-san\"</em> deyə bilər — amma düzgün tələffüz <strong>\"El-xan\"</strong> kimidir (Çingiz xandakı \"xan\" kimi).<br><br>Deyə bilərsən: <em>\"Mənim adım Elxandır — El-xan kimi tələffüz olunur.\"</em> 🗣️",
+    conv_label: "Günün söhbəti",
+    conv_title: "☀️ Bu günün söhbəti",
+    conv_play_all: "Bütün sətirləri dinlə",
+    conv_practice: "Təkrar məşq",
+    conv_listen: "🔊 Dinlə",
+    conv_repeat: "🔁 Təkrarla",
+    builder_title: "🧩 Cümlə Qurucusu",
+    builder_subtitle: "Azərbaycanca cümləni oxu. İngiliscə sözlərə düzgün sırada toxun.",
+    builder_correct_today: "✅ Bu gün doğru",
+    builder_total: "🏆 Ümumi",
+    builder_streak: "🔥 Seriya",
+    builder_translate: "Bunu ingiliscəyə tərcümə et:",
+    builder_tap_words: "Cümlə qurmaq üçün aşağıdakı sözlərə toxun…",
+    builder_check: "✓ Yoxla",
+    builder_clear: "✕ Sil",
+    builder_hear: "🔊 Cümləni dinlə",
+    builder_next: "→ Növbəti",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -3119,10 +3360,11 @@ function speakText(text, opts) {
     alert(t("voice_status_unsupported"));
     return;
   }
+  // Strip emojis and extra whitespace so TTS doesn't read "smiley face" etc.
+  text = (text || "").replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "").trim();
   if (!text) return;
 
   if (!voicesReady) {
-    // Voices aren't loaded yet — queue this speech for when they are.
     whenVoicesReady(() => speakText(text, opts));
     return;
   }
@@ -4122,6 +4364,531 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   SENTENCE BUILDER
+   ========================================================= */
+(function sentenceBuilder() {
+
+  const SB_KEY = "sentence_builder_stats";
+
+  const SENTENCES = [
+    // ── personal ───────────────────────────────────────────────────
+    { az:"Mən xoşbəxtəm.",                      en:"I am happy.",                         hint:"2 words" },
+    { az:"Mənim adım Elxandır.",                 en:"My name is Elkhan.",                  hint:"4 words" },
+    { az:"Mən Bakıda yaşayıram.",                en:"I live in Baku.",                     hint:"4 words" },
+    { az:"Mən həyat yoldaşımı sevirəm.",         en:"I love my wife.",                     hint:"4 words" },
+    { az:"Mən çay içirəm.",                      en:"I drink tea.",                        hint:"3 words" },
+    { az:"Fil böyükdür.",                        en:"The elephant is big.",                hint:"4 words" },
+    { az:"Mən işə gedirəm.",                     en:"I go to work.",                       hint:"4 words" },
+    { az:"Mənim iki uşağım var.",                en:"I have two children.",                hint:"4 words" },
+    { az:"London böyük şəhərdir.",               en:"London is a big city.",               hint:"5 words" },
+    { az:"Mən hər gün ingilis dili öyrənirəm.",  en:"I study English every day.",          hint:"5 words" },
+    // ── daily life ──────────────────────────────────────────────────
+    { az:"Hava bu gün soyuqdur.",                en:"The weather is cold today.",           hint:"5 words" },
+    { az:"Mən səhər oyanıram.",                  en:"I wake up in the morning.",           hint:"5 words" },
+    { az:"O həkim kimi işləyir.",                en:"He works as a doctor.",               hint:"5 words" },
+    { az:"Biz birlikdə çay içirik.",             en:"We drink tea together.",              hint:"4 words" },
+    { az:"Mənim bağım gözəldir.",                en:"My garden is beautiful.",             hint:"4 words" },
+    { az:"O Moskvada yaşayır.",                  en:"She lives in Moscow.",                hint:"4 words" },
+    { az:"Mən ingilis dili öyrənirəm.",          en:"I am learning English.",              hint:"4 words" },
+    { az:"Bu mənim evimdir.",                    en:"This is my home.",                    hint:"4 words" },
+    // ── uk & visa ───────────────────────────────────────────────────
+    { az:"Həyat yoldaşım Londonda yaşayır.",     en:"My wife lives in London.",            hint:"5 words" },
+    { az:"Mən Böyük Britaniyaya köçürəm.",       en:"I am moving to the UK.",              hint:"5 words" },
+    { az:"O britaniyalıdır.",                    en:"She is British.",                     hint:"3 words" },
+    { az:"London çox böyük şəhərdir.",           en:"London is a very big city.",          hint:"6 words" },
+    { az:"Mən viza müsahibəsinə hazırlaşıram.",  en:"I am preparing for the visa interview.", hint:"6 words" },
+    { az:"Pasportum hazırdır.",                  en:"My passport is ready.",               hint:"4 words" },
+    // ── family ──────────────────────────────────────────────────────
+    { az:"Oğlum həkimdir.",                      en:"My son is a doctor.",                 hint:"5 words" },
+    { az:"Qızım Moskvada yaşayır.",              en:"My daughter lives in Moscow.",        hint:"5 words" },
+    { az:"Mənim iki qardaşım var.",              en:"I have two brothers.",                hint:"4 words" },
+    { az:"Ailə mənim üçün çox vacibdir.",        en:"Family is very important to me.",     hint:"6 words" },
+    // ── animals ─────────────────────────────────────────────────────
+    { az:"Fil çox böyükdür.",                    en:"The elephant is very big.",           hint:"5 words" },
+    { az:"Pişik yatır.",                         en:"The cat is sleeping.",                hint:"4 words" },
+    { az:"Arılar bal hazırlayır.",               en:"Bees make honey.",                    hint:"3 words" },
+    { az:"Aslan heyvanların kralıdır.",           en:"The lion is the king of animals.",   hint:"7 words" },
+    // ── nature & hobbies ────────────────────────────────────────────
+    { az:"Mən bağçılığı sevirəm.",               en:"I love gardening.",                   hint:"3 words" },
+    { az:"Hər gün gəzintiyə çıxıram.",           en:"I go for a walk every day.",          hint:"7 words" },
+    { az:"Yaz fəslim çox gözəldir.",             en:"Spring is very beautiful.",           hint:"4 words" },
+    { az:"Mən şahmat oynayıram.",                en:"I play chess.",                       hint:"3 words" },
+  ];
+
+  // ── State ────────────────────────────────────────────────────────
+  let order       = [];
+  let qIndex      = 0;
+  let answered    = false;
+  let answerWords = [];   // [{word, tileIndex}]
+
+  // ── Stats (localStorage) ────────────────────────────────────────
+  function loadStats() {
+    try { return JSON.parse(localStorage.getItem(SB_KEY) || "{}"); } catch { return {}; }
+  }
+  function saveStats(s) {
+    try { localStorage.setItem(SB_KEY, JSON.stringify(s)); } catch {}
+  }
+  function refreshStats() {
+    const s = loadStats();
+    const today = new Date().toDateString();
+    document.getElementById("sbCorrectToday").textContent = (s.date === today ? s.today : 0);
+    document.getElementById("sbTotalCorrect").textContent = s.total || 0;
+    document.getElementById("sbStreak").textContent       = s.streak || 0;
+  }
+  function recordCorrect() {
+    const s   = loadStats();
+    const today = new Date().toDateString();
+    if (s.date !== today) { s.today = 0; s.date = today; }
+    s.today   = (s.today  || 0) + 1;
+    s.total   = (s.total  || 0) + 1;
+    s.streak  = (s.streak || 0) + 1;
+    saveStats(s);
+    refreshStats();
+    updateProgressBar();
+  }
+  function recordWrong() {
+    const s = loadStats();
+    s.streak = 0;
+    saveStats(s);
+    refreshStats();
+  }
+  function updateProgressBar() {
+    const pct = Math.min(100, ((loadStats().today || 0) / 10) * 100);
+    document.getElementById("sbProgressBar").style.width = pct + "%";
+  }
+
+  // ── DOM refs ─────────────────────────────────────────────────────
+  const azEl       = document.getElementById("sbAzSentence");
+  const hintEl     = document.getElementById("sbHint");
+  const answerArea = document.getElementById("sbAnswerArea");
+  const placeholder= document.getElementById("sbAnswerPlaceholder");
+  const feedbackEl = document.getElementById("sbFeedback");
+  const tilesEl    = document.getElementById("sbTiles");
+  const checkBtn   = document.getElementById("sbCheck");
+  const clearBtn   = document.getElementById("sbClear");
+  const hearBtn    = document.getElementById("sbHear");
+  const nextBtn    = document.getElementById("sbNext");
+
+  // ── Shuffle helper ───────────────────────────────────────────────
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ── Build a distractor pool (words from other sentences) ─────────
+  function getDistractors(correctWords, count) {
+    const all = SENTENCES.flatMap(s => s.en.replace(/[.,!?]/g,"").split(" "));
+    const pool = [...new Set(all.filter(w => !correctWords.includes(w)))];
+    return shuffle(pool).slice(0, count);
+  }
+
+  // ── Load a question ──────────────────────────────────────────────
+  function loadQuestion() {
+    answered    = false;
+    answerWords = [];
+
+    const q = SENTENCES[order[qIndex]];
+    azEl.textContent   = q.az;
+    hintEl.textContent = "(" + q.hint + ")";
+
+    // Reset answer area
+    answerArea.className = "";
+    answerArea.innerHTML = "";
+    answerArea.appendChild(placeholder);
+    placeholder.style.display = "block";
+
+    // Reset feedback
+    feedbackEl.style.display = "none";
+    feedbackEl.className      = "";
+
+    // Buttons
+    checkBtn.style.display = "";
+    clearBtn.style.display = "";
+    nextBtn.style.display  = "none";
+
+    // Build tiles: correct words + 2–3 distractors, all shuffled
+    const correct = q.en.replace(/[.,!?]/g,"").split(" ");
+    const extras  = getDistractors(correct, Math.min(3, correct.length));
+    const allTiles = shuffle([...correct, ...extras]);
+
+    tilesEl.innerHTML = "";
+    allTiles.forEach((word, idx) => {
+      const btn = document.createElement("button");
+      btn.className   = "sb-tile";
+      btn.textContent = word;
+      btn.dataset.idx = idx;
+      btn.style.animationDelay = `${idx * 0.04}s`;
+      btn.addEventListener("click", () => tapTile(btn, word, idx));
+      tilesEl.appendChild(btn);
+    });
+  }
+
+  // ── Tap a tile → add to answer ───────────────────────────────────
+  function tapTile(btn, word, idx) {
+    if (answered || btn.classList.contains("used")) return;
+    btn.classList.add("used");
+    placeholder.style.display = "none";
+    answerWords.push({ word, idx });
+
+    const chip = document.createElement("span");
+    chip.className   = "sb-answer-word";
+    chip.textContent = word;
+    chip.dataset.idx = idx;
+    chip.addEventListener("click", () => removeWord(chip, idx));
+    answerArea.appendChild(chip);
+  }
+
+  // ── Tap an answer word → remove it ───────────────────────────────
+  function removeWord(chip, idx) {
+    if (answered) return;
+    answerWords = answerWords.filter(w => w.idx !== idx);
+    chip.remove();
+    // Re-enable the tile
+    tilesEl.querySelectorAll(".sb-tile").forEach(t => {
+      if (t.dataset.idx == idx) t.classList.remove("used");
+    });
+    if (!answerWords.length) placeholder.style.display = "block";
+  }
+
+  // ── Check answer ─────────────────────────────────────────────────
+  function checkAnswer() {
+    if (answered) return;
+    if (!answerWords.length) {
+      answerArea.classList.add("wrong");
+      setTimeout(() => answerArea.classList.remove("wrong"), 500);
+      return;
+    }
+    answered = true;
+    const q       = SENTENCES[order[qIndex]];
+    const correct = q.en.replace(/[.,!?]/g,"").split(" ");
+    const given   = answerWords.map(w => w.word);
+    const isRight = given.join(" ") === correct.join(" ");
+
+    feedbackEl.style.display = "block";
+    checkBtn.style.display   = "none";
+    nextBtn.style.display    = "";
+
+    if (isRight) {
+      answerArea.classList.add("correct");
+      feedbackEl.className = "correct";
+      feedbackEl.innerHTML = `🎉 Perfect! Well done! <br><span style="font-size:13px;opacity:0.8;font-weight:400;">"${q.en}"</span>`;
+      recordCorrect();
+    } else {
+      answerArea.classList.add("wrong");
+      feedbackEl.className = "wrong";
+      feedbackEl.innerHTML = `💙 Not quite — but great try! The correct answer is:<br><strong style="color:var(--success);">"${q.en}"</strong>`;
+      recordWrong();
+    }
+  }
+
+  // ── Clear answer ─────────────────────────────────────────────────
+  function clearAnswer() {
+    if (answered) return;
+    answerWords = [];
+    answerArea.innerHTML = "";
+    answerArea.className = "";
+    answerArea.appendChild(placeholder);
+    placeholder.style.display = "block";
+    tilesEl.querySelectorAll(".sb-tile").forEach(t => t.classList.remove("used"));
+    feedbackEl.style.display = "none";
+  }
+
+  // ── Next question ────────────────────────────────────────────────
+  function nextQuestion() {
+    qIndex = (qIndex + 1) % order.length;
+    if (qIndex === 0) order = shuffle([...SENTENCES.keys()]); // reshuffle on loop
+    loadQuestion();
+  }
+
+  // ── Wire buttons ─────────────────────────────────────────────────
+  checkBtn.addEventListener("click", checkAnswer);
+  clearBtn.addEventListener("click", clearAnswer);
+  nextBtn.addEventListener("click",  nextQuestion);
+  hearBtn.addEventListener("click",  () => {
+    const q = SENTENCES[order[qIndex]];
+    speakText(q.en, { btn: hearBtn });
+  });
+
+  // ── Init ─────────────────────────────────────────────────────────
+  order = shuffle([...SENTENCES.keys()]);
+  refreshStats();
+  updateProgressBar();
+  loadQuestion();
+
+})();
+
+/* =========================================================
+   TODAY'S CONVERSATION
+   ========================================================= */
+(function todayConversation() {
+
+  const CONVERSATIONS = [
+    {
+      topic: "☀️ Good morning",
+      tip: "💡 Try saying these lines out loud, one by one. Don't worry about perfect — just say it! 😊",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"Good morning!", az:"Sabahın xeyir!" },
+        { speaker:"b", avatar:"👨", en:"Good morning! How are you?", az:"Sabahın xeyir! Necəsən?" },
+        { speaker:"a", avatar:"👩", en:"I am fine, thank you. And you?", az:"Yaxşıyam, sağ ol. Bəs sən?" },
+        { speaker:"b", avatar:"👨", en:"I am very well. Let's have some tea! ☕", az:"Mən də çox yaxşıyam. Gəl bir çay içək! ☕" },
+      ]
+    },
+    {
+      topic: "🍳 Breakfast time",
+      tip: "💡 Food words are easy to remember — say each one while you eat! 🥚",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"What would you like for breakfast?", az:"Səhər yeməyinə nə istəyirsən?" },
+        { speaker:"b", avatar:"👨", en:"I would like eggs and bread, please.", az:"Yumurta və çörək istəyirəm, zəhmət olmasa." },
+        { speaker:"a", avatar:"👩", en:"Would you like tea or coffee?", az:"Çay, yoxsa qəhvə istəyirsən?" },
+        { speaker:"b", avatar:"👨", en:"Tea, please. Thank you! 🍵", az:"Çay, zəhmət olmasa. Sağ ol! 🍵" },
+      ]
+    },
+    {
+      topic: "🌦️ The weather",
+      tip: "💡 British people love talking about the weather — this is very useful! 🇬🇧",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"What is the weather like today?", az:"Bu gün hava necədir?" },
+        { speaker:"b", avatar:"👨", en:"It is cloudy and a little cold.", az:"Buludludur və bir az soyuqdur." },
+        { speaker:"a", avatar:"👩", en:"You need a coat and an umbrella!", az:"Palto və çətrə ehtiyacın var!" },
+        { speaker:"b", avatar:"👨", en:"Yes, London weather is always a surprise! 😄", az:"Bəli, London havası həmişə sürprizdir! 😄" },
+      ]
+    },
+    {
+      topic: "🏠 Our new home",
+      tip: "💡 Describing your home is great for everyday English. Practice these words! 🏡",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"Do you like our flat?", az:"Mənzilimizi bəyəndin mi?" },
+        { speaker:"b", avatar:"👨", en:"Yes! It is warm and comfortable.", az:"Bəli! İsti və rahatdır." },
+        { speaker:"a", avatar:"👩", en:"I am happy you like it. This is our home now.", az:"Bəyənməyinə sevindim. Bu artıq bizim evimizdir." },
+        { speaker:"b", avatar:"👨", en:"Our home. I love that. 💛", az:"Bizim evimiz. Bunu sevirəm. 💛" },
+      ]
+    },
+    {
+      topic: "🛒 At the shop",
+      tip: "💡 Shopping in English is easy — these phrases will help you every day! 🛍️",
+      lines: [
+        { speaker:"b", avatar:"👨", en:"Excuse me, where is the bread?", az:"Bağışlayın, çörək haradadır?" },
+        { speaker:"a", avatar:"👩", en:"It is on the second shelf, on the left.", az:"İkinci rəfdədir, solda." },
+        { speaker:"b", avatar:"👨", en:"Thank you very much!", az:"Çox sağ olun!" },
+        { speaker:"a", avatar:"👩", en:"You are welcome. Have a nice day! 😊", az:"Buyurun. Gözəl gün keçirin! 😊" },
+      ]
+    },
+    {
+      topic: "🚌 On the bus",
+      tip: "💡 London buses are great! Knowing these phrases will make journeys easy. 🚍",
+      lines: [
+        { speaker:"b", avatar:"👨", en:"Excuse me, does this bus go to the station?", az:"Bağışlayın, bu avtobus stansiyaya gedir?" },
+        { speaker:"a", avatar:"👩", en:"Yes, it does. About ten minutes.", az:"Bəli, gedir. Təxminən on dəqiqə." },
+        { speaker:"b", avatar:"👨", en:"Thank you. Do I need to press the button to stop?", az:"Sağ olun. Dayanmaq üçün düyməni basmaq lazımdır?" },
+        { speaker:"a", avatar:"👩", en:"Yes, press the red button. Good luck! 🍀", az:"Bəli, qırmızı düyməni basın. Uğurlar! 🍀" },
+      ]
+    },
+    {
+      topic: "👨‍⚕️ At the doctor",
+      tip: "💡 Knowing health phrases in English is really important when living in the UK. 🏥",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"Good morning. How can I help you?", az:"Sabahın xeyir. Sizə necə kömək edə bilərəm?" },
+        { speaker:"b", avatar:"👨", en:"Good morning. I have a headache and I feel tired.", az:"Sabahın xeyir. Başım ağrıyır və özümü yorğun hiss edirəm." },
+        { speaker:"a", avatar:"👩", en:"How long have you had this?", az:"Nə qədər vaxtdır belə hiss edirsiniz?" },
+        { speaker:"b", avatar:"👨", en:"Since yesterday. Can you help me please?", az:"Dünəndən bəri. Mənə kömək edə bilərsinizmi, zəhmət olmasa?" },
+        { speaker:"a", avatar:"👩", en:"Of course. I will prescribe something for you. 💊", az:"Əlbəttə. Sizin üçün bir şey yazacağam. 💊" },
+      ]
+    },
+    {
+      topic: "📞 A phone call",
+      tip: "💡 Phone calls in English can feel scary at first — but these simple phrases help a lot! 📱",
+      lines: [
+        { speaker:"b", avatar:"👨", en:"Hello, this is Elkhan speaking.", az:"Salam, bu Elxandır." },
+        { speaker:"a", avatar:"👩", en:"Hello Elkhan! How are you?", az:"Salam Elxan! Necəsən?" },
+        { speaker:"b", avatar:"👨", en:"I am well, thank you. Is Dilara there?", az:"Yaxşıyam, sağ ol. Dilara orada varmı?" },
+        { speaker:"a", avatar:"👩", en:"Yes, one moment please. 😊", az:"Bəli, bir an zəhmət olmasa. 😊" },
+      ]
+    },
+    {
+      topic: "🌳 A walk in the park",
+      tip: "💡 Small talk in the park is very British! Try saying hello to neighbours on walks. 🌿",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"What a beautiful day!", az:"Nə gözəl bir gün!" },
+        { speaker:"b", avatar:"👨", en:"Yes! The park is lovely in spring.", az:"Bəli! Yaz fəslində park çox gözəldir." },
+        { speaker:"a", avatar:"👩", en:"Look at the flowers! They are so beautiful.", az:"Çiçəklərə bax! Çox gözəldirlər." },
+        { speaker:"b", avatar:"👨", en:"I love this park. I am happy to be here. 💛", az:"Bu parkı sevirəm. Burada olmaqdan xoşbəxtəm. 💛" },
+      ]
+    },
+    {
+      topic: "🎓 Learning English",
+      tip: "💡 Every day you practise, you get better. You are doing brilliantly! ⭐",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"How is your English coming along?", az:"İngiliscən necə gedir?" },
+        { speaker:"b", avatar:"👨", en:"It is getting better every day, I think.", az:"Hər gün daha yaxşılaşır, düşünürəm." },
+        { speaker:"a", avatar:"👩", en:"You are doing really well. I am proud of you!", az:"Həqiqətən yaxşı irəliləyirsən. Səninlə qürur duyuram!" },
+        { speaker:"b", avatar:"👨", en:"Thank you. I practise every day. 📖", az:"Sağ ol. Hər gün məşq edirəm. 📖" },
+        { speaker:"a", avatar:"👩", en:"That is the secret! Keep going! 💪", az:"Bu sirr budur! Davam et! 💪" },
+      ]
+    },
+    {
+      topic: "🌙 Good night",
+      tip: "💡 End your day with a little English — even one sentence before sleep counts! 🌟",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"Are you tired?", az:"Yorğunsan?" },
+        { speaker:"b", avatar:"👨", en:"Yes, it was a long day.", az:"Bəli, uzun bir gün idi." },
+        { speaker:"a", avatar:"👩", en:"You worked very hard today.", az:"Bu gün çox çalışdın." },
+        { speaker:"b", avatar:"👨", en:"Good night, my love. 🌙", az:"Gecən xeyrə, sevgilim. 🌙" },
+        { speaker:"a", avatar:"👩", en:"Sweet dreams. 💛", az:"Şirin yuxular. 💛" },
+      ]
+    },
+    {
+      topic: "🛂 At the airport",
+      tip: "💡 These are real phrases you will hear and need at the airport! Practice them well. ✈️",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"Can I see your passport, please?", az:"Pasportunuzu görə bilərəm, zəhmət olmasa?" },
+        { speaker:"b", avatar:"👨", en:"Yes, of course. Here it is.", az:"Bəli, əlbəttə. Buyurun." },
+        { speaker:"a", avatar:"👩", en:"What is the purpose of your visit?", az:"Ziyarətinizin məqsədi nədir?" },
+        { speaker:"b", avatar:"👨", en:"I am moving to the UK to live with my wife.", az:"Həyat yoldaşımla yaşamaq üçün Böyük Britaniyaya köçürəm." },
+        { speaker:"a", avatar:"👩", en:"Welcome to the United Kingdom! 🇬🇧", az:"Böyük Britaniyaya xoş gəldiniz! 🇬🇧" },
+      ]
+    },
+    {
+      topic: "🌱 Elxan's garden",
+      tip: "💡 Gardening vocabulary is great for nature lovers — and future farmers! 🌿",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"What are you planting today?", az:"Bu gün nə əkirsən?" },
+        { speaker:"b", avatar:"👨", en:"I am planting tomatoes and potatoes.", az:"Pomidor və kartof əkirəm." },
+        { speaker:"a", avatar:"👩", en:"Your garden looks amazing!", az:"Bağın əla görünür!" },
+        { speaker:"b", avatar:"👨", en:"Thank you. I love working with plants. 🌿", az:"Sağ ol. Bitkilərlə işləməyi sevirəm. 🌿" },
+      ]
+    },
+    {
+      topic: "🍽️ At a restaurant",
+      tip: "💡 Dining out in English — very useful for your new life in London! 🇬🇧",
+      lines: [
+        { speaker:"a", avatar:"👩", en:"Good evening. Do you have a reservation?", az:"Axşamınız xeyir. Reservasiyanız varmı?" },
+        { speaker:"b", avatar:"👨", en:"Yes, for two people. The name is Eminov.", az:"Bəli, iki nəfər üçün. Ad Eminovdur." },
+        { speaker:"a", avatar:"👩", en:"Please follow me. Here is your menu.", az:"Xahiş edirəm, ardımca gəlin. Menyunuz buyurun." },
+        { speaker:"b", avatar:"👨", en:"Thank you. What do you recommend?", az:"Sağ olun. Nə tövsiyə edirsiniz?" },
+      ]
+    },
+  ];
+
+  // Pick today's conversation based on device date
+  const dayIndex = Math.floor(Date.now() / 86400000); // days since epoch
+  const conv = CONVERSATIONS[dayIndex % CONVERSATIONS.length];
+
+  // Render
+  const badge    = document.getElementById("convDayBadge");
+  const topicEl  = document.getElementById("convTopic");
+  const linesEl  = document.getElementById("convLines");
+  const tipEl    = document.getElementById("convTip");
+
+  if (!badge || !linesEl) return;
+
+  // Day badge
+  const today = new Date();
+  badge.textContent = today.toLocaleDateString("en-GB", { weekday:"long", day:"numeric", month:"long" });
+
+  // Topic
+  topicEl.textContent = conv.topic;
+
+  // Render lines with staggered animation delay
+  conv.lines.forEach((line, i) => {
+    const el = document.createElement("div");
+    el.className = `conv-line speaker-${line.speaker}`;
+    el.style.animationDelay = `${i * 0.08}s`;
+    el.innerHTML = `
+      <div class="conv-line-top">
+        <div class="conv-avatar">${line.avatar}</div>
+        <div class="conv-text-block">
+          <div class="conv-en">${line.en}</div>
+          <div class="conv-az">🌍 ${line.az}</div>
+        </div>
+      </div>
+      <div class="conv-actions">
+        <button class="conv-btn conv-listen-btn" data-text="${line.en.replace(/"/g,'&quot;')}">🔊 Listen</button>
+        <button class="conv-btn conv-repeat-btn" data-text="${line.en.replace(/"/g,'&quot;')}">🔁 Repeat</button>
+      </div>
+    `;
+    linesEl.appendChild(el);
+  });
+
+  // Tip
+  tipEl.textContent = conv.tip;
+
+  // Wire individual listen buttons
+  linesEl.querySelectorAll(".conv-listen-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      speakText(btn.dataset.text, { btn });
+    });
+  });
+
+  // Wire individual repeat buttons (slow)
+  linesEl.querySelectorAll(".conv-repeat-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      speakText(btn.dataset.text, { rate: REPEAT_SLOW_RATE, btn });
+    });
+  });
+
+  // Play all — speaks each line in sequence with a pause between
+  document.getElementById("convPlayAll").addEventListener("click", function() {
+    const lines = conv.lines.map(l => l.en.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,"").trim());
+    let i = 0;
+    const btn = this;
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+
+    function playNext() {
+      if (i >= lines.length) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(lines[i]);
+      u.lang = "en-GB";
+      u.pitch = 1;
+      const v = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
+      if (v) { u.voice = v; u.lang = v.lang || "en-GB"; }
+      u.rate = SPEED_PRESETS[VOICE_SETTINGS.speed] || SPEED_PRESETS.slow;
+      u.onend = () => { i++; setTimeout(playNext, 600); };
+      u.onerror = () => { i++; setTimeout(playNext, 300); };
+      window.speechSynthesis.cancel();
+      setTimeout(() => window.speechSynthesis.speak(u), 100);
+    }
+    playNext();
+  });
+
+  // Repeat practice — plays all lines slowly
+  document.getElementById("convPractice").addEventListener("click", function() {
+    const lines = conv.lines.map(l => l.en.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,"").trim());
+    let i = 0;
+    const btn = this;
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+
+    function playNext() {
+      if (i >= lines.length) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(lines[i]);
+      u.lang = "en-GB";
+      u.pitch = 1;
+      const v = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
+      if (v) { u.voice = v; u.lang = v.lang || "en-GB"; }
+      u.rate = REPEAT_SLOW_RATE;
+      u.onend = () => { i++; setTimeout(playNext, 900); };
+      u.onerror = () => { i++; setTimeout(playNext, 400); };
+      window.speechSynthesis.cancel();
+      setTimeout(() => window.speechSynthesis.speak(u), 100);
+    }
+    playNext();
+  });
+
 })();
 
 /* =========================================================
