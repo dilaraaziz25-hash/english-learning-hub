@@ -103,6 +103,65 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   LETTER SOUNDS
+   ========================================================= */
+.sound-group { margin-bottom: 28px; }
+.sound-group-title {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--accent);
+  padding: 16px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 8px;
+}
+.sound-card {
+  background: var(--bg-2); border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sound-card:hover { border-color: var(--accent); background: var(--bg-3); }
+.sound-card-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.sound-letters {
+  font-size: 28px; font-weight: 900; color: var(--accent);
+  min-width: 60px; font-family: monospace; letter-spacing: 2px;
+}
+.sound-phonetic { font-size: 17px; color: var(--text-dim); font-style: italic; flex: 1; }
+.sound-az-compare {
+  font-size: 13px; color: var(--success);
+  background: rgba(110,231,185,0.10); border: 1px solid rgba(110,231,185,0.25);
+  border-radius: 8px; padding: 4px 10px;
+}
+.sound-examples { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+.sound-example-word {
+  background: var(--bg-3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 12px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background 0.12s;
+}
+.sound-example-word:hover { background: rgba(124,156,255,0.15); border-color: var(--accent); }
+.sound-example-word .hl { color: var(--accent); font-weight: 900; }
+.sound-tip { margin-top: 8px; font-size: 13px; color: var(--text-dim); line-height: 1.6; font-style: italic; }
+
+/* =========================================================
+   ANIMALS
+   ========================================================= */
+.animal-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 10px; margin-top: 8px;
+}
+.animal-card {
+  background: var(--bg-2); border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius); padding: 16px 12px; text-align: center;
+  cursor: pointer; transition: border-color 0.15s, transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.animal-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.animal-card:active { transform: scale(0.97); }
+.animal-emoji { font-size: 36px; margin-bottom: 8px; }
+.animal-en { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.animal-pron { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 4px; }
+.animal-az { font-size: 14px; color: var(--accent); }
+body.large-text .animal-en { font-size: 18px; }
+body.large-text .animal-az { font-size: 16px; }
+body.large-text .sound-letters { font-size: 32px; }
+
+/* =========================================================
    VOCABULARY LIST TAB
    ========================================================= */
 .vl-category-heading {
@@ -1205,6 +1264,8 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="streak"><span data-i18n="tab_streak">⚡ Word Streak</span></button>
     <button class="tab" data-tab="speakgame"><span data-i18n="tab_speakgame">🎤 Speaking Game</span></button>
     <button class="tab" data-tab="vocablist"><span data-i18n="tab_vocablist">📖 Word List</span></button>
+    <button class="tab" data-tab="sounds"><span data-i18n="tab_sounds">🔤 Letter Sounds</span></button>
+    <button class="tab" data-tab="animals"><span data-i18n="tab_animals">🐘 Animals</span></button>
   </nav>
 
   <!-- =========================================================
@@ -1819,6 +1880,29 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       LETTER SOUNDS
+       ========================================================= -->
+  <section class="panel" id="panel-sounds">
+    <div class="card">
+      <h2 data-i18n="sounds_title">🔤 English Letter Sounds</h2>
+      <p class="subtitle" data-i18n="sounds_subtitle">English letters can sound different depending on the word. Here are the most important sounds with Azerbaijani comparisons.</p>
+
+      <div id="soundsList"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ANIMALS
+       ========================================================= -->
+  <section class="panel" id="panel-animals">
+    <div class="card">
+      <h2 data-i18n="animals_title">🐘 Animals</h2>
+      <p class="subtitle" data-i18n="animals_subtitle">Learn animal names in English. Tap any word to hear it spoken aloud.</p>
+      <div id="animalsList"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -1850,6 +1934,8 @@ const I18N = {
     tab_streak: "⚡ Word Streak",
     tab_speakgame: "🎤 Speaking Game",
     tab_vocablist: "📖 Word List",
+    tab_sounds: "🔤 Letter Sounds",
+    tab_animals: "🐘 Animals",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -2003,6 +2089,10 @@ const I18N = {
     vocablist_subtitle: "Browse all vocabulary by category. Tap a word to hear it.",
     vocablist_search: "Search words...",
     vocablist_count: "{n} words",
+    sounds_title: "🔤 English Letter Sounds",
+    sounds_subtitle: "English letters can sound different depending on the word. Tap any example to hear it.",
+    animals_title: "🐘 Animals",
+    animals_subtitle: "Learn animal names in English. Tap any card to hear it spoken aloud.",
 
     sg_title: "🎤 Speaking Game",
     sg_subtitle: "Answer real visa-style questions. Speak aloud or type — then see the model answer.",
@@ -2051,6 +2141,8 @@ const I18N = {
     tab_streak: "⚡ Söz Sürüşməsi",
     tab_speakgame: "🎤 Danışıq Oyunu",
     tab_vocablist: "📖 Söz Siyahısı",
+    tab_sounds: "🔤 Hərf Səsləri",
+    tab_animals: "🐘 Heyvanlar",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -2204,6 +2296,10 @@ const I18N = {
     vocablist_subtitle: "Bütün sözlərə kateqoriyaya görə baxın. Sözü eşitmək üçün üzərinə toxunun.",
     vocablist_search: "Söz axtar...",
     vocablist_count: "{n} söz",
+    sounds_title: "🔤 İngilis Hərf Səsləri",
+    sounds_subtitle: "İngilis hərfləri sözə görə fərqli səslənə bilər. Nümunəyə toxunun və eşidin.",
+    animals_title: "🐘 Heyvanlar",
+    animals_subtitle: "İngiliscədə heyvan adlarını öyrənin. Eşitmək üçün karta toxunun.",
 
     sg_title: "🎤 Danışıq Oyunu",
     sg_subtitle: "Real viza tipli suallara cavab ver. Ucadan danış və ya yaz — sonra nümunə cavabı gör.",
@@ -3965,6 +4061,141 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   LETTER SOUNDS TAB
+   ========================================================= */
+(function letterSounds() {
+  const SOUNDS = [
+    {
+      group: "Vowel Sounds — Sait Səslər",
+      items: [
+        { letters:"a", phonetic:"/æ/ — short", azCompare:"Azərbaycanca 'e' kimi (at, əl)", tip:"Short and flat — like the 'a' in Azerbaijani 'at' but even shorter.", examples:[{word:"cat",hl:"c{a}t"},{word:"apple",hl:"{a}pple"},{word:"man",hl:"m{a}n"},{word:"back",hl:"b{a}ck"}] },
+        { letters:"a", phonetic:"/eɪ/ — long", azCompare:"Azərbaycanca 'ey' kimi (hey)", tip:"Says its own name — like 'ay' in Azerbaijani.", examples:[{word:"name",hl:"n{a}me"},{word:"late",hl:"l{a}te"},{word:"cake",hl:"c{a}ke"},{word:"day",hl:"d{a}y"}] },
+        { letters:"e", phonetic:"/e/ — short", azCompare:"Azərbaycanca 'e' kimi (el)", tip:"Short — like 'e' in Azerbaijani 'el'.", examples:[{word:"bed",hl:"b{e}d"},{word:"red",hl:"r{e}d"},{word:"yes",hl:"y{e}s"},{word:"pen",hl:"p{e}n"}] },
+        { letters:"e / ee / ea", phonetic:"/iː/ — long", azCompare:"Azərbaycanca uzun 'i' kimi", tip:"Long — hold the sound. Like 'i' in Azerbaijani but longer.", examples:[{word:"he",hl:"h{e}"},{word:"see",hl:"s{ee}"},{word:"tea",hl:"t{ea}"},{word:"meat",hl:"m{ea}t"}] },
+        { letters:"i", phonetic:"/ɪ/ — short", azCompare:"Azərbaycanca qısa 'i' kimi (it)", tip:"Short and relaxed — like 'i' in Azerbaijani 'it'.", examples:[{word:"big",hl:"b{i}g"},{word:"sit",hl:"s{i}t"},{word:"fish",hl:"f{i}sh"},{word:"this",hl:"th{i}s"}] },
+        { letters:"o", phonetic:"/ɒ/ — short", azCompare:"Azərbaycanca qısa 'o' kimi (ol)", tip:"Short and open — like 'o' in Azerbaijani 'ol'.", examples:[{word:"hot",hl:"h{o}t"},{word:"dog",hl:"d{o}g"},{word:"stop",hl:"st{o}p"},{word:"top",hl:"t{o}p"}] },
+        { letters:"o / ow / oa", phonetic:"/əʊ/ — long", azCompare:"Azərbaycanca 'ou' kimi", tip:"Long — starts like 'ə' then moves to 'u'. British English.", examples:[{word:"go",hl:"g{o}"},{word:"home",hl:"h{o}me"},{word:"snow",hl:"sn{ow}"},{word:"road",hl:"r{oa}d"}] },
+        { letters:"u", phonetic:"/ʌ/ — short", azCompare:"Azərbaycanca mərkəzi 'a' kimi", tip:"Like a short 'a' but in the middle of your mouth.", examples:[{word:"cup",hl:"c{u}p"},{word:"bus",hl:"b{u}s"},{word:"fun",hl:"f{u}n"},{word:"love",hl:"l{o}ve"}] },
+      ]
+    },
+    {
+      group: "Consonant Sounds — Samit Səslər",
+      items: [
+        { letters:"th", phonetic:"/θ/ — soft th", azCompare:"İngiliscəyə xas — dişlər arasında nəfəs", tip:"Put your tongue lightly between your teeth and blow. No Azerbaijani equivalent — it is unique to English!", examples:[{word:"the",hl:"{th}e"},{word:"think",hl:"{th}ink"},{word:"three",hl:"{th}ree"},{word:"thanks",hl:"{th}anks"}] },
+        { letters:"sh", phonetic:"/ʃ/ — sh", azCompare:"Azərbaycanca 'ş' kimi (şəhər)", tip:"Exactly like the Azerbaijani 'ş' — easy for you!", examples:[{word:"she",hl:"{sh}e"},{word:"shop",hl:"{sh}op"},{word:"English",hl:"Engli{sh}"},{word:"fish",hl:"fi{sh}"}] },
+        { letters:"ch", phonetic:"/tʃ/ — ch", azCompare:"Azərbaycanca 'ç' kimi (çay)", tip:"Like the Azerbaijani 'ç' — think of 'çay' (tea).", examples:[{word:"chair",hl:"{ch}air"},{word:"church",hl:"{ch}ur{ch}"},{word:"teacher",hl:"tea{ch}er"},{word:"much",hl:"mu{ch}"}] },
+        { letters:"dge / ge", phonetic:"/dʒ/ — j", azCompare:"Azərbaycanca 'c' kimi (Azərbaycan)", tip:"Like the 'c' in Azerbaijani — think of 'Azərbaycan'! This is the sound in 'edge', 'judge', 'age'.", examples:[{word:"edge",hl:"e{dge}"},{word:"judge",hl:"ju{dge}"},{word:"age",hl:"a{ge}"},{word:"page",hl:"pa{ge}"}] },
+        { letters:"c (soft)", phonetic:"/s/ — s sound", azCompare:"Azərbaycanca 's' kimi — e, i, y qarşısında", tip:"When 'c' comes before e, i, or y — it sounds like 's'. Before a, o, u — it sounds like 'k'.", examples:[{word:"city",hl:"{c}ity"},{word:"centre",hl:"{c}entre"},{word:"face",hl:"fa{c}e"},{word:"ice",hl:"i{c}e"}] },
+        { letters:"c / k (hard)", phonetic:"/k/ — k sound", azCompare:"Azərbaycanca 'k' kimi (kənd)", tip:"Like the Azerbaijani 'k'. 'c' sounds like 'k' before a, o, u.", examples:[{word:"cat",hl:"{c}at"},{word:"come",hl:"{c}ome"},{word:"back",hl:"ba{ck}"},{word:"kind",hl:"{k}ind"}] },
+        { letters:"ph", phonetic:"/f/ — f sound", azCompare:"Azərbaycanca 'f' kimi (fal)", tip:"'ph' always sounds like 'f' — think of 'phone' = fon.", examples:[{word:"phone",hl:"{ph}one"},{word:"photo",hl:"{ph}oto"},{word:"phrase",hl:"{ph}rase"},{word:"alphabet",hl:"al{ph}abet"}] },
+        { letters:"gh", phonetic:"/f/ or silent", azCompare:"Bəzən 'f', bəzən səssiz", tip:"'gh' is often silent (night, light) or sounds like 'f' (enough, laugh).", examples:[{word:"night",hl:"ni{gh}t"},{word:"light",hl:"li{gh}t"},{word:"enough",hl:"enou{gh}"},{word:"laugh",hl:"lau{gh}"}] },
+        { letters:"wh", phonetic:"/w/ — w sound", azCompare:"Azərbaycanca yumşaq 'v' kimi", tip:"In British English 'wh' sounds like 'w' — like a soft 'v' sound.", examples:[{word:"what",hl:"{wh}at"},{word:"where",hl:"{wh}ere"},{word:"when",hl:"{wh}en"},{word:"why",hl:"{wh}y"}] },
+        { letters:"ng", phonetic:"/ŋ/ — nasal ng", azCompare:"Burun səsi — 'n' + 'g' birlikdə", tip:"A nasal sound — the back of your tongue touches the roof of your mouth.", examples:[{word:"sing",hl:"si{ng}"},{word:"king",hl:"ki{ng}"},{word:"morning",hl:"morni{ng}"},{word:"long",hl:"lo{ng}"}] },
+        { letters:"-tion", phonetic:"/ʃən/ — shun", azCompare:"Azərbaycanca 'şən' kimi", tip:"The most common ending in English. '-tion' always sounds like '-shun'.", examples:[{word:"station",hl:"sta{tion}"},{word:"application",hl:"applica{tion}"},{word:"question",hl:"ques{tion}"},{word:"education",hl:"educa{tion}"}] },
+        { letters:"igh / y", phonetic:"/aɪ/ — eye", azCompare:"Azərbaycanca 'ay' kimi (ayaq)", tip:"Like 'ay' in Azerbaijani. 'igh' is always this sound.", examples:[{word:"night",hl:"n{igh}t"},{word:"right",hl:"r{igh}t"},{word:"my",hl:"m{y}"},{word:"sky",hl:"sk{y}"}] },
+      ]
+    }
+  ];
+
+  const container = document.getElementById("soundsList");
+  if (!container) return;
+
+  SOUNDS.forEach(group => {
+    const groupEl = document.createElement("div");
+    groupEl.className = "sound-group";
+    const title = document.createElement("div");
+    title.className = "sound-group-title";
+    title.textContent = group.group;
+    groupEl.appendChild(title);
+
+    group.items.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "sound-card";
+      const exHtml = item.examples.map(ex => {
+        const hl = ex.hl.replace(/\{([^}]+)\}/g, '<span class="hl">$1</span>');
+        return `<span class="sound-example-word" data-word="${ex.word}">${hl}</span>`;
+      }).join("");
+      card.innerHTML = `
+        <div class="sound-card-top">
+          <div class="sound-letters">${item.letters}</div>
+          <div class="sound-phonetic">${item.phonetic}</div>
+          ${item.azCompare ? `<div class="sound-az-compare">🇦🇿 ${item.azCompare}</div>` : ""}
+        </div>
+        <div class="sound-examples">${exHtml}</div>
+        ${item.tip ? `<div class="sound-tip">💡 ${item.tip}</div>` : ""}
+      `;
+      card.querySelectorAll(".sound-example-word").forEach(btn => {
+        btn.addEventListener("click", e => { e.stopPropagation(); speakText(btn.dataset.word, { btn }); });
+      });
+      groupEl.appendChild(card);
+    });
+    container.appendChild(groupEl);
+  });
+})();
+
+/* =========================================================
+   ANIMALS TAB
+   ========================================================= */
+(function animalsTab() {
+  const ANIMALS = [
+    { emoji:"🐘", en:"elephant",   pron:"ˈelɪfənt",    az:"fil — Elxanın sevimli sözü! 🎉" },
+    { emoji:"🦁", en:"lion",       pron:"ˈlaɪən",       az:"aslan" },
+    { emoji:"🐯", en:"tiger",      pron:"ˈtaɪɡə",       az:"pələng" },
+    { emoji:"🐻", en:"bear",       pron:"beə",           az:"ayı" },
+    { emoji:"🦊", en:"fox",        pron:"fɒks",          az:"tülkü" },
+    { emoji:"🐺", en:"wolf",       pron:"wʊlf",          az:"canavar" },
+    { emoji:"🐴", en:"horse",      pron:"hɔːs",          az:"at" },
+    { emoji:"🐄", en:"cow",        pron:"kaʊ",           az:"inək" },
+    { emoji:"🐑", en:"sheep",      pron:"ʃiːp",          az:"qoyun" },
+    { emoji:"🐐", en:"goat",       pron:"ɡəʊt",          az:"keçi" },
+    { emoji:"🐔", en:"chicken",    pron:"ˈtʃɪkɪn",       az:"toyuq" },
+    { emoji:"🐟", en:"fish",       pron:"fɪʃ",           az:"balıq" },
+    { emoji:"🐕", en:"dog",        pron:"dɒɡ",           az:"it" },
+    { emoji:"🐈", en:"cat",        pron:"kæt",           az:"pişik" },
+    { emoji:"🐇", en:"rabbit",     pron:"ˈræbɪt",        az:"dovşan" },
+    { emoji:"🦔", en:"hedgehog",   pron:"ˈhedʒhɒɡ",      az:"kirpi" },
+    { emoji:"🦅", en:"eagle",      pron:"ˈiːɡəl",        az:"qartal" },
+    { emoji:"🦉", en:"owl",        pron:"aʊl",           az:"bayquş" },
+    { emoji:"🐦", en:"bird",       pron:"bɜːd",          az:"quş" },
+    { emoji:"🐸", en:"frog",       pron:"frɒɡ",          az:"qurbağa" },
+    { emoji:"🐢", en:"turtle",     pron:"ˈtɜːtl",        az:"tısbağa" },
+    { emoji:"🐍", en:"snake",      pron:"sneɪk",         az:"ilan" },
+    { emoji:"🦋", en:"butterfly",  pron:"ˈbʌtəflaɪ",     az:"kəpənək" },
+    { emoji:"🐝", en:"bee",        pron:"biː",           az:"arı" },
+    { emoji:"🦒", en:"giraffe",    pron:"dʒɪˈrɑːf",      az:"zürafə" },
+    { emoji:"🦓", en:"zebra",      pron:"ˈzebrə",        az:"zebr" },
+    { emoji:"🐊", en:"crocodile",  pron:"ˈkrɒkədaɪl",    az:"timsah" },
+    { emoji:"🦏", en:"rhino",      pron:"ˈraɪnəʊ",       az:"kərgədan" },
+    { emoji:"🦛", en:"hippo",      pron:"ˈhɪpəʊ",        az:"su atı" },
+    { emoji:"🐧", en:"penguin",    pron:"ˈpeŋɡwɪn",      az:"pinqvin" },
+    { emoji:"🦜", en:"parrot",     pron:"ˈpærət",        az:"tutuquşu" },
+    { emoji:"🐫", en:"camel",      pron:"ˈkæməl",        az:"dəvə" },
+    { emoji:"🐬", en:"dolphin",    pron:"ˈdɒlfɪn",       az:"delfin" },
+    { emoji:"🦈", en:"shark",      pron:"ʃɑːk",          az:"köpək balığı" },
+    { emoji:"🐙", en:"octopus",    pron:"ˈɒktəpəs",      az:"ahtapot" },
+  ];
+
+  const container = document.getElementById("animalsList");
+  if (!container) return;
+  const grid = document.createElement("div");
+  grid.className = "animal-grid";
+
+  ANIMALS.forEach(a => {
+    const card = document.createElement("div");
+    card.className = "animal-card";
+    card.innerHTML = `
+      <div class="animal-emoji">${a.emoji}</div>
+      <div class="animal-en">${a.en}</div>
+      <div class="animal-pron">${a.pron}</div>
+      <div class="animal-az">${a.az}</div>
+    `;
+    card.addEventListener("click", () => speakText(a.en, { btn: card }));
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
 })();
 
 /* =========================================================
