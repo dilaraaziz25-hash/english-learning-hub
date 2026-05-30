@@ -103,6 +103,78 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   PREPOSITIONS TAB
+   ========================================================= */
+.prep-inner-tab {
+  flex: 1; padding: 10px 16px; border-radius: 10px;
+  background: none; border: none; font-size: 14px; font-weight: 700;
+  color: var(--text-dim); cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.prep-inner-tab.active { background: var(--bg-3); color: var(--text); }
+.prep-group { margin-bottom: 28px; }
+.prep-group-title {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--accent);
+  padding: 14px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 12px;
+}
+.prep-card {
+  background: var(--bg-2); border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px;
+  transition: border-color 0.15s;
+}
+.prep-card:hover { border-color: rgba(124,156,255,0.4); }
+.prep-card-highlight { border-color: rgba(255,196,136,0.4); background: rgba(255,196,136,0.05); }
+.prep-card-top {
+  display: flex; align-items: baseline; gap: 12px;
+  flex-wrap: wrap; margin-bottom: 8px;
+}
+.prep-word {
+  font-size: 22px; font-weight: 900; color: var(--accent);
+  font-family: monospace; letter-spacing: 1px;
+}
+.prep-az {
+  font-size: 14px; color: var(--text-dim); font-style: italic;
+}
+.prep-rule {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 10px;
+  line-height: 1.5; background: var(--bg-3); border-radius: 8px; padding: 8px 12px;
+}
+.prep-examples { display: flex; flex-direction: column; gap: 6px; }
+.prep-ex {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 8px 12px; background: var(--bg-3); border-radius: 8px;
+  cursor: pointer; transition: background 0.12s;
+}
+.prep-ex:hover { background: rgba(124,156,255,0.10); }
+.prep-ex-en { font-size: 15px; font-weight: 600; color: var(--text); }
+.prep-ex-en strong { color: var(--accent); }
+.prep-ex-az { font-size: 13px; color: var(--text-dim); font-style: italic; }
+/* Game option buttons */
+.prep-opt {
+  padding: 16px 12px; border-radius: var(--radius-sm);
+  background: var(--bg-2); border: 2px solid var(--border-strong);
+  color: var(--text); font-size: 20px; font-weight: 900;
+  cursor: pointer; min-height: 56px; letter-spacing: 1px;
+  font-family: monospace;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.prep-opt:hover { background: rgba(124,156,255,0.12); border-color: var(--accent); color: var(--accent); }
+.prep-opt.correct { background: rgba(110,231,185,0.18); border-color: var(--success); color: var(--success); }
+.prep-opt.wrong   { background: rgba(255,151,165,0.15); border-color: var(--danger);  color: var(--danger); }
+.prep-opt.disabled { opacity: 0.5; pointer-events: none; }
+#prepFeedback.correct { background: rgba(110,231,185,0.10); border: 1.5px solid rgba(110,231,185,0.35); color: var(--success); }
+#prepFeedback.wrong   { background: rgba(255,151,165,0.08); border: 1.5px solid rgba(255,151,165,0.30); color: var(--text); }
+body.large-text .prep-word { font-size: 26px; }
+body.large-text .prep-ex-en { font-size: 17px; }
+body.large-text .prep-opt   { font-size: 22px; }
+@media (max-width: 480px) {
+  #prepOptions { grid-template-columns: 1fr 1fr; }
+  .prep-ex-en { font-size: 14px; }
+}
+
+/* =========================================================
    PROGRESS CELEBRATION & DIFFICULT WORDS
    ========================================================= */
 @keyframes celebrationIn {
@@ -1574,6 +1646,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="verbs"><span data-i18n="tab_verbs">🌍 Verb Universe</span></button>
     <button class="tab" data-tab="verbtable"><span data-i18n="tab_verbtable">📋 Verb Table</span></button>
     <button class="tab" data-tab="tutor"><span data-i18n="tab_tutor">🤖 AI Tutor</span></button>
+    <button class="tab" data-tab="prep"><span data-i18n="tab_prep">🔗 Prepositions</span></button>
   </nav>
 
   <!-- =========================================================
@@ -2685,6 +2758,281 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       PREPOSITIONS
+       ========================================================= -->
+  <section class="panel" id="panel-prep">
+    <div class="card">
+
+      <h2 data-i18n="prep_title">🔗 Prepositions</h2>
+      <p class="subtitle" data-i18n="prep_subtitle">The trickiest part of English — but with practice it becomes natural!</p>
+
+      <!-- Tab switcher inside panel -->
+      <div style="display:flex;gap:8px;margin-bottom:22px;background:var(--bg-2);border-radius:14px;padding:4px;">
+        <button id="prepGuideBtn" class="prep-inner-tab active" data-i18n="prep_tab_guide">📚 Guide</button>
+        <button id="prepGameBtn"  class="prep-inner-tab"       data-i18n="prep_tab_game">🎮 Game</button>
+      </div>
+
+      <!-- ── GUIDE SECTION ──────────────────────────────────── -->
+      <div id="prepGuideSection">
+
+        <!-- Place -->
+        <div class="prep-group">
+          <div class="prep-group-title">📍 Place — Yer bildirən</div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">IN</span>
+              <span class="prep-az">içində / -da/-də (qapalı yer)</span>
+            </div>
+            <div class="prep-rule">Use <strong>in</strong> for enclosed spaces, cities, countries.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I live <strong>in</strong> Baku.</span><span class="prep-ex-az">Mən Bakıda yaşayıram.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">My wife lives <strong>in</strong> London.</span><span class="prep-ex-az">Həyat yoldaşım Londonda yaşayır.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I am <strong>in</strong> the kitchen.</span><span class="prep-ex-az">Mən mətbəxdəyəm.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">ON</span>
+              <span class="prep-az">üzərində / -da/-də (səthdə)</span>
+            </div>
+            <div class="prep-rule">Use <strong>on</strong> for surfaces and streets.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">The book is <strong>on</strong> the table.</span><span class="prep-ex-az">Kitab masanın üzərindədir.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I live <strong>on</strong> Baker Street.</span><span class="prep-ex-az">Mən Baker küçəsindəyəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">There is a garden <strong>on</strong> the left.</span><span class="prep-ex-az">Solda bir bağ var.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">AT</span>
+              <span class="prep-az">-da/-də (konkret nöqtə)</span>
+            </div>
+            <div class="prep-rule">Use <strong>at</strong> for specific points and locations.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I am <strong>at</strong> the airport.</span><span class="prep-ex-az">Mən hava limanındayam.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">She works <strong>at</strong> home.</span><span class="prep-ex-az">O evdə işləyir.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">Wait <strong>at</strong> the bus stop.</span><span class="prep-ex-az">Avtobus dayanacağında gözlə.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">NEXT TO / NEAR</span>
+              <span class="prep-az">yanında / yaxınında</span>
+            </div>
+            <div class="prep-rule">Use for things beside or close to something.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">The pharmacy is <strong>next to</strong> the hospital.</span><span class="prep-ex-az">Aptek xəstəxananın yanındadır.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I sat <strong>next to</strong> my wife.</span><span class="prep-ex-az">Həyat yoldaşımın yanında oturdum.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">UNDER / ABOVE</span>
+              <span class="prep-az">altında / üstündə</span>
+            </div>
+            <div class="prep-rule">Position below or above something.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">The cat is <strong>under</strong> the table.</span><span class="prep-ex-az">Pişik masanın altındadır.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">The picture is <strong>above</strong> the sofa.</span><span class="prep-ex-az">Şəkil divanın üstündədir.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Time -->
+        <div class="prep-group">
+          <div class="prep-group-title">⏰ Time — Zaman bildirən</div>
+
+          <div class="prep-card prep-card-highlight">
+            <div class="prep-card-top">
+              <span class="prep-word" style="color:var(--warn);">AT / ON / IN</span>
+              <span class="prep-az">Zaman üçün — ən vacib qayda!</span>
+            </div>
+            <div class="prep-rule" style="color:var(--text);">
+              This is the rule English learners find hardest — memorise it! 🧠
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;">
+              <div style="background:var(--bg-3);border-radius:10px;padding:12px;text-align:center;">
+                <div style="font-size:18px;font-weight:900;color:var(--accent);margin-bottom:4px;">AT</div>
+                <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">exact times</div>
+                <div style="font-size:13px;color:var(--text);">at 3 o'clock<br>at night<br>at the weekend</div>
+              </div>
+              <div style="background:var(--bg-3);border-radius:10px;padding:12px;text-align:center;">
+                <div style="font-size:18px;font-weight:900;color:var(--success);margin-bottom:4px;">ON</div>
+                <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">days & dates</div>
+                <div style="font-size:13px;color:var(--text);">on Monday<br>on 25 June<br>on my birthday</div>
+              </div>
+              <div style="background:var(--bg-3);border-radius:10px;padding:12px;text-align:center;">
+                <div style="font-size:18px;font-weight:900;color:#b08aff;margin-bottom:4px;">IN</div>
+                <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">longer periods</div>
+                <div style="font-size:13px;color:var(--text);">in the morning<br>in January<br>in 2024</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">FOR / SINCE</span>
+              <span class="prep-az">müddət / -dan bəri</span>
+            </div>
+            <div class="prep-rule"><strong>For</strong> = duration. <strong>Since</strong> = starting point.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">She has lived in London <strong>for</strong> 24 years.</span><span class="prep-ex-az">O, 24 ildir Londonda yaşayır.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">She has lived there <strong>since</strong> 2002.</span><span class="prep-ex-az">O, 2002-ci ildən orada yaşayır.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I have studied English <strong>for</strong> 3 months.</span><span class="prep-ex-az">Mən 3 aydır ingilis dili öyrənirəm.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">BEFORE / AFTER</span>
+              <span class="prep-az">əvvəl / sonra</span>
+            </div>
+            <div class="prep-rule">In time sequence.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I study English <strong>before</strong> breakfast.</span><span class="prep-ex-az">Mən səhər yeməyindən əvvəl ingilis dili öyrənirəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en"><strong>After</strong> dinner, I read.</span><span class="prep-ex-az">Şam yeməyindən sonra oxuyuram.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Movement -->
+        <div class="prep-group">
+          <div class="prep-group-title">🚀 Movement — Hərəkət bildirən</div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">TO / FROM</span>
+              <span class="prep-az">-a/-ə / -dan/-dən</span>
+            </div>
+            <div class="prep-rule"><strong>To</strong> = destination. <strong>From</strong> = origin.</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I am moving <strong>to</strong> London.</span><span class="prep-ex-az">Mən Londona köçürəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I flew <strong>from</strong> Baku.</span><span class="prep-ex-az">Bakıdan uçdum.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I go <strong>to</strong> work every day.</span><span class="prep-ex-az">Hər gün işə gedirəm.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">BY</span>
+              <span class="prep-az">ilə (nəqliyyat vasitəsi)</span>
+            </div>
+            <div class="prep-rule">Use <strong>by</strong> for transport methods — no article needed!</div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I travel <strong>by</strong> plane.</span><span class="prep-ex-az">Mən təyyarə ilə gedirəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">She goes <strong>by</strong> bus.</span><span class="prep-ex-az">O avtobusla gedir.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I go <strong>by</strong> underground.</span><span class="prep-ex-az">Mən metro ilə gedirəm.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other -->
+        <div class="prep-group">
+          <div class="prep-group-title">💬 Other common — Digər vacib</div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">WITH / WITHOUT</span>
+              <span class="prep-az">ilə / olmadan</span>
+            </div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I drink tea <strong>with</strong> milk.</span><span class="prep-ex-az">Çayı süd ilə içirəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">I can't live <strong>without</strong> her.</span><span class="prep-ex-az">Onsuz yaşaya bilmirəm.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">ABOUT</span>
+              <span class="prep-az">haqqında / barədə</span>
+            </div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I think <strong>about</strong> my future.</span><span class="prep-ex-az">Gələcəyim haqqında düşünürəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">Tell me <strong>about</strong> yourself.</span><span class="prep-ex-az">Özünüz haqqında danışın.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">OF</span>
+              <span class="prep-az">-ın/-in (mənsubiyyət)</span>
+            </div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">The capital <strong>of</strong> England is London.</span><span class="prep-ex-az">İngiltərənin paytaxtı Londondur.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">A cup <strong>of</strong> tea, please.</span><span class="prep-ex-az">Bir fincan çay, zəhmət olmasa.</span></div>
+            </div>
+          </div>
+
+          <div class="prep-card">
+            <div class="prep-card-top">
+              <span class="prep-word">FOR</span>
+              <span class="prep-az">üçün</span>
+            </div>
+            <div class="prep-examples">
+              <div class="prep-ex"><span class="prep-ex-en">I study English <strong>for</strong> my future.</span><span class="prep-ex-az">Gələcəyim üçün ingilis dili öyrənirəm.</span></div>
+              <div class="prep-ex"><span class="prep-ex-en">This app is <strong>for</strong> you.</span><span class="prep-ex-az">Bu tətbiq sənin üçündür.</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /prepGuideSection -->
+
+      <!-- ── GAME SECTION ───────────────────────────────────── -->
+      <div id="prepGameSection" style="display:none;">
+
+        <!-- Stats -->
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+          <div class="stat" style="min-width:100px;">
+            <div class="label">✅ Score</div>
+            <div class="value" id="prepScore">0</div>
+          </div>
+          <div class="stat" style="min-width:100px;">
+            <div class="label">🔥 Streak</div>
+            <div class="value" id="prepStreak">0</div>
+          </div>
+          <div class="stat" style="min-width:100px;">
+            <div class="label">🏆 Best</div>
+            <div class="value" id="prepBest">0</div>
+          </div>
+        </div>
+        <div class="bar" style="margin-bottom:20px;"><span id="prepProgressBar" style="width:0%;transition:width 0.4s ease;"></span></div>
+
+        <!-- Question card -->
+        <div id="prepQuestionCard" style="
+          background:linear-gradient(135deg,rgba(124,156,255,0.10),rgba(176,138,255,0.13));
+          border:2px solid var(--border-strong);
+          border-radius:var(--radius);
+          padding:24px 20px;
+          text-align:center;
+          margin-bottom:20px;
+        ">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:10px;" id="prepQNum">Question 1</div>
+          <div id="prepSentence" style="font-size:22px;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:8px;"></div>
+          <div id="prepSentenceAz" style="font-size:14px;color:var(--text-dim);font-style:italic;"></div>
+        </div>
+
+        <!-- Options -->
+        <div id="prepOptions" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;max-width:400px;margin-left:auto;margin-right:auto;"></div>
+
+        <!-- Feedback -->
+        <div id="prepFeedback" style="display:none;padding:14px 18px;border-radius:var(--radius);font-size:15px;font-weight:600;line-height:1.5;margin-bottom:16px;text-align:center;"></div>
+
+        <!-- Next button -->
+        <div style="text-align:center;">
+          <button id="prepNext" class="btn primary" style="display:none;padding:14px 32px;font-size:16px;" data-i18n="prep_next">Next →</button>
+        </div>
+
+      </div><!-- /prepGameSection -->
+
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -2722,6 +3070,7 @@ const I18N = {
     tab_verbs: "🌍 Verb Universe",
     tab_verbtable: "📋 Verb Table",
     tab_tutor: "🤖 AI Tutor",
+    tab_prep: "🔗 Prepositions",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -2793,6 +3142,11 @@ const I18N = {
     tutor_clear_chat: "🗑 Clear chat",
     tutor_hear: "🔊 Hear this",
     tutor_welcome: "Hello Elkhan! I am your personal English tutor. 🎓\n\nI am here to help you practise English at your own pace — no rush, no pressure. You can chat with me in English or Azerbaijani, ask me grammar questions, practise conversations, or do a visa interview roleplay.\n\nWhat would you like to practise today?",
+    prep_title: "🔗 Prepositions",
+    prep_subtitle: "The trickiest part of English — but with practice it becomes natural!",
+    prep_tab_guide: "📚 Guide",
+    prep_tab_game: "🎮 Game",
+    prep_next: "Next →",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -2999,6 +3353,7 @@ const I18N = {
     tab_verbs: "🌍 Fel Kainatı",
     tab_verbtable: "📋 Fel Cədvəli",
     tab_tutor: "🤖 AI Müəllim",
+    tab_prep: "🔗 Qoşmalar",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -3070,6 +3425,11 @@ const I18N = {
     tutor_clear_chat: "🗑 Söhbəti sil",
     tutor_hear: "🔊 Dinlə",
     tutor_welcome: "Salam Elxan! Mən sənin şəxsi ingilis müəlliminim. 🎓\n\nÖz sürətinlə ingilis dilini məşq etməyə kömək etmək üçün burdayam — tələsmə, təzyiq yoxdur. Mənimlə ingiliscə və ya azərbaycanca danışa bilərsən, qrammatika sualları verə bilərsən, söhbət məşq edə bilərsən.\n\nBu gün nə məşq etmək istəyirsən?",
+    prep_title: "🔗 Qoşmalar",
+    prep_subtitle: "İngiliscənin ən çətin hissəsi — amma məşqlə təbii olur!",
+    prep_tab_guide: "📚 Bələdçi",
+    prep_tab_game: "🎮 Oyun",
+    prep_next: "Növbəti →",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -3748,7 +4108,7 @@ const QUIZ = [
   { q: "She has lived in London ___ 24 years.",               opts: ["since","for","from","in"],                                                     a: 1 },
   { q: "I ___ an engineer before I started my business.",     opts: ["was","were","am","be"],                                                        a: 0 },
   { q: "Choose the correct sentence:",                        opts: ["He don't have a car.","He doesn't have a car.","He not have a car.","He haven't a car."], a: 1 },
-  { q: "My wife ___ in London since 2001.",                   opts: ["live","lives","has lived","living"],                                           a: 2 },
+  { q: "My wife ___ in London since 2002.",                   opts: ["live","lives","has lived","living"],                                           a: 2 },
   { q: "I am looking forward ___ my wife in London.",         opts: ["see","to see","seeing","to seeing"],                                           a: 3 },
 
   // ── VOCABULARY — EN → AZ ──────────────────────────────────────────────────
@@ -4943,7 +5303,7 @@ applyLanguage(LANG);
 
     { cat:"visa",     q:"Why is your wife in the UK and not in Azerbaijan?",
       az:"Niyə həyat yoldaşınız Azərbaycanda deyil, Böyük Britaniyadadır?",
-      model:"She moved to the UK many years ago to study and then built her career there. She has lived in London for over 20 years.",
+      model:"She moved to the UK many years ago to study and then built her career there. She has lived in London for 24 years.",
       modelAz:"O, bir çox il əvvəl təhsil üçün Böyük Britaniyaya köçdü, sonra orada karyera qurdu. 20 ildən artıqdır ki, Londonda yaşayır." },
 
     { cat:"visa",     q:"Why are you learning English?",
@@ -5129,6 +5489,203 @@ applyLanguage(LANG);
 })();
 
 /* =========================================================
+   PREPOSITIONS TAB
+   ========================================================= */
+(function prepositionsTab() {
+
+  // ── Guide/Game toggle ────────────────────────────────────────────
+  const guideBtn   = document.getElementById("prepGuideBtn");
+  const gameBtn    = document.getElementById("prepGameBtn");
+  const guideSection = document.getElementById("prepGuideSection");
+  const gameSection  = document.getElementById("prepGameSection");
+
+  guideBtn.addEventListener("click", () => {
+    guideBtn.classList.add("active"); gameBtn.classList.remove("active");
+    guideSection.style.display = "block"; gameSection.style.display = "none";
+  });
+  gameBtn.addEventListener("click", () => {
+    gameBtn.classList.add("active"); guideBtn.classList.remove("active");
+    gameSection.style.display = "block"; guideSection.style.display = "none";
+  });
+
+  // ── Tap example sentences in the guide to hear them ─────────────
+  document.querySelectorAll(".prep-ex").forEach(ex => {
+    ex.addEventListener("click", () => {
+      const enText = ex.querySelector(".prep-ex-en");
+      if (enText) speakText(enText.textContent, { btn: ex });
+    });
+  });
+
+  // ── GAME ─────────────────────────────────────────────────────────
+  const PREP_KEY = "prep_game_stats";
+
+  // Questions — sentence with blank + correct + distractors
+  // The blank is marked as ___ in the sentence
+  const QUESTIONS = [
+    // Place — in/on/at
+    { az:"Mən Bakıda yaşayıram.",                    en:"I live ___ Baku.",                       correct:"in",      opts:["in","on","at","to"] },
+    { az:"Həyat yoldaşım Londonda yaşayır.",          en:"My wife lives ___ London.",              correct:"in",      opts:["in","on","at","from"] },
+    { az:"Kitab masanın üzərindədir.",                en:"The book is ___ the table.",             correct:"on",      opts:["on","in","at","under"] },
+    { az:"Mən hava limanındayam.",                    en:"I am ___ the airport.",                  correct:"at",      opts:["at","in","on","to"] },
+    { az:"O evdə işləyir.",                           en:"She works ___ home.",                    correct:"at",      opts:["at","in","on","for"] },
+    { az:"Biz sağda yaşayırıq.",                      en:"We live ___ the right.",                 correct:"on",      opts:["on","in","at","to"] },
+    { az:"Xəstəxana küçənin sol tərəfindədir.",       en:"The hospital is ___ the left.",          correct:"on",      opts:["on","in","at","by"] },
+    { az:"Pişik masanın altındadır.",                 en:"The cat is ___ the table.",              correct:"under",   opts:["under","on","in","at"] },
+    { az:"Şəkil divanın üstündədir.",                 en:"The picture is ___ the sofa.",           correct:"above",   opts:["above","under","on","in"] },
+    { az:"Aptek xəstəxananın yanındadır.",            en:"The pharmacy is ___ the hospital.",      correct:"next to", opts:["next to","in","on","from"] },
+
+    // Time — at/on/in
+    { az:"Saat üçdə görüşəcəyik.",                   en:"We will meet ___ 3 o'clock.",            correct:"at",      opts:["at","on","in","by"] },
+    { az:"Dərs bazar ertəsidir.",                     en:"The class is ___ Monday.",               correct:"on",      opts:["on","at","in","for"] },
+    { az:"Mən səhər çay içirəm.",                     en:"I drink tea ___ the morning.",           correct:"in",      opts:["in","at","on","during"] },
+    { az:"Oktyabr ayında evləndik.",                  en:"We got married ___ October.",            correct:"in",      opts:["in","on","at","during"] },
+    { az:"25 iyun doğum günümdür.",                   en:"My birthday is ___ 25 June.",            correct:"on",      opts:["on","in","at","by"] },
+    { az:"Gecə gəldim.",                              en:"I arrived ___ night.",                   correct:"at",      opts:["at","in","on","during"] },
+    { az:"2002-ci ildə Londona köçdü.",               en:"She moved to London ___ 2002.",          correct:"in",      opts:["in","on","at","from"] },
+    { az:"O, 24 ildir Londonda yaşayır.",             en:"She has lived in London ___ 24 years.",  correct:"for",     opts:["for","since","during","in"] },
+    { az:"O, 2002-ci ildən Londonda yaşayır.",        en:"She has lived there ___ 2002.",          correct:"since",   opts:["since","for","in","from"] },
+    { az:"Şam yeməyindən sonra oxuyuram.",            en:"I read ___ dinner.",                     correct:"after",   opts:["after","before","during","at"] },
+    { az:"Səhər yeməyindən əvvəl məşq edirəm.",       en:"I exercise ___ breakfast.",              correct:"before",  opts:["before","after","at","in"] },
+
+    // Movement
+    { az:"Mən Londona köçürəm.",                      en:"I am moving ___ London.",                correct:"to",      opts:["to","in","from","at"] },
+    { az:"Bakıdan uçdum.",                            en:"I flew ___ Baku.",                       correct:"from",    opts:["from","to","in","at"] },
+    { az:"Hər gün işə gedirəm.",                      en:"I go ___ work every day.",               correct:"to",      opts:["to","at","in","for"] },
+    { az:"Mən təyyarə ilə gedirəm.",                  en:"I travel ___ plane.",                    correct:"by",      opts:["by","on","in","with"] },
+    { az:"O avtobusla gedir.",                        en:"She goes ___ bus.",                      correct:"by",      opts:["by","on","in","with"] },
+    { az:"Mən metro ilə gedirəm.",                    en:"I go ___ underground.",                  correct:"by",      opts:["by","on","in","with"] },
+
+    // Other
+    { az:"Çayı süd ilə içirəm.",                      en:"I drink tea ___ milk.",                  correct:"with",    opts:["with","without","by","for"] },
+    { az:"Onsuz yaşaya bilmirəm.",                    en:"I cannot live ___ her.",                 correct:"without", opts:["without","with","from","by"] },
+    { az:"Gələcəyim haqqında düşünürəm.",             en:"I think ___ my future.",                 correct:"about",   opts:["about","of","for","with"] },
+    { az:"Özünüz haqqında danışın.",                  en:"Tell me ___ yourself.",                  correct:"about",   opts:["about","of","for","on"] },
+    { az:"İngiltərənin paytaxtı Londondur.",          en:"The capital ___ England is London.",     correct:"of",      opts:["of","in","for","from"] },
+    { az:"Bir fincan çay, zəhmət olmasa.",             en:"A cup ___ tea, please.",                 correct:"of",      opts:["of","with","for","from"] },
+    { az:"Bu tətbiq sənin üçündür.",                  en:"This app is ___ you.",                   correct:"for",     opts:["for","to","of","with"] },
+    { az:"Gələcəyim üçün ingilis dili öyrənirəm.",    en:"I study English ___ my future.",         correct:"for",     opts:["for","to","of","about"] },
+    { az:"Həyat yoldaşımla danışdım.",                en:"I spoke ___ my wife.",                   correct:"to",      opts:["to","with","about","for"] },
+    { az:"İşimdən əvvəl mühəndis idim.",              en:"I was an engineer ___ my business.",     correct:"before",  opts:["before","after","for","in"] },
+    { az:"Bakıdan Londona getdim.",                   en:"I went from Baku ___ London.",           correct:"to",      opts:["to","in","at","for"] },
+    { az:"Evdən çıxdım.",                             en:"I went ___ the house.",                  correct:"out of",  opts:["out of","into","in","from"] },
+    { az:"Otağa girdim.",                             en:"I went ___ the room.",                   correct:"into",    opts:["into","out of","in","to"] },
+  ];
+
+  // ── Game state ───────────────────────────────────────────────────
+  let shuffled = [];
+  let qIdx     = 0;
+  let score    = 0;
+  let streak   = 0;
+  let answered = false;
+
+  function loadStats() { try { return JSON.parse(localStorage.getItem(PREP_KEY) || "{}"); } catch { return {}; } }
+  function saveStats(s) { try { localStorage.setItem(PREP_KEY, JSON.stringify(s)); } catch {} }
+
+  function refreshStats() {
+    const s = loadStats();
+    document.getElementById("prepBest").textContent = s.best || 0;
+  }
+
+  function shuffleArr(arr) {
+    const a = [...arr];
+    for (let i = a.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  function loadQuestion() {
+    answered = false;
+    if (qIdx >= shuffled.length) {
+      shuffled = shuffleArr([...QUESTIONS.keys()]);
+      qIdx = 0;
+    }
+    const q = QUESTIONS[shuffled[qIdx]];
+
+    document.getElementById("prepQNum").textContent = `Question ${score + 1}`;
+    document.getElementById("prepSentence").innerHTML = q.en.replace("___", '<span style="color:var(--accent);font-weight:900;font-size:28px;">___</span>');
+    document.getElementById("prepSentenceAz").textContent = q.az;
+    document.getElementById("prepFeedback").style.display = "none";
+    document.getElementById("prepNext").style.display = "none";
+
+    // Progress bar (cycles per 10 questions)
+    document.getElementById("prepProgressBar").style.width = ((score % 10) / 10 * 100) + "%";
+
+    // Build option buttons — shuffle them
+    const optsEl = document.getElementById("prepOptions");
+    optsEl.innerHTML = "";
+    const shuffledOpts = shuffleArr(q.opts);
+    shuffledOpts.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "prep-opt";
+      btn.textContent = opt;
+      btn.addEventListener("click", () => handleAnswer(btn, opt, q));
+      optsEl.appendChild(btn);
+    });
+  }
+
+  function handleAnswer(btn, chosen, q) {
+    if (answered) return;
+    answered = true;
+    const opts = document.querySelectorAll(".prep-opt");
+    opts.forEach(b => b.classList.add("disabled"));
+
+    const fb = document.getElementById("prepFeedback");
+    fb.style.display = "block";
+
+    if (chosen === q.correct) {
+      btn.classList.add("correct");
+      score++; streak++;
+      document.getElementById("prepScore").textContent  = score;
+      document.getElementById("prepStreak").textContent = streak;
+
+      const s = loadStats();
+      if (score > (s.best || 0)) { s.best = score; saveStats(s); refreshStats(); }
+
+      const praise = ["Perfect!", "Brilliant!", "Exactly right!", "Well done!", "Spot on!"][Math.floor(Math.random()*5)];
+      fb.className = "correct";
+      fb.innerHTML = `🎉 ${praise}<br><span style="font-size:13px;font-weight:400;opacity:0.85;">"${q.en.replace("___", `<strong>${q.correct}</strong>`)}"</span>`;
+    } else {
+      btn.classList.add("wrong");
+      opts.forEach(b => { if (b.textContent === q.correct) b.classList.add("correct"); });
+      streak = 0;
+      document.getElementById("prepStreak").textContent = 0;
+      fb.className = "wrong";
+      fb.innerHTML = `💙 Not quite! The correct answer is <strong style="color:var(--success);">"${q.correct}"</strong><br><span style="font-size:13px;font-weight:400;opacity:0.85;">"${q.en.replace("___", `<strong>${q.correct}</strong>`)}"</span>`;
+    }
+
+    document.getElementById("prepNext").style.display = "inline-flex";
+    document.getElementById("prepProgressBar").style.width = ((score % 10) / 10 * 100) + "%";
+  }
+
+  document.getElementById("prepNext").addEventListener("click", () => {
+    qIdx++;
+    loadQuestion();
+  });
+
+  // Init
+  refreshStats();
+  shuffled = shuffleArr([...QUESTIONS.keys()]);
+  loadQuestion();
+
+  // Init game when tab opens
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      if (tab.dataset.tab === "prep") {
+        score = streak = qIdx = 0;
+        document.getElementById("prepScore").textContent  = 0;
+        document.getElementById("prepStreak").textContent = 0;
+        shuffled = shuffleArr([...QUESTIONS.keys()]);
+        loadQuestion();
+        refreshStats();
+      }
+    });
+  });
+
+})();
+
+/* =========================================================
    AI TUTOR
    ========================================================= */
 (function aiTutor() {
@@ -5144,7 +5701,7 @@ About Elkhan:
 - Very intelligent — good at maths and physics
 - Plans to do a Master's degree in the UK
 - Passionate about gardening and agriculture
-- Married to Dilara, a British IT Consultant who has lived in London for 24 years
+- Married to Dilara, a British IT Consultant who has lived in London for 24 years (moved in 2002)
 
 Your role:
 - Speak in simple, clear A1/A2 English — short sentences, common words
