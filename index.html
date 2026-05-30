@@ -103,6 +103,103 @@ body.large-text .streak-opt { font-size: 18px; padding: 18px 14px; min-height: 6
 }
 
 /* =========================================================
+   MY STORY TAB
+   ========================================================= */
+@keyframes storyLineIn {
+  from { opacity:0; transform:translateX(-8px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+.story-para {
+  background: var(--bg-2);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.story-para.playing { border-color: var(--accent); }
+.story-para-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--border);
+}
+.story-para-icon { font-size: 20px; flex-shrink: 0; }
+.story-para-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+  font-weight: 700; color: var(--accent); flex: 1;
+}
+.story-para-btns { display: flex; gap: 6px; }
+.story-para-btn {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 5px 11px;
+  font-size: 12px; font-weight: 600; color: var(--text-dim);
+  cursor: pointer; transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.story-para-btn:hover { background: rgba(124,156,255,0.15); color: var(--accent); border-color: var(--accent); }
+.story-para-btn.playing { color: var(--accent); border-color: var(--accent); background: rgba(124,156,255,0.12); }
+.story-sentences { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.story-sentence {
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 0.12s;
+  animation: storyLineIn 0.3s ease both;
+}
+.story-sentence:hover { background: var(--bg-3); }
+.story-sentence.active { background: rgba(124,156,255,0.10); border-left: 3px solid var(--accent); }
+.story-en {
+  font-size: 16px; font-weight: 600; color: var(--text);
+  line-height: 1.5; margin-bottom: 5px;
+}
+.story-az {
+  font-size: 13px; color: var(--text-dim); font-style: italic; line-height: 1.5;
+}
+.story-az::before { content: "🌍 "; }
+.story-repeat-area {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: var(--bg-3);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: none;
+}
+.story-sentence.active .story-repeat-area { display: block; }
+.story-controls {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+.story-sentence.active .story-controls { display: flex; }
+.story-ctrl-btn {
+  background: var(--bg-3);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.story-ctrl-btn:hover { background: rgba(124,156,255,0.15); color: var(--accent); border-color: var(--accent); }
+.story-next-btn {
+  margin-left: auto;
+  background: linear-gradient(135deg,rgba(124,156,255,0.2),rgba(176,138,255,0.2)) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+body.large-text .story-en { font-size: 18px; }
+body.large-text .story-az { font-size: 15px; }
+@media (max-width: 480px) { .story-en { font-size: 15px; } }
+
+/* =========================================================
    PREPOSITIONS TAB
    ========================================================= */
 .prep-inner-tab {
@@ -1647,6 +1744,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
     <button class="tab" data-tab="verbtable"><span data-i18n="tab_verbtable">📋 Verb Table</span></button>
     <button class="tab" data-tab="tutor"><span data-i18n="tab_tutor">🤖 AI Tutor</span></button>
     <button class="tab" data-tab="prep"><span data-i18n="tab_prep">🔗 Prepositions</span></button>
+    <button class="tab" data-tab="mystory"><span data-i18n="tab_mystory">📖 My Story</span></button>
   </nav>
 
   <!-- =========================================================
@@ -1787,6 +1885,10 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <option value="phone"      data-i18n="cat_phone">💬 Conversation</option>
           <option value="hobbies"    data-i18n="cat_hobbies">🎯 Hobbies</option>
           <option value="animals"    data-i18n="cat_animals">🐘 Animals</option>
+          <option value="shopping"   data-i18n="cat_shopping">🛒 Shopping</option>
+          <option value="directions" data-i18n="cat_directions">🗺️ Directions</option>
+          <option value="bank"       data-i18n="cat_bank">🏦 Bank &amp; money</option>
+          <option value="cafe"       data-i18n="cat_cafe">☕ Café &amp; eating out</option>
           <option value="difficult"  data-i18n="cat_difficult">⭐ My difficult cards</option>
         </select>
         <button class="btn small" id="flashShuffle" data-i18n="shuffle">🔀 Shuffle</button>
@@ -2372,6 +2474,10 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
           <option value="phone"      data-i18n="cat_phone">💬 Conversation</option>
           <option value="hobbies"    data-i18n="cat_hobbies">🎯 Hobbies</option>
           <option value="animals"    data-i18n="cat_animals">🐘 Animals</option>
+          <option value="shopping"   data-i18n="cat_shopping">🛒 Shopping</option>
+          <option value="directions" data-i18n="cat_directions">🗺️ Directions</option>
+          <option value="bank"       data-i18n="cat_bank">🏦 Bank &amp; money</option>
+          <option value="cafe"       data-i18n="cat_cafe">☕ Café &amp; eating out</option>
         </select>
         <input id="vlSearch" type="search" data-i18n-ph="vocablist_search" placeholder="Search words..." style="
           background:var(--bg-2);color:var(--text);border:1px solid var(--border-strong);
@@ -3033,6 +3139,40 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   </section>
 
   <!-- =========================================================
+       MY STORY
+       ========================================================= -->
+  <section class="panel" id="panel-mystory">
+    <div class="card">
+
+      <h2 data-i18n="story_title">📖 My Story</h2>
+      <p class="subtitle" data-i18n="story_subtitle">Read about yourself in English. Listen, repeat, and practise. This is your story.</p>
+
+      <!-- Controls -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+        <button id="storyPlayAll" class="btn primary" style="flex:1;min-width:150px;padding:14px 18px;font-size:15px;">▶ <span data-i18n="story_play_all">Listen to full story</span></button>
+        <button id="storyPlaySlow" class="btn" style="flex:1;min-width:150px;padding:14px 18px;font-size:15px;">🐢 <span data-i18n="story_play_slow">Listen slowly</span></button>
+      </div>
+
+      <!-- Story paragraphs -->
+      <div id="storyParagraphs" style="display:flex;flex-direction:column;gap:16px;"></div>
+
+      <!-- Encouraging note -->
+      <div style="
+        margin-top:24px;
+        background:rgba(110,231,185,0.07);
+        border:1px solid rgba(110,231,185,0.18);
+        border-radius:12px;
+        padding:14px 18px;
+        font-size:13px;
+        color:var(--text-dim);
+        line-height:1.6;
+        text-align:center;
+      " data-i18n="story_tip">💡 Tip: Listen first, then read along, then try saying it yourself. Do this every day and it will feel natural very quickly!</div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
        FOOTER
        ========================================================= -->
   <div class="footer-note" data-i18n-html="footer">
@@ -3071,6 +3211,7 @@ const I18N = {
     tab_verbtable: "📋 Verb Table",
     tab_tutor: "🤖 AI Tutor",
     tab_prep: "🔗 Prepositions",
+    tab_mystory: "📖 My Story",
     stat_focus_value: "Family words 👨‍👩‍👧",
     stat_focus_hint: "Vocabulary + speaking practice",
     stat_focus_label: "Today's focus",
@@ -3147,6 +3288,13 @@ const I18N = {
     prep_tab_guide: "📚 Guide",
     prep_tab_game: "🎮 Game",
     prep_next: "Next →",
+    story_title: "📖 My Story",
+    story_subtitle: "Read about yourself in English. Listen, repeat, and practise. This is your story.",
+    story_play_all: "Listen to full story",
+    story_play_slow: "Listen slowly",
+    story_listen: "🔊 Listen",
+    story_repeat: "🔁 Slowly",
+    story_tip: "💡 Tip: Listen first, then read along, then try saying it yourself. Do this every day and it will feel natural very quickly!",
 
     large_text_toggle: "Large Text Mode — easier on the eyes",
     large_text_short: "Large text",
@@ -3194,6 +3342,10 @@ const I18N = {
     cat_phone: "💬 Conversation",
     cat_hobbies: "🎯 Hobbies",
     cat_animals: "🐘 Animals",
+    cat_shopping: "🛒 Shopping",
+    cat_directions: "🗺️ Directions",
+    cat_bank: "🏦 Bank & money",
+    cat_cafe: "☕ Café & eating out",
     cat_difficult: "⭐ My difficult cards",
     shuffle: "🔀 Shuffle",
     random: "🎲 Random",
@@ -3354,6 +3506,7 @@ const I18N = {
     tab_verbtable: "📋 Fel Cədvəli",
     tab_tutor: "🤖 AI Müəllim",
     tab_prep: "🔗 Qoşmalar",
+    tab_mystory: "📖 Mənim Hekayəm",
     stat_focus_value: "Ailə sözləri 👨‍👩‍👧",
     stat_focus_hint: "Lüğət + danışıq praktikası",
     stat_focus_label: "Bugünkü mövzu",
@@ -3430,6 +3583,13 @@ const I18N = {
     prep_tab_guide: "📚 Bələdçi",
     prep_tab_game: "🎮 Oyun",
     prep_next: "Növbəti →",
+    story_title: "📖 Mənim Hekayəm",
+    story_subtitle: "İngiliscədə özün haqqında oxu. Dinlə, təkrarla və məşq et. Bu sənin hekayəndir.",
+    story_play_all: "Tam hekayəni dinlə",
+    story_play_slow: "Yavaş dinlə",
+    story_listen: "🔊 Dinlə",
+    story_repeat: "🔁 Yavaş",
+    story_tip: "💡 Məsləhət: Əvvəlcə dinlə, sonra oxuyaraq izlə, sonra özün söylə. Bunu hər gün et — çox tezliklə təbii gələcək!",
 
     large_text_toggle: "Böyük mətn rejimi — gözlər üçün daha rahat",
     large_text_short: "Böyük mətn",
@@ -3477,6 +3637,10 @@ const I18N = {
     cat_phone: "💬 Söhbət",
     cat_hobbies: "🎯 Hobbilər",
     cat_animals: "🐘 Heyvanlar",
+    cat_shopping: "🛒 Alış-veriş",
+    cat_directions: "🗺️ Istiqamətlər",
+    cat_bank: "🏦 Bank və pul",
+    cat_cafe: "☕ Kafe və restoranlar",
     cat_difficult: "⭐ Çətin kartlarım",
     shuffle: "🔀 Qarışdır",
     random: "🎲 Təsadüfi",
@@ -4023,7 +4187,56 @@ const VOCAB = [
   { cat: "animals",    level: "A2", en: "penguin",          az: "pinqvin",               pron: "ˈpeŋɡwɪn",          ex: "Penguins cannot fly.",              exAz: "Pinqvinlər uça bilmir." },
   { cat: "animals",    level: "A2", en: "parrot",           az: "tutuquşu",              pron: "ˈpærət",            ex: "Parrots can talk.",                 exAz: "Tutuquşular danışa bilir." },
   { cat: "animals",    level: "A2", en: "shark",            az: "köpək balığı",          pron: "ʃɑːk",              ex: "Sharks live in the ocean.",         exAz: "Köpək balıqları okeanda yaşayır." },
-  { cat: "animals",    level: "A2", en: "crocodile",        az: "timsah",                pron: "ˈkrɒkədaɪl",        ex: "Crocodiles are very dangerous.",    exAz: "Timsahlar çox təhlükəlidir." }
+  { cat: "animals",    level: "A2", en: "crocodile",        az: "timsah",                pron: "ˈkrɒkədaɪl",        ex: "Crocodiles are very dangerous.",    exAz: "Timsahlar çox təhlükəlidir." },
+
+  // =============== SHOPPING & SERVICES ===============
+  { cat: "shopping",   level: "A1", en: "shop",              az: "mağaza",                pron: "ʃɒp",               ex: "I go to the shop every day.",       exAz: "Hər gün mağazaya gedirəm." },
+  { cat: "shopping",   level: "A1", en: "price",             az: "qiymət",                pron: "praɪs",             ex: "What is the price of this?",        exAz: "Bunun qiyməti nədir?" },
+  { cat: "shopping",   level: "A1", en: "basket",            az: "səbət",                 pron: "ˈbɑːskɪt",          ex: "I take a small basket.",            exAz: "Kiçik bir səbət götürürəm." },
+  { cat: "shopping",   level: "A1", en: "bag",               az: "çanta / torba",         pron: "bæɡ",               ex: "Do you need a bag?",                exAz: "Torba lazımdır?" },
+  { cat: "shopping",   level: "A2", en: "cashier",           az: "kassa işçisi",          pron: "kæˈʃɪə",            ex: "The cashier is very friendly.",     exAz: "Kassa işçisi çox mehribandır." },
+  { cat: "shopping",   level: "A2", en: "checkout",          az: "kassa",                 pron: "ˈtʃekaʊt",          ex: "I wait at the checkout.",           exAz: "Kassada gözləyirəm." },
+  { cat: "shopping",   level: "A2", en: "receipt",           az: "qəbz",                  pron: "rɪˈsiːt",           ex: "Can I have a receipt, please?",     exAz: "Qəbz verə bilərsiniz, zəhmət olmasa?" },
+  { cat: "shopping",   level: "A2", en: "change",            az: "xırda pul",             pron: "tʃeɪndʒ",           ex: "Here is your change.",              exAz: "Xırda pulunuz buyurun." },
+  { cat: "shopping",   level: "A2", en: "sandwich",          az: "sendviç",               pron: "ˈsænwɪdʒ",          ex: "I order a turkey sandwich.",        exAz: "Hindi sendviç sifariş edirəm." },
+  { cat: "shopping",   level: "A2", en: "to pay",            az: "ödəmək",                pron: "peɪ",               ex: "I pay with my card.",               exAz: "Kartımla ödəyirəm." },
+
+  // =============== DIRECTIONS ===============
+  { cat: "directions", level: "A1", en: "straight",          az: "düz",                   pron: "streɪt",            ex: "Go straight ahead.",                exAz: "Düz gedin." },
+  { cat: "directions", level: "A1", en: "left",              az: "sol",                   pron: "left",              ex: "Turn left at the corner.",          exAz: "Küncdə sola dönün." },
+  { cat: "directions", level: "A1", en: "right",             az: "sağ",                   pron: "raɪt",              ex: "The bank is on your right.",        exAz: "Bank sağınızdadır." },
+  { cat: "directions", level: "A1", en: "corner",            az: "küncə",                 pron: "ˈkɔːnə",            ex: "Turn right at the corner.",         exAz: "Küncdə sağa dönün." },
+  { cat: "directions", level: "A1", en: "far",               az: "uzaq",                  pron: "fɑː",               ex: "Is it far from here?",              exAz: "Buradan uzaqdır?" },
+  { cat: "directions", level: "A1", en: "near",              az: "yaxın",                 pron: "nɪə",               ex: "The station is near.",              exAz: "Stansiya yaxındadır." },
+  { cat: "directions", level: "A2", en: "across from",       az: "qarşısında",            pron: "əˈkrɒs frɒm",       ex: "The café is across from the bank.", exAz: "Kafe bankın qarşısındadır." },
+  { cat: "directions", level: "A2", en: "on foot",           az: "piyada",                pron: "ɒn fʊt",            ex: "It is ten minutes on foot.",        exAz: "Piyada on dəqiqədir." },
+  { cat: "directions", level: "A2", en: "directions",        az: "istiqamətlər",          pron: "daɪˈrekʃənz",       ex: "Can you give me directions?",       exAz: "Mənə yol göstərə bilərsiniz?" },
+  { cat: "directions", level: "A2", en: "map",               az: "xəritə",                pron: "mæp",               ex: "I look at the map.",                exAz: "Xəritəyə baxıram." },
+
+  // =============== BANK & MONEY ===============
+  { cat: "bank",       level: "A2", en: "bank",              az: "bank",                  pron: "bæŋk",              ex: "I need to go to the bank.",         exAz: "Banka getməliyəm." },
+  { cat: "bank",       level: "A2", en: "bank account",      az: "bank hesabı",           pron: "bæŋk əˈkaʊnt",      ex: "I want to open a bank account.",    exAz: "Bank hesabı açmaq istəyirəm." },
+  { cat: "bank",       level: "A2", en: "card",              az: "kart",                  pron: "kɑːd",              ex: "I pay with my card.",               exAz: "Kartımla ödəyirəm." },
+  { cat: "bank",       level: "A2", en: "cash",              az: "nağd pul",              pron: "kæʃ",               ex: "Do you have cash?",                 exAz: "Nağd pulunuz var?" },
+  { cat: "bank",       level: "A2", en: "to transfer",       az: "köçürmək",              pron: "trænsˈfɜː",         ex: "I transfer money to my wife.",      exAz: "Həyat yoldaşıma pul köçürürəm." },
+  { cat: "bank",       level: "A2", en: "PIN",               az: "şifrə / PIN",           pron: "pɪn",               ex: "Please enter your PIN.",            exAz: "Zəhmət olmasa PINinizi daxil edin." },
+
+  // =============== CAFÉ & EATING OUT ===============
+  { cat: "cafe",       level: "A1", en: "café",              az: "kafe",                  pron: "ˈkæfeɪ",            ex: "Let's go to a café.",               exAz: "Kafeye gedək." },
+  { cat: "cafe",       level: "A1", en: "menu",              az: "menyu",                 pron: "ˈmenjuː",           ex: "Can I see the menu please?",        exAz: "Menyunu görə bilərəm?" },
+  { cat: "cafe",       level: "A1", en: "waiter",            az: "ofisiant",              pron: "ˈweɪtə",            ex: "The waiter is very polite.",        exAz: "Ofisiant çox nəzakətlidir." },
+  { cat: "cafe",       level: "A1", en: "order",             az: "sifariş",               pron: "ˈɔːdə",             ex: "I would like to order, please.",    exAz: "Sifariş vermək istəyirəm, zəhmət olmasa." },
+  { cat: "cafe",       level: "A2", en: "bill",              az: "hesab",                 pron: "bɪl",               ex: "Can I have the bill, please?",      exAz: "Hesabı verə bilərsiniz, zəhmət olmasa?" },
+  { cat: "cafe",       level: "A2", en: "tip",               az: "bahşiş",                pron: "tɪp",               ex: "I leave a small tip.",              exAz: "Kiçik bahşiş qoyuram." },
+  { cat: "cafe",       level: "A2", en: "to go",             az: "aparıb yemək üçün",     pron: "tə ɡəʊ",            ex: "For here or to go?",                exAz: "Burada, yoxsa aparıb yemək üçün?" },
+
+  // =============== USEFUL VERBS (from daily life) ===============
+  { cat: "daily",      level: "A2", en: "to borrow",         az: "borc almaq",            pron: "ˈbɒrəʊ",            ex: "Can I borrow your pen?",            exAz: "Qələmini borc ala bilərəm?" },
+  { cat: "daily",      level: "A2", en: "to invite",         az: "dəvət etmək",           pron: "ɪnˈvaɪt",           ex: "I want to invite my neighbour.",    exAz: "Qonşumu dəvət etmək istəyirəm." },
+  { cat: "daily",      level: "A2", en: "schedule",          az: "cədvəl / plan",         pron: "ˈʃedjuːl",          ex: "My schedule is very busy.",         exAz: "Cədvəlim çox doludur." },
+  { cat: "daily",      level: "A2", en: "to prepare",        az: "hazırlamaq",            pron: "prɪˈpeə",            ex: "I prepare for the new week.",       exAz: "Yeni həftəyə hazırlaşıram." },
+  { cat: "daily",      level: "A2", en: "to improve",        az: "inkişaf etmək",         pron: "ɪmˈpruːv",          ex: "I improve my English every day.",   exAz: "Hər gün ingiliscəmi inkişaf etdirirəm." },
+  { cat: "daily",      level: "A2", en: "to practise",       az: "məşq etmək",            pron: "ˈpræktɪs",          ex: "I practise speaking every day.",    exAz: "Hər gün danışmağı məşq edirəm." }
 
 ];
 // ---------- SPEAKING QUESTIONS ----------
@@ -5486,6 +5699,455 @@ applyLanguage(LANG);
   loadRatings();
   buildQueue(false);
   showQuestion();
+})();
+
+/* =========================================================
+   MY STORY TAB
+   ========================================================= */
+(function myStory() {
+
+  // Each paragraph has a label, icon, and array of sentences
+  // Each sentence has English and Azerbaijani translation
+  const STORY = [
+    {
+      icon: "👋",
+      label: "Hello — Introducing myself",
+      sentences: [
+        { en: "Hello. My name is Elkhan Eminov.",                               az: "Salam. Mənim adım Elxan Eminovdur." },
+        { en: "I am fifty-five years old.",                                     az: "Mən əlli beş yaşındayam." },
+        { en: "I am Azerbaijani.",                                              az: "Mən Azərbaycanlıyam." },
+        { en: "I was born on the twenty-fifth of June, nineteen seventy-one.",  az: "Mən iyunun iyirmi beşində, min doqquz yüz yetmiş birinci ildə anadan olmuşam." },
+        { en: "I am from Baku, the capital of Azerbaijan.",                     az: "Mən Azərbaycanın paytaxtı Bakıdanam." },
+      ]
+    },
+    {
+      icon: "👨‍👩‍👧‍👦",
+      label: "My family",
+      sentences: [
+        { en: "I am married.",                                                  az: "Mən evliyəm." },
+        { en: "My wife's name is Dilara.",                                      az: "Həyat yoldaşımın adı Dilaradır." },
+        { en: "She is British.",                                                az: "O, britaniyalıdır." },
+        { en: "She lives and works in London.",                                 az: "O, Londonda yaşayır və işləyir." },
+        { en: "I have two children from my first marriage.",                    az: "Birinci evliliyimdən iki uşağım var." },
+        { en: "My son is a doctor.",                                            az: "Oğlum həkimdir." },
+        { en: "My daughter is a housewife.",                                    az: "Qızım ev xanımıdır." },
+        { en: "I also have two brothers and two sisters.",                      az: "Həmçinin iki qardaşım və iki bacım var." },
+        { en: "My mother is eighty-six years old.",                            az: "Anam səksən altı yaşındadır." },
+      ]
+    },
+    {
+      icon: "🎓",
+      label: "My education",
+      sentences: [
+        { en: "I studied at the State Oil Academy in Azerbaijan.",              az: "Mən Azərbaycanda Dövlət Neft Akademiyasında oxumuşam." },
+        { en: "I have an honours degree in engineering.",                       az: "Mənim mühəndislik üzrə fərqlənmə diplomum var." },
+        { en: "I was very good at mathematics and physics.",                    az: "Riyaziyyat və fizikada çox yaxşı idim." },
+      ]
+    },
+    {
+      icon: "💼",
+      label: "My work",
+      sentences: [
+        { en: "After university, I worked as an engineer.",                     az: "Universitetdən sonra mühəndis kimi işlədim." },
+        { en: "I worked at the Oil Company of Azerbaijan for several years.",   az: "Bir neçə il Azərbaycan Neft Şirkətində işlədim." },
+        { en: "Then I started my own business.",                                az: "Sonra öz işimi qurdum." },
+        { en: "I own a wholesale business in Baku.",                           az: "Bakıda topdan ticarət işim var." },
+      ]
+    },
+    {
+      icon: "☀️",
+      label: "My daily life",
+      sentences: [
+        { en: "Every morning I wake up early.",                                 az: "Hər səhər erkən oyanıram." },
+        { en: "I drink tea — I love tea!",                                      az: "Çay içirəm — çayı çox sevirəm!" },
+        { en: "I go to work and manage my business.",                           az: "İşə gedirəm və işimi idarə edirəm." },
+        { en: "In the evening, I study English.",                               az: "Axşam ingilis dili öyrənirəm." },
+        { en: "I also love gardening and walking in nature.",                   az: "Həmçinin bağçılığı və təbiətdə gəzməyi sevirəm." },
+        { en: "I sometimes play chess.",                                        az: "Bəzən şahmat oynayıram." },
+      ]
+    },
+    {
+      icon: "❤️",
+      label: "My love story",
+      sentences: [
+        { en: "I met Dilara at university many years ago.",                     az: "Dilaranı bir çox il əvvəl universitetdə tanıdım." },
+        { en: "We studied together and fell in love.",                          az: "Birlikdə oxuduq və bir-birimizə aşiq olduq." },
+        { en: "Life took us in different directions.",                          az: "Həyat bizi ayrı saldı." },
+        { en: "But after twenty-eight years, fate brought us back together.",   az: "Amma iyirmi səkkiz ildən sonra tale bizi yenidən bir-birimizə qovuşdurdu." },
+        { en: "We got married and we are very happy.",                          az: "Evləndik və çox xoşbəxtik." },
+        { en: "I love her very much.",                                          az: "Onu çox sevirəm." },
+      ]
+    },
+    {
+      icon: "🇬🇧",
+      label: "My plans for the UK",
+      sentences: [
+        { en: "I am moving to London to live with my wife.",                   az: "Həyat yoldaşımla yaşamaq üçün Londona köçürəm." },
+        { en: "This will be my first time in the United Kingdom.",             az: "Bu mənim Böyük Britaniyaya ilk səfərim olacaq." },
+        { en: "First, I want to settle and improve my English.",               az: "Əvvəlcə məskunlaşmaq və ingilis dilimi inkişaf etdirmək istəyirəm." },
+        { en: "Then I plan to do a Master's degree.",                          az: "Sonra magistratura oxumağı planlaşdırıram." },
+        { en: "I am also passionate about agriculture and gardening.",          az: "Həmçinin kənd təsərrüfatı və bağçılığa böyük həvəsim var." },
+        { en: "I hope to build a business in this area one day.",              az: "Bir gün bu sahədə iş qurmağı ümid edirəm." },
+        { en: "I am very excited about my new life in London.",                az: "Londondakı yeni həyatım haqqında çox həyəcanlıyam." },
+      ]
+    },
+    {
+      icon: "📖",
+      label: "Why I am learning English",
+      sentences: [
+        { en: "I am learning English because I want to live in the UK.",       az: "İngilis dili öyrənirəm, çünki Böyük Britaniyada yaşamaq istəyirəm." },
+        { en: "I practise every day with this app.",                           az: "Bu tətbiq ilə hər gün məşq edirəm." },
+        { en: "My wife made this app specially for me.",                       az: "Həyat yoldaşım bu tətbiqi xüsusi olaraq mənim üçün hazırlamışdır." },
+        { en: "It is the most beautiful gift I have ever received.",           az: "Bu, indiyə qədər aldığım ən gözəl hədiyyədir." },
+        { en: "Every day I am getting better.",                                az: "Hər gün daha yaxşılaşıram." },
+        { en: "I will not give up.",                                           az: "Əl çəkməyəcəyəm." },
+      ]
+    },
+
+    // ── DAILY LIFE PRACTICE ───────────────────────────────────────
+    // Extracted from A1/A2 listening exercises — practical everyday English
+    { divider: true, label: "🌍 Daily Life Practice" },
+
+    {
+      icon: "🌅",
+      label: "Morning routine",
+      sentences: [
+        { en: "Every morning I wake up early.",                                az: "Hər səhər erkən oyanıram." },
+        { en: "First, I wash my face and brush my teeth.",                     az: "Əvvəlcə üzümü yuyuram və dişlərimi fırçalayıram." },
+        { en: "Then I get dressed.",                                           az: "Sonra geyinirəm." },
+        { en: "I usually wear comfortable clothes.",                           az: "Adətən rahat paltar geyinirəm." },
+        { en: "For breakfast, I usually drink tea.",                           az: "Səhər yeməyinə adətən çay içirəm." },
+        { en: "Sometimes I eat eggs and bread.",                               az: "Bəzən yumurta və çörək yeyirəm." },
+        { en: "After breakfast, I go to work.",                                az: "Səhər yeməyindən sonra işə gedirəm." },
+      ]
+    },
+    {
+      icon: "🏙️",
+      label: "Getting around the city",
+      sentences: [
+        { en: "My office is about fifteen minutes from my house.",             az: "Ofisim evdən təxminən on beş dəqiqəlik məsafədədir." },
+        { en: "I can take the bus or walk.",                                   az: "Avtobusla gedə bilərəm və ya piyada gedə bilərəm." },
+        { en: "I like walking because the air is fresh.",                      az: "Gəzməyi sevirəm, çünki hava təzədir." },
+        { en: "On the way, I see houses, trees, and people.",                  az: "Yolda evlər, ağaclar və insanlar görürəm." },
+        { en: "Some people say good morning.",                                 az: "Bəzi insanlar sabahın xeyir deyir." },
+        { en: "I smile and say good morning too.",                             az: "Mən də gülümsəyib sabahın xeyir deyirəm." },
+      ]
+    },
+    {
+      icon: "🛒",
+      label: "At the supermarket",
+      sentences: [
+        { en: "I go to the supermarket near my house.",                        az: "Evimin yanındakı supermarketə gedirəm." },
+        { en: "I buy bread, milk, eggs, fruit, and vegetables.",               az: "Çörək, süd, yumurta, meyvə və tərəvəz alıram." },
+        { en: "I like going to the supermarket.",                              az: "Supermarketə getməyi sevirəm." },
+        { en: "There are many different foods.",                               az: "Çox müxtəlif yemək var." },
+        { en: "There are apples, tomatoes, potatoes, and onions.",             az: "Alma, pomidor, kartof və soğan var." },
+        { en: "There are also drinks like water, juice, and tea.",             az: "Həmçinin su, şirə və çay kimi içkilər var." },
+      ]
+    },
+    {
+      icon: "☕",
+      label: "At a café",
+      sentences: [
+        { en: "I go to a small café near the station.",                        az: "Stansiyaya yaxın kiçik bir kafeye gedirəm." },
+        { en: "The worker says: Hi, what can I get for you?",                  az: "İşçi deyir: Salam, sizin üçün nə gətirə bilərəm?" },
+        { en: "I say: Can I get a tea, please?",                              az: "Deyirəm: Bir çay verə bilərsiniz, zəhmət olmasa?" },
+        { en: "The worker says: Anything else?",                               az: "İşçi deyir: Başqa bir şey?" },
+        { en: "I say: No, thank you.",                                         az: "Deyirəm: Xeyr, sağ olun." },
+        { en: "I pay and sit by the window.",                                  az: "Ödəyirəm və pəncərənin yanında otururam." },
+      ]
+    },
+    {
+      icon: "🍽️",
+      label: "At a restaurant",
+      sentences: [
+        { en: "The waiter says: Good evening. What would you like?",           az: "Ofisiant deyir: Axşamınız xeyir. Nə arzulayırsınız?" },
+        { en: "I say: Can I see the menu, please?",                            az: "Deyirəm: Menyunu görə bilərəm, zəhmət olmasa?" },
+        { en: "I would like chicken soup and bread, please.",                  az: "Toyuq şorbası və çörək istəyirəm, zəhmət olmasa." },
+        { en: "The waiter says: Of course. Anything to drink?",                az: "Ofisiant deyir: Əlbəttə. İçmək üçün bir şey?" },
+        { en: "I say: Water, please.",                                         az: "Deyirəm: Su, zəhmət olmasa." },
+        { en: "Thank you. The food is delicious.",                             az: "Sağ olun. Yemək çox dadlıdır." },
+      ]
+    },
+    {
+      icon: "🗺️",
+      label: "Asking for directions",
+      sentences: [
+        { en: "Excuse me, where is the train station?",                        az: "Bağışlayın, qatar stansiyası haradadır?" },
+        { en: "Go straight and turn left.",                                    az: "Düz gedin və sola dönün." },
+        { en: "The station is on your right.",                                 az: "Stansiya sağınızdadır." },
+        { en: "Is it far from here?",                                          az: "Buradan uzaqdır?" },
+        { en: "No, it is about ten minutes on foot.",                          az: "Xeyr, piyada təxminən on dəqiqədir." },
+        { en: "Thank you very much. You are very helpful.",                    az: "Çox sağ olun. Çox köməkçisiniz." },
+      ]
+    },
+    {
+      icon: "👨‍⚕️",
+      label: "At the doctor",
+      sentences: [
+        { en: "Good morning. I have an appointment.",                          az: "Sabahın xeyir. Randevum var." },
+        { en: "My name is Elkhan Eminov.",                                     az: "Adım Elxan Eminovdur." },
+        { en: "I do not feel well today.",                                     az: "Bu gün özümü yaxşı hiss etmirəm." },
+        { en: "I have a headache and I feel tired.",                           az: "Başım ağrıyır və özümü yorğun hiss edirəm." },
+        { en: "The doctor says: How long have you had this?",                  az: "Həkim deyir: Nə qədər vaxtdır belə hiss edirsiniz?" },
+        { en: "I say: Since yesterday.",                                       az: "Deyirəm: Dünəndən bəri." },
+        { en: "Thank you, doctor.",                                            az: "Sağ olun, həkim." },
+      ]
+    },
+    {
+      icon: "🏦",
+      label: "At the bank",
+      sentences: [
+        { en: "Good morning. I would like to open a bank account.",            az: "Sabahın xeyir. Bank hesabı açmaq istəyirəm." },
+        { en: "Can I see your passport, please?",                              az: "Pasportunuzu görə bilərəm, zəhmət olmasa?" },
+        { en: "Here it is.",                                                   az: "Buyurun." },
+        { en: "What is your address in the UK?",                               az: "Böyük Britaniyada ünvanınız nədir?" },
+        { en: "My address is in London.",                                      az: "Ünvanım Londondadır." },
+        { en: "Your account is ready. Here is your card.",                     az: "Hesabınız hazırdır. Kartınız buyurun." },
+        { en: "Thank you very much.",                                          az: "Çox sağ olun." },
+      ]
+    },
+    {
+      icon: "🌳",
+      label: "A walk in London",
+      sentences: [
+        { en: "On the weekend, I like to go for a walk.",                      az: "Həftəsonunda gəzməyə getməyi sevirəm." },
+        { en: "The park is clean and green.",                                  az: "Park təmiz və yaşıldır." },
+        { en: "There are many trees, benches, and walking paths.",             az: "Çoxlu ağac, skamya və gəzinti yolları var." },
+        { en: "Some people walk their dogs.",                                  az: "Bəzi insanlar itlərini gəzdirirlər." },
+        { en: "Some families sit on the grass.",                               az: "Bəzi ailələr otun üzərində oturur." },
+        { en: "The air is fresh and the weather is nice.",                     az: "Hava təzədir və iqlim gözəldir." },
+        { en: "I feel happy and peaceful here.",                               az: "Burada özümü xoşbəxt və sakit hiss edirəm." },
+      ]
+    },
+    {
+      icon: "💪",
+      label: "My advice for learning English",
+      sentences: [
+        { en: "Learning English is not easy, but it is possible.",             az: "İngilis dili öyrənmək asan deyil, amma mümkündür." },
+        { en: "Listen, read, speak, and write a little every day.",            az: "Hər gün bir az dinlə, oxu, danış və yaz." },
+        { en: "You do not need to be perfect.",                                az: "Mükəmməl olmağa ehtiyac yoxdur." },
+        { en: "You only need to try.",                                         az: "Yalnız cəhd etmək lazımdır." },
+        { en: "When you make a mistake, it is okay.",                          az: "Səhv etdikdə, bu normal bir şeydir." },
+        { en: "Mistakes help you learn.",                                      az: "Səhvlər öyrənməyə kömək edir." },
+        { en: "Speak slowly and use simple words.",                            az: "Yavaş danış və sadə sözlər işlət." },
+        { en: "Say: Can you repeat that, please?",                             az: "De: Zəhmət olmasa, təkrar edə bilərsiniz?" },
+        { en: "Say: What does this word mean?",                                az: "De: Bu söz nə deməkdir?" },
+        { en: "Every day is a new chance to learn something.",                 az: "Hər gün bir şey öyrənmək üçün yeni bir fürsətdir." },
+        { en: "Step by step, I can improve.",                                  az: "Addım-addım inkişaf edə bilərəm." },
+      ]
+    },
+  ];
+
+  // ── Build the UI ─────────────────────────────────────────────────
+  const container = document.getElementById("storyParagraphs");
+  if (!container) return;
+
+  let activeSentenceEl = null;
+
+  function deactivateSentence(el) {
+    if (!el) return;
+    el.classList.remove("active");
+    activeSentenceEl = null;
+  }
+
+  function activateSentence(el) {
+    if (activeSentenceEl && activeSentenceEl !== el) {
+      deactivateSentence(activeSentenceEl);
+    }
+    activeSentenceEl = el;
+    el.classList.add("active");
+  }
+
+  STORY.forEach((para, pIdx) => {
+    // Divider between sections
+    if (para.divider) {
+      const div = document.createElement("div");
+      div.style.cssText = `
+        margin:10px 0 4px;
+        padding:14px 0 10px;
+        border-top:2px solid var(--border-strong);
+        font-size:17px;font-weight:800;color:var(--text);
+      `;
+      div.textContent = para.label;
+      container.appendChild(div);
+      return;
+    }
+    const paraEl = document.createElement("div");
+    paraEl.className = "story-para";
+    paraEl.id = `storyPara${pIdx}`;
+
+    // Header
+    const header = document.createElement("div");
+    header.className = "story-para-header";
+    header.innerHTML = `
+      <span class="story-para-icon">${para.icon}</span>
+      <span class="story-para-label">${para.label}</span>
+      <div class="story-para-btns">
+        <button class="story-para-btn" data-pidx="${pIdx}">🔊 Listen</button>
+        <button class="story-para-btn" data-pidx="${pIdx}" data-slow="1">🐢 Slowly</button>
+      </div>
+    `;
+    paraEl.appendChild(header);
+
+    // Sentences
+    const sentencesEl = document.createElement("div");
+    sentencesEl.className = "story-sentences";
+
+    // Build a flat list of all sentence elements for this paragraph
+    // so "Next" can jump to the next one
+    const sentEls = [];
+
+    para.sentences.forEach((s, sIdx) => {
+      const sentEl = document.createElement("div");
+      sentEl.className = "story-sentence";
+      sentEl.style.animationDelay = `${sIdx * 0.04}s`;
+      sentEl.dataset.en    = s.en;
+      sentEl.dataset.sIdx  = sIdx;
+      sentEl.dataset.pIdx  = pIdx;
+
+      sentEl.innerHTML = `
+        <div class="story-en">${s.en}</div>
+        <div class="story-az">${s.az}</div>
+        <div class="story-controls">
+          <button class="story-ctrl-btn" data-action="listen">🔊 Listen</button>
+          <button class="story-ctrl-btn" data-action="slow">🐢 Slowly</button>
+          <button class="story-ctrl-btn story-next-btn" data-action="next">▶ Next sentence</button>
+        </div>
+        <div class="story-repeat-area">🗣️ Now say it yourself — take your time. Tap <strong>Next sentence</strong> when ready.</div>
+      `;
+
+      sentEls.push(sentEl);
+      sentencesEl.appendChild(sentEl);
+    });
+
+    // Single delegated listener on the sentences container
+    sentencesEl.addEventListener("click", e => {
+      const btn = e.target.closest("[data-action]");
+      const sent = e.target.closest(".story-sentence");
+      if (!sent) return;
+
+      const idx   = parseInt(sent.dataset.sIdx);
+      const pI    = parseInt(sent.dataset.pIdx);
+      const enText = sent.dataset.en;
+
+      if (btn) {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        if (action === "listen") {
+          speakText(enText, {});
+        } else if (action === "slow") {
+          speakText(enText, { rate: REPEAT_SLOW_RATE });
+        } else if (action === "next") {
+          const nextEl = sentEls[idx + 1];
+          if (nextEl) {
+            activateSentence(nextEl);
+            speakText(nextEl.dataset.en, {});
+            nextEl.scrollIntoView({ behavior:"smooth", block:"center" });
+          } else {
+            deactivateSentence(sent);
+          }
+        }
+      } else {
+        // Tapped on the sentence text area — activate and speak
+        activateSentence(sent);
+        speakText(enText, {});
+      }
+    });
+
+    paraEl.appendChild(sentencesEl);
+    container.appendChild(paraEl);
+  });
+
+  // ── Paragraph listen buttons ─────────────────────────────────────
+  container.querySelectorAll(".story-para-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const pIdx = parseInt(btn.dataset.pidx);
+      const slow = !!btn.dataset.slow;
+      const para = STORY[pIdx];
+      if (!para || para.divider) return;
+      const sentences = para.sentences.map(s => s.en);
+      let i = 0;
+      let stopped = false;
+      btn.classList.add("playing");
+
+      // Stop any previous auto-play when a new one starts
+      window.speechSynthesis.cancel();
+
+      function playNext() {
+        if (stopped || i >= sentences.length) {
+          btn.classList.remove("playing");
+          return;
+        }
+        // Just highlight — don't call activateSentence (avoids speech conflict)
+        const paraEl = document.getElementById(`storyPara${pIdx}`);
+        if (!paraEl) return;
+        const allSents = paraEl.querySelectorAll(".story-sentence");
+        if (activeSentenceEl) deactivateSentence(activeSentenceEl);
+        if (allSents[i]) { allSents[i].classList.add("active"); activeSentenceEl = allSents[i]; }
+        if (allSents[i]) allSents[i].scrollIntoView({ behavior:"smooth", block:"nearest" });
+
+        const text = sentences[i].replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,"").trim();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-GB"; u.pitch = 1;
+        const v = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
+        if (v) { u.voice = v; u.lang = v.lang || "en-GB"; }
+        u.rate = slow ? REPEAT_SLOW_RATE : (SPEED_PRESETS[VOICE_SETTINGS.speed] || SPEED_PRESETS.slow);
+        u.onend  = () => { i++; setTimeout(playNext, slow ? 1000 : 500); };
+        u.onerror = () => { i++; setTimeout(playNext, 300); };
+        window.speechSynthesis.speak(u);
+      }
+      playNext();
+
+      // Clicking the button again stops playback
+      btn.addEventListener("click", () => { stopped = true; window.speechSynthesis.cancel(); btn.classList.remove("playing"); }, { once: true });
+    });
+  });
+
+  // ── Play full story ──────────────────────────────────────────────
+  function playFullStory(slow) {
+    const allSentences = STORY.flatMap((p, pIdx) =>
+      p.divider ? [] : p.sentences.map((s, sIdx) => ({ text: s.en, pIdx, sIdx }))
+    );
+    let i = 0;
+    const playBtn  = document.getElementById("storyPlayAll");
+    const slowBtn  = document.getElementById("storyPlaySlow");
+    const btn = slow ? slowBtn : playBtn;
+    btn.disabled = true; btn.style.opacity = "0.6";
+    window.speechSynthesis.cancel();
+
+    function playNext() {
+      if (i >= allSentences.length) {
+        btn.disabled = false; btn.style.opacity = "1";
+        if (activeSentenceEl) deactivateSentence(activeSentenceEl);
+        return;
+      }
+      const { text, pIdx, sIdx } = allSentences[i];
+      const paraEl = document.getElementById(`storyPara${pIdx}`);
+      if (paraEl) {
+        const sentElsFull = paraEl.querySelectorAll(".story-sentence");
+        if (activeSentenceEl) deactivateSentence(activeSentenceEl);
+        if (sentElsFull[sIdx]) { sentElsFull[sIdx].classList.add("active"); activeSentenceEl = sentElsFull[sIdx]; }
+        if (sentElsFull[sIdx]) sentElsFull[sIdx].scrollIntoView({ behavior:"smooth", block:"nearest" });
+      }
+
+      const clean = text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,"").trim();
+      const u = new SpeechSynthesisUtterance(clean);
+      u.lang = "en-GB"; u.pitch = 1;
+      const v = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
+      if (v) { u.voice = v; u.lang = v.lang || "en-GB"; }
+      u.rate = slow ? REPEAT_SLOW_RATE : (SPEED_PRESETS[VOICE_SETTINGS.speed] || SPEED_PRESETS.slow);
+      u.onend  = () => { i++; setTimeout(playNext, slow ? 1000 : 500); };
+      u.onerror = () => { i++; setTimeout(playNext, 300); };
+      window.speechSynthesis.speak(u);
+    }
+    playNext();
+  }
+
+  document.getElementById("storyPlayAll").addEventListener("click",  () => playFullStory(false));
+  document.getElementById("storyPlaySlow").addEventListener("click", () => playFullStory(true));
+
 })();
 
 /* =========================================================
@@ -7213,14 +7875,16 @@ Your role:
   const CAT_ORDER = [
     "personal","family","numbers","days","months","seasons","colours",
     "adjectives","daily","home","food","travel","transport","uk","visa",
-    "work","education","health","phone","hobbies","animals"
+    "work","education","health","phone","hobbies","animals",
+    "shopping","directions","bank","cafe"
   ];
 
   const CAT_EMOJI = {
     personal:"🪪", family:"👨‍👩‍👧", numbers:"🔢", days:"📅", months:"🗓️",
     seasons:"🌦️", colours:"🎨", adjectives:"💬", daily:"☀️", home:"🏠",
     food:"🍽️", travel:"✈️", transport:"🚌", uk:"🇬🇧", visa:"🛂",
-    work:"💼", education:"📘", health:"🏥", phone:"💬", hobbies:"🎯", animals:"🐘"
+    work:"💼", education:"📘", health:"🏥", phone:"💬", hobbies:"🎯", animals:"🐘",
+    shopping:"🛒", directions:"🗺️", bank:"🏦", cafe:"☕"
   };
 
   function render() {
