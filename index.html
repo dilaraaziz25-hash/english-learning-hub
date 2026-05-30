@@ -5947,6 +5947,7 @@ applyLanguage(LANG);
   if (!container) return;
 
   let activeSentenceEl = null;
+  const allSentEls = []; // flat list of ALL sentence elements across all paragraphs
 
   function deactivateSentence(el) {
     if (!el) return;
@@ -6021,6 +6022,7 @@ applyLanguage(LANG);
       `;
 
       sentEls.push(sentEl);
+      allSentEls.push(sentEl);
       sentencesEl.appendChild(sentEl);
     });
 
@@ -6042,12 +6044,14 @@ applyLanguage(LANG);
         } else if (action === "slow") {
           speakText(enText, { rate: REPEAT_SLOW_RATE, btn: sent });
         } else if (action === "next") {
-          const nextEl = sentEls[idx + 1];
+          const globalIdx = allSentEls.indexOf(sent);
+          const nextEl = allSentEls[globalIdx + 1];
           if (nextEl) {
             activateSentence(nextEl);
             speakText(nextEl.dataset.en, { btn: nextEl });
             nextEl.scrollIntoView({ behavior:"smooth", block:"center" });
           } else {
+            // End of all sentences — just deactivate
             deactivateSentence(sent);
           }
         }
