@@ -3151,6 +3151,7 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
         <button id="storyPlayAll" class="btn primary" style="flex:1;min-width:150px;padding:14px 18px;font-size:15px;">▶ <span data-i18n="story_play_all">Listen to full story</span></button>
         <button id="storyPlaySlow" class="btn" style="flex:1;min-width:150px;padding:14px 18px;font-size:15px;">🐢 <span data-i18n="story_play_slow">Listen slowly</span></button>
+        <button id="storyStop" class="btn" style="display:none;padding:14px 18px;font-size:15px;border-color:var(--danger);color:var(--danger);">⏹ <span data-i18n="story_stop">Stop</span></button>
       </div>
 
       <!-- Story paragraphs -->
@@ -3292,6 +3293,7 @@ const I18N = {
     story_subtitle: "Read about yourself in English. Listen, repeat, and practise. This is your story.",
     story_play_all: "Listen to full story",
     story_play_slow: "Listen slowly",
+    story_stop: "Stop",
     story_listen: "🔊 Listen",
     story_repeat: "🔁 Slowly",
     story_tip: "💡 Tip: Listen first, then read along, then try saying it yourself. Do this every day and it will feel natural very quickly!",
@@ -3587,6 +3589,7 @@ const I18N = {
     story_subtitle: "İngiliscədə özün haqqında oxu. Dinlə, təkrarla və məşq et. Bu sənin hekayəndir.",
     story_play_all: "Tam hekayəni dinlə",
     story_play_slow: "Yavaş dinlə",
+    story_stop: "Dayandır",
     story_listen: "🔊 Dinlə",
     story_repeat: "🔁 Yavaş",
     story_tip: "💡 Məsləhət: Əvvəlcə dinlə, sonra oxuyaraq izlə, sonra özün söylə. Bunu hər gün et — çox tezliklə təbii gələcək!",
@@ -6035,23 +6038,24 @@ applyLanguage(LANG);
         e.stopPropagation();
         const action = btn.dataset.action;
         if (action === "listen") {
-          speakText(enText, {});
+          speakText(enText, { btn: sent });
         } else if (action === "slow") {
-          speakText(enText, { rate: REPEAT_SLOW_RATE });
+          speakText(enText, { rate: REPEAT_SLOW_RATE, btn: sent });
         } else if (action === "next") {
           const nextEl = sentEls[idx + 1];
           if (nextEl) {
             activateSentence(nextEl);
-            speakText(nextEl.dataset.en, {});
+            speakText(nextEl.dataset.en, { btn: nextEl });
             nextEl.scrollIntoView({ behavior:"smooth", block:"center" });
           } else {
             deactivateSentence(sent);
           }
         }
       } else {
-        // Tapped on the sentence text area — activate and speak
+        // Tapped on the sentence text area — stop any auto-play, activate and speak
+        if (autoPlayActive) stopAutoPlay();
         activateSentence(sent);
-        speakText(enText, {});
+        speakText(enText, { btn: sent });
       }
     });
 
@@ -6067,6 +6071,8 @@ applyLanguage(LANG);
       const slow = !!btn.dataset.slow;
       const para = STORY[pIdx];
       if (!para || para.divider) return;
+      // Stop full-story auto-play if running
+      if (autoPlayActive) stopAutoPlay();
       const sentences = para.sentences.map(s => s.en);
       let i = 0;
       let stopped = false;
@@ -6106,21 +6112,41 @@ applyLanguage(LANG);
   });
 
   // ── Play full story ──────────────────────────────────────────────
+  // ── Auto-play state ──────────────────────────────────────────────
+  let autoPlayActive = false;
+
+  const playAllBtn  = document.getElementById("storyPlayAll");
+  const playSlowBtn = document.getElementById("storyPlaySlow");
+  const stopBtn     = document.getElementById("storyStop");
+
+  function stopAutoPlay() {
+    autoPlayActive = false;
+    window.speechSynthesis.cancel();
+    playAllBtn.disabled  = false; playAllBtn.style.opacity  = "1";
+    playSlowBtn.disabled = false; playSlowBtn.style.opacity = "1";
+    stopBtn.style.display = "none";
+    if (activeSentenceEl) deactivateSentence(activeSentenceEl);
+  }
+
+  stopBtn.addEventListener("click", stopAutoPlay);
+
   function playFullStory(slow) {
+    // Stop any existing auto-play first
+    stopAutoPlay();
+
     const allSentences = STORY.flatMap((p, pIdx) =>
       p.divider ? [] : p.sentences.map((s, sIdx) => ({ text: s.en, pIdx, sIdx }))
     );
     let i = 0;
-    const playBtn  = document.getElementById("storyPlayAll");
-    const slowBtn  = document.getElementById("storyPlaySlow");
-    const btn = slow ? slowBtn : playBtn;
+    autoPlayActive = true;
+
+    const btn = slow ? playSlowBtn : playAllBtn;
     btn.disabled = true; btn.style.opacity = "0.6";
-    window.speechSynthesis.cancel();
+    stopBtn.style.display = "block";
 
     function playNext() {
-      if (i >= allSentences.length) {
-        btn.disabled = false; btn.style.opacity = "1";
-        if (activeSentenceEl) deactivateSentence(activeSentenceEl);
+      if (!autoPlayActive || i >= allSentences.length) {
+        stopAutoPlay();
         return;
       }
       const { text, pIdx, sIdx } = allSentences[i];
@@ -6128,25 +6154,27 @@ applyLanguage(LANG);
       if (paraEl) {
         const sentElsFull = paraEl.querySelectorAll(".story-sentence");
         if (activeSentenceEl) deactivateSentence(activeSentenceEl);
-        if (sentElsFull[sIdx]) { sentElsFull[sIdx].classList.add("active"); activeSentenceEl = sentElsFull[sIdx]; }
-        if (sentElsFull[sIdx]) sentElsFull[sIdx].scrollIntoView({ behavior:"smooth", block:"nearest" });
+        if (sentElsFull[sIdx]) {
+          sentElsFull[sIdx].classList.add("active");
+          activeSentenceEl = sentElsFull[sIdx];
+          sentElsFull[sIdx].scrollIntoView({ behavior:"smooth", block:"nearest" });
+        }
       }
-
       const clean = text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,"").trim();
       const u = new SpeechSynthesisUtterance(clean);
       u.lang = "en-GB"; u.pitch = 1;
       const v = getBestEnglishVoice(VOICE_SETTINGS.voiceName);
       if (v) { u.voice = v; u.lang = v.lang || "en-GB"; }
       u.rate = slow ? REPEAT_SLOW_RATE : (SPEED_PRESETS[VOICE_SETTINGS.speed] || SPEED_PRESETS.slow);
-      u.onend  = () => { i++; setTimeout(playNext, slow ? 1000 : 500); };
-      u.onerror = () => { i++; setTimeout(playNext, 300); };
+      u.onend  = () => { if (autoPlayActive) { i++; setTimeout(playNext, slow ? 1000 : 500); } };
+      u.onerror = () => { if (autoPlayActive) { i++; setTimeout(playNext, 300); } };
       window.speechSynthesis.speak(u);
     }
     playNext();
   }
 
-  document.getElementById("storyPlayAll").addEventListener("click",  () => playFullStory(false));
-  document.getElementById("storyPlaySlow").addEventListener("click", () => playFullStory(true));
+  playAllBtn.addEventListener("click",  () => playFullStory(false));
+  playSlowBtn.addEventListener("click", () => playFullStory(true));
 
 })();
 
